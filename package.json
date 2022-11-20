@@ -1,13 +1,19 @@
 {
   "dependencies": {
-    "commitizen": "^4.2.5",
-    "husky": "^8.0.2",
-    "lint-staged": "^13.0.3"
+    "commitizen": "^4.2.5"
+  },
+  "scripts": {
+    "commit": "git-cz"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "devDependencies": {
+    "husky": "^8.0.2",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1"
   },
   "husky": {
     "hooks": {
@@ -15,16 +21,14 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{ts,tsx}": [
       "prettier --write",
-      "eslint --fix",
-      "git add",
-      "yarn cz"
+      "bash -c tsc",
+      "yarn lint"
     ],
     "*.{html,css,less,ejs}": [
       "prettier --write",
-      "git add",
-      "yarn cz"
+      "git add"
     ]
   }
 }
