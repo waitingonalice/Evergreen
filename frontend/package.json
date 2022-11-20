@@ -31,5 +31,23 @@
   },
   "engines": {
     "node": ">=14"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add",
+      "yarn cz"
+    ],
+    "*.{html,css,less,ejs}": [
+      "prettier --write",
+      "git add",
+      "yarn cz"
+    ]
   }
 }

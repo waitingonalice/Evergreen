@@ -18,11 +18,13 @@
     "*.{js,jsx}": [
       "prettier --write",
       "eslint --fix",
-      "git add"
+      "git add",
+      "yarn cz"
     ],
     "*.{html,css,less,ejs}": [
       "prettier --write",
-      "git add"
+      "git add",
+      "yarn cz"
     ]
   }
 }
