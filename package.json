@@ -10,24 +10,5 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "devDependencies": {
-    "husky": "^8.0.2",
-    "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "prettier --write",
-      "bash -c tsc",
-      "yarn lint"
-    ],
-    "*.{html,css,less,ejs}": [
-      "prettier --write"
-    ]
-  }
+  "devDependencies": {}
 }
