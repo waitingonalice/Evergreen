@@ -27,8 +27,7 @@
       "yarn lint"
     ],
     "*.{html,css,less,ejs}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   }
 }
