@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.3",
     "commitizen": "^4.2.5"
   },
   "scripts": {
