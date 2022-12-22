@@ -1,9 +1,9 @@
 import express from "express";
 import type { Request, Response } from "express";
+import cors from "cors";
 import dotenv from "dotenv";
-const cors = require("cors");
 
-dotenv.config();
+dotenv.config({ path: __dirname + "/.env" });
 const app = express();
 const port = 8080;
 app.use(cors());
@@ -18,6 +18,5 @@ app.get("/api", (req, res) => {
 });
 
 app.listen(port, () => {
-  /* eslint-disable no-console */
   console.log(`Listening on port http://localhost:${port}`);
 });

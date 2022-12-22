@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "ES5",
     "useDefineForClassFields": true,
-    "lib": ["ES2019", "DOM", "DOM.Iterable"],
+    "lib": ["ES6"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -14,12 +14,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
     "paths": {
       "~/*": ["./src/*"]
-    },
-    "types": ["vitest/globals"]
+    }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src"]
 }
