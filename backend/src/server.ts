@@ -1,5 +1,6 @@
+import { Rest } from "~/utils";
+import { registerRoute } from "~/routes";
 import type { Request, Response } from "express";
-import { Rest, db } from "~/utils";
 import { api } from "~/constants/routes";
 
 Rest.dotenv.config({ path: __dirname + "/.env" });
@@ -14,10 +15,12 @@ app.use(Rest.cors());
 app.use(Rest.express.json());
 app.use(Rest.helmet());
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+app.get("/", (req: Request, res: Response) => {
+  return res.send("<h1>Expense tracker API</h1>");
 });
 
-app.post(api.register, (req: Request, res: Response) => {
-  return res.json({ test: 1 });
+app.use(api.register, registerRoute);
+
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
 });
