@@ -1,1 +1,1 @@
-export { registerRoute } from "./register";
+export { registerRoute } from "./auth/register";

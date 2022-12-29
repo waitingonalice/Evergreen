@@ -1,3 +1,3 @@
 export const api = {
-  register: "/api/register",
+  register: "/api/auth/register",
 };
