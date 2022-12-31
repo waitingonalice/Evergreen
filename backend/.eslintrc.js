@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["plugin:@typescript-eslint/recommended"],
+  extends: ["plugin:@typescript-eslint/recommended", "prettier"],
   overrides: [],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -13,5 +13,9 @@ module.exports = {
   plugins: ["@typescript-eslint"],
   rules: {
     "linebreak-style": ["error", "unix"],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { destructuredArrayIgnorePattern: "^_" }, // ignores destructured array variables whose names begin with an underscore
+    ],
   },
 };

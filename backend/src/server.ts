@@ -19,7 +19,7 @@ app.get("/", (req: Request, res: Response) => {
   return res.send("<h1>Expense tracker API</h1>");
 });
 
-app.use(api.register, registerRoute);
+app.use(api.auth, registerRoute);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

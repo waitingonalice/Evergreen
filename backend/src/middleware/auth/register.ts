@@ -1,8 +1,13 @@
 import { db } from "~/utils";
-import { RegisterProps } from "~/types/register";
+import { RegisterProps, RegisterDataType } from "~/types/register";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import nodeMailer from "nodemailer";
+
+enum JwtErrorMessage {
+  EXPIRED = "jwt expired",
+  INVALID = "invalid signature",
+}
 
 export const register = async (input: RegisterProps) => {
   const token =
@@ -26,7 +31,7 @@ export const register = async (input: RegisterProps) => {
 };
 
 export const sendEmailVerification = async (
-  registeredData: Awaited<ReturnType<typeof register>>
+  registeredData: RegisterDataType
 ) => {
   const transporter = nodeMailer.createTransport({
     service: "Gmail",
@@ -40,10 +45,10 @@ export const sendEmailVerification = async (
       from: process.env.SUPPORT_EMAIL_ADDRESS,
       to: registeredData.email,
       subject: "Email verification",
-      html: `<h1>Email Confirmation</h1>
+      html: `<h1>Email Confirmation for Expense Tracker</h1>
         <h2>Hello ${registeredData.firstName}</h2>
-        <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-        <a href=http://localhost:3000/verify/${registeredData.token}> Click here</a>
+        <p>Thank you for registering. Please confirm your email by clicking on the following link below.</p>
+        <a href=http://localhost:3000/verify?email=${registeredData.email}&code=${registeredData.token}> Click here</a>
         </div>`,
     },
     function (error, info) {
@@ -52,4 +57,39 @@ export const sendEmailVerification = async (
       console.log(info);
     }
   );
+};
+
+export const verify = async (
+  email: RegisterDataType["email"],
+  confirmationCode: RegisterDataType["token"]
+) => {
+  const response = { verified: false, message: "401001" };
+  try {
+    const secretKey = process.env.SESSION_SECRET;
+    const decoded = secretKey && jwt.verify(confirmationCode, secretKey);
+    const userTokenData = decoded && Object.values(decoded);
+    if (userTokenData?.includes(email)) {
+      await db.account.update({
+        where: { email },
+        data: { active: true },
+      });
+      return {
+        ...response,
+        verified: true,
+        message: "Verification success!",
+      };
+    }
+  } catch (err) {
+    const error = err as jwt.VerifyErrors;
+    switch (error.message) {
+      case JwtErrorMessage.INVALID:
+        return response;
+      case JwtErrorMessage.EXPIRED:
+        await db.account.delete({
+          where: { token: confirmationCode },
+        });
+        return { ...response, message: "403001" };
+    }
+  }
+  return { ...response, message: "404001" };
 };

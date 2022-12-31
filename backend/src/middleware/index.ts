@@ -1,1 +1,1 @@
-export { register, sendEmailVerification } from "./auth/register";
+export { register, sendEmailVerification, verify } from "./auth/register";

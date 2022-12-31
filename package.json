@@ -10,5 +10,9 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "prettier": "^2.8.1",
+    "prettier-plugin-sort-json": "^1.0.0",
+    "prettier-plugin-tailwindcss": "^0.2.1"
+  }
 }

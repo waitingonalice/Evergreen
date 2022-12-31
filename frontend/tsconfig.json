@@ -1,24 +1,24 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
-    "useDefineForClassFields": true,
-    "lib": ["ES2019", "DOM", "DOM.Iterable"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2019", "DOM", "DOM.Iterable"],
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
     "paths": {
       "~/*": ["./src/*"]
     },
-    "types": ["vitest/globals"]
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2019",
+    "types": ["vitest/globals"],
+    "useDefineForClassFields": true
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
