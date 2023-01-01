@@ -13,7 +13,7 @@ export const register = async (input: RegisterProps) => {
   const token =
     process.env.SESSION_SECRET &&
     jwt.sign({ data: input.email }, process.env.SESSION_SECRET, {
-      expiresIn: "1s",
+      expiresIn: "24h",
     });
   const hash = await bcrypt.hash(input.password, 10);
   const createAccount = await db.account.create({
