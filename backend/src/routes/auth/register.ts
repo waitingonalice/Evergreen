@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { register, sendEmailVerification } from "~/middleware";
+import { register, sendEmailVerification, verify } from "~/middleware";
 import { RegisterProps } from "~/types/register";
 import { Rest, isEmptyObjectValue } from "~/utils";
 
@@ -29,9 +29,10 @@ router.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/verify/:email/:token", async () => {
-  // const token = req.params.token;
-  // const email = req.params.email;
+router.get("/verify/:token", async (req: Request, res: Response) => {
+  const token = req.params.token;
+  const { verified, message } = await verify(token);
+  return res.json({ verified, message });
 });
 
 export { router as registerRoute };

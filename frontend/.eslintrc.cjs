@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["plugin:@typescript-eslint/recommended", "prettier"],
+  extends: ["plugin:@typescript-eslint/recommended"],
   // overrides: [
   //   {
   //     files: ["*.ts", "*.tsx"], // Your TypeScript files extension

@@ -13,7 +13,7 @@ export const register = async (input: RegisterProps) => {
   const token =
     process.env.SESSION_SECRET &&
     jwt.sign({ data: input.email }, process.env.SESSION_SECRET, {
-      expiresIn: "24h",
+      expiresIn: "1s",
     });
   const hash = await bcrypt.hash(input.password, 10);
   const createAccount = await db.account.create({
@@ -48,7 +48,7 @@ export const sendEmailVerification = async (
       html: `<h1>Email Confirmation for Expense Tracker</h1>
         <h2>Hello ${registeredData.firstName}</h2>
         <p>Thank you for registering. Please confirm your email by clicking on the following link below.</p>
-        <a href=http://localhost:3000/verify?email=${registeredData.email}&code=${registeredData.token}> Click here</a>
+        <a href=http://localhost:3000/verify?code=${registeredData.token}> Click here</a>
         </div>`,
     },
     function (error, info) {
@@ -59,18 +59,16 @@ export const sendEmailVerification = async (
   );
 };
 
-export const verify = async (
-  email: RegisterDataType["email"],
-  confirmationCode: RegisterDataType["token"]
-) => {
+export const verify = async (confirmationCode: RegisterDataType["token"]) => {
   const response = { verified: false, message: "401001" };
+  const account = await findAccountByToken(confirmationCode);
   try {
-    const secretKey = process.env.SESSION_SECRET;
-    const decoded = secretKey && jwt.verify(confirmationCode, secretKey);
-    const userTokenData = decoded && Object.values(decoded);
-    if (userTokenData?.includes(email)) {
+    const decoded =
+      process.env.SESSION_SECRET &&
+      jwt.verify(confirmationCode, process.env.SESSION_SECRET);
+    if (!account?.active && decoded) {
       await db.account.update({
-        where: { email },
+        where: { email: account?.email },
         data: { active: true },
       });
       return {
@@ -79,17 +77,34 @@ export const verify = async (
         message: "Verification success!",
       };
     }
+    return {
+      ...response,
+      verified: true,
+      message: "This account has already been verified.",
+    };
   } catch (err) {
     const error = err as jwt.VerifyErrors;
     switch (error.message) {
       case JwtErrorMessage.INVALID:
         return response;
       case JwtErrorMessage.EXPIRED:
-        await db.account.delete({
-          where: { token: confirmationCode },
-        });
-        return { ...response, message: "403001" };
+        if (!account?.active) {
+          await db.account.delete({
+            where: { token: confirmationCode },
+          });
+          return { ...response, message: "403001" };
+        }
     }
   }
   return { ...response, message: "404001" };
+};
+
+const findAccountByToken = async (token: RegisterDataType["token"]) => {
+  const account = await db.account.findUnique({
+    where: {
+      token: token,
+    },
+    select: { email: true, active: true },
+  });
+  return account;
 };
