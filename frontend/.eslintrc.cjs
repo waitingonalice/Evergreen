@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["plugin:@typescript-eslint/recommended"],
+  extends: ["plugin:@typescript-eslint/recommended", "prettier"],
   // overrides: [
   //   {
   //     files: ["*.ts", "*.tsx"], // Your TypeScript files extension
@@ -32,6 +32,9 @@ module.exports = {
     indent: ["error", 2],
     "linebreak-style": ["error", "unix"],
     "no-console": "error",
-    "no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { destructuredArrayIgnorePattern: "^_" }, // ignores destructured array variables whose names begin with an underscore
+    ],
   },
 };

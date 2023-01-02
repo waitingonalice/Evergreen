@@ -29,7 +29,6 @@ export const register = async (input: RegisterProps) => {
   });
   return createAccount;
 };
-
 export const sendEmailVerification = async (
   registeredData: RegisterDataType
 ) => {
