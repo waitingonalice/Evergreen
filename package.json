@@ -18,7 +18,20 @@
     "prettier-plugin-sort-json": "^1.0.0",
     "prettier-plugin-tailwindcss": "^0.2.1"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{html,css,less,ejs}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
