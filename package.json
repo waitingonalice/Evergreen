@@ -1,10 +1,17 @@
 {
+  "name": "expense-tracker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:waitingonalice/Expense-tracker.git",
+  "author": "Wilson <fcsie55@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "commitizen": "^4.2.5"
   },
   "scripts": {
     "commit": "git-cz",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint --quiet --cache --cache-location ./node_modules/.cache/eslint ."
   },
   "config": {
     "commitizen": {
@@ -12,6 +19,11 @@
     }
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.31.11",
     "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.1",
@@ -25,6 +37,7 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
+      "yarn lint",
       "prettier --write --ignore-unknown"
     ]
   }
