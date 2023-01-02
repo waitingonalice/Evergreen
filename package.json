@@ -37,7 +37,7 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
-      "yarn tsc x/*.ts ",
+      "yarn tsc",
       "yarn lint",
       "prettier --write --ignore-unknown"
     ]
