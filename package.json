@@ -37,7 +37,7 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
-      "yarn tsc",
+      "bash -c tsc",
       "yarn lint",
       "prettier --write --ignore-unknown"
     ]
