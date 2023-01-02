@@ -88,9 +88,13 @@ export const verify = async (confirmationCode: RegisterDataType["token"]) => {
         return response;
       case JwtErrorMessage.EXPIRED:
         if (!account?.active) {
-          await db.account.delete({
-            where: { token: confirmationCode },
-          });
+          await db.account
+            .delete({
+              where: { token: confirmationCode },
+            })
+            .catch((err) => {
+              return console.error(err);
+            });
           return { ...response, message: "403001" };
         }
     }
