@@ -1,5 +1,6 @@
 function App() {
-  return <div className="bg-black text-white">hello world</div>;
+  // console.log("test");
+  return <div className="bg-black text-white">hello world!</div>;
 }
 
 export default App;
