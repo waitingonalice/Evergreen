@@ -1,7 +1,7 @@
 node_modules
 .env
 .DS_Store
-expense_tracker_data
+
 public/build
 api/_build
 prisma/migrations
