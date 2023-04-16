@@ -19,6 +19,7 @@
     "useDefineForClassFields": true
   },
   "include": ["**/*.ts"],
+  // "references" is not supported in nodejs, need to manually add here.
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   }

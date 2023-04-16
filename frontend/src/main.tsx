@@ -1,14 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "../styles/index.css";
-import Root from "~/routes/Root";
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Root, Login, Register, Dashboard } from "~/routes";
+import { Layout } from "~/components";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+  },
+  // Authentication routes
+  { path: "/login", element: <Login /> },
+  { path: "/register", element: <Register /> },
+
+  // Main content starts here
+  {
+    element: <Layout />,
+    children: [{ path: "/dashboard", element: <Dashboard /> }],
   },
 ]);
 

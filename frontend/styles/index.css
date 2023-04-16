@@ -2,21 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* button classes */
-
-.btn-primary {
-  @apply bg-blue-600 enabled:hover:bg-blue-500
-}
-
-.btn-secondary { 
- @apply bg-secondaryButton enabled:hover:bg-secondaryButtonHover
-}
-
-.btn-icon {
-  @apply mr-2 h-5 w-5 
-}
-
-.transition-background {
-  @apply transition-all duration-200
+@layer base{
+  h1 {
+      @apply text-[34px] font-extrabold leading-10 tracking-[-1px];
+    }
+  
+    h2 {
+      @apply text-[32px] font-extrabold leading-snug tracking-[0.5px];
+    }
+  
+    h3 {
+      @apply text-[26px] font-extrabold leading-9 tracking-[0.5px];
+    }
+  
+    h4 {
+      @apply text-[22px] font-bold leading-8 tracking-[0.5px];
+    }
+  
+    h5 {
+      @apply text-[22px] font-semibold leading-8 tracking-[0.5px];
+    }
+  
+    h6 {
+      @apply text-[18px] font-semibold leading-6 tracking-[0.5px];
+    }
+  
+    input:read-only {
+      @apply bg-[#F5F5F5];
+    }
 }
