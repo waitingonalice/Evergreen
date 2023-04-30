@@ -4,6 +4,7 @@ module.exports = {
     es2021: true,
   },
   extends: [
+    "airbnb",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "prettier",
@@ -26,10 +27,8 @@ module.exports = {
     "linebreak-style": ["error", "unix"],
     "@typescript-eslint/no-unused-vars": ["error"],
     "no-console": "warn",
-    "no-unused-vars": "error",
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
-    "arrow-body-style": ["error", "as-needed"],
     "react/jsx-filename-extension": [
       1,
       { extensions: [".js", ".jsx", ".ts", ".tsx"] },
@@ -41,5 +40,13 @@ module.exports = {
         html: true,
       },
     ],
+    "import/newline-after-import": ["error", { count: 1 }],
+    "import/no-extraneous-dependencies": ["off"],
+    "import/no-unresolved": "off",
+    "react/function-component-definition": ["off"],
+    "react/require-default-props": ["off"],
+    "import/extensions": "off", // off because of tsconfig paths
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
   },
 };

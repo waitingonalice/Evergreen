@@ -8,8 +8,11 @@ module.exports = {
     extend: {
       colors: {
         primary: "#065f46", // emerald-800
-        secondary: "#34d399", // emerald-400
+        secondary: "#059669", // emerald-600
         tertiary: "#22c55e", // green-500
+        errorMain: "#b91c1c", // red-700
+        errorSecondary: "#ef4444", // red-500
+        errorTertiary: "#f43f5e", // rose 500
         important: "#fffbeb", // amber-50
         standard: "#e5e5e5", // gray-200
         dark: "#2F3657",

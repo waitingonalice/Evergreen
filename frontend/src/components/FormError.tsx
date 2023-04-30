@@ -1,19 +1,22 @@
-import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
+import { Text } from "~/components";
 
 interface ErrorProps {
+  error?: string;
   children?: string;
   id: string;
 }
 
-const FormError = ({ id, children }: ErrorProps) => {
-  return (
-    <span
-      className="mt-2 flex items-center text-sm text-red-500"
-      id={`${id}-error`}
-    >
-      <ExclamationCircleIcon className="mr-1 h-4 w-4 text-red-500" /> {children}
-    </span>
-  );
+const FormError = ({ id, children, error }: ErrorProps) => {
+  if (error) {
+    return (
+      <span className="mt-1 flex items-center" id={`${id}-error`}>
+        <Text type="caption" className="text-errorSecondary">
+          {children}
+        </Text>
+      </span>
+    );
+  }
+  return null;
 };
 
 export default FormError;
