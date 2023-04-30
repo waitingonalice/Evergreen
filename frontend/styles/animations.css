@@ -1,0 +1,33 @@
+/* keyframes */
+
+@keyframes slight-bounce {
+  0%,100% {
+    transform: translateY(3%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+}
+
+.animate-slight-bounce {
+  animation: slight-bounce 1s ease-in-out infinite;
+}
+
+/* timing functions */
+.ease-linear{
+  animation-timing-function: linear;
+}
+
+.ease-in {
+animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+}
+
+.ease-out{
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ease-in-out {
+  animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}

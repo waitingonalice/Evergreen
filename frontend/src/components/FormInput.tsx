@@ -21,7 +21,7 @@ const FormInput = ({ type = "text", ...props }: InputProps) => (
         type={type}
         name={props.id}
         className={clsx(
-          "bg-layerThree border-borderColor text-important sm:text-md block w-full rounded-md pr-10 placeholder-gray-600 focus:outline-none",
+          "bg-primary border-important text-important sm:text-md block w-full rounded-md pr-10 placeholder-gray-600 focus:outline-none",
           props.error
             ? "focus:border-red-500 focus:ring-red-500"
             : "focus:border-blue-600 focus:ring-blue-600"

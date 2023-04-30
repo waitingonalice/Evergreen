@@ -3,19 +3,16 @@ module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      sans: ["Source Sans Pro", "sans-serif"],
-      mono: ["Roboto Mono", "monospace"],
+      sans: ["roboto", "sans-serif"],
     },
     extend: {
       colors: {
-        layerOne: "#1A1D2D", // body
-        layerTwo: "#202234", // background color; (cards, banners)
-        layerThree: "#272A3F", // background color; (modals, dropdowns)
-        important: "#DCDEF3", // important text
-        standard: "#9396B2", // standard text
-        borderColor: "#333653",
-        secondaryButton: "#2F3657",
-        secondaryButtonHover: "#39426A",
+        primary: "#065f46", // emerald-800
+        secondary: "#34d399", // emerald-400
+        tertiary: "#22c55e", // green-500
+        important: "#fffbeb", // amber-50
+        standard: "#e5e5e5", // gray-200
+        dark: "#2F3657",
       },
     },
   },
