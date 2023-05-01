@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { Button, Input, Text } from "~/components";
-import { clientRoutes } from "~/constants";
+import { Button, Input, Text, FormSelect } from "~/components";
+import { clientRoutes, countryOptions } from "~/constants";
 import { useForm } from "~/utils";
 
-const testSchema = z.object({
+const registrationSchema = z.object({
   firstName: z
     .string({
       required_error: "This field is required",
@@ -34,6 +34,7 @@ const testSchema = z.object({
       message:
         "Password should contain at least one number, one uppercase character and one lowercase character",
     }),
+  country: z.string({ required_error: "This field is required" }),
 });
 
 const Register = () => {
@@ -45,22 +46,22 @@ const Register = () => {
     // TODO: Add onSubmit handler to form and validate inputs
     <form
       className="flex w-full flex-col  gap-y-4 sm:w-1/2 lg:w-full"
-      onSubmit={(e) => onSubmit(e, handleSubmit)}
+      onSubmit={(e) => onSubmit(handleSubmit, e)}
     >
-      <Text type="subhead-1" className="text-important box mb-4 font-bold">
+      <Text type="subhead-1" className="text-primary box mb-4 font-bold">
         Sign Up
       </Text>
       <Input
         id="firstName"
         label={{ text: "First Name", required: true }}
-        rules={testSchema}
+        rules={registrationSchema}
         ref={addRefs}
         placeholder="John"
       />
       <Input
         id="lastName"
         label={{ text: "Last Name", required: true }}
-        rules={testSchema}
+        rules={registrationSchema}
         ref={addRefs}
         placeholder="Appleseed"
       />
@@ -68,7 +69,7 @@ const Register = () => {
         id="email"
         type="email"
         label={{ text: "Email", required: true }}
-        rules={testSchema}
+        rules={registrationSchema}
         ref={addRefs}
         placeholder="johnappleseed@xyz.com"
       />
@@ -76,31 +77,28 @@ const Register = () => {
         id="password"
         type="password"
         label={{ text: "Password", required: true }}
-        rules={testSchema}
+        rules={registrationSchema}
         ref={addRefs}
       />
       {/* TODO: Build form select component to support country dropdown */}
-      {/* <Input
+      <FormSelect
         id="country"
         label={{ text: "Country", required: true }}
-        rules={testSchema}
+        options={countryOptions}
+        placeholder="Select a country"
+        rules={registrationSchema}
         ref={addRefs}
-      /> */}
+      />
       <div className="mt-2 flex justify-between">
         <Button
           id="cancel"
-          variant="secondaryLink"
+          variant="primaryLink"
           type="button"
           className="w-fit"
         >
           <a href={clientRoutes.root}>Cancel</a>
         </Button>
-        <Button
-          id="regsiter"
-          variant="secondary"
-          type="submit"
-          className="w-fit"
-        >
+        <Button id="regsiter" variant="primary" type="submit" className="w-fit">
           Register
         </Button>
       </div>

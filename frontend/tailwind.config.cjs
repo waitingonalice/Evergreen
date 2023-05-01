@@ -15,7 +15,8 @@ module.exports = {
         errorTertiary: "#f43f5e", // rose 500
         important: "#fffbeb", // amber-50
         standard: "#e5e5e5", // gray-200
-        dark: "#2F3657",
+        dark: "#111827", // gray-900
+        disabled: "#d1d5db", // gray-300
       },
     },
   },

@@ -3,19 +3,19 @@ import { Text } from "~/components";
 
 const RootLayout = () => (
   <div className="flex flex-col lg:h-screen lg:flex-row">
-    <div className="bg-primary flex h-screen flex-col items-center justify-center p-8 text-center lg:h-full lg:w-1/3 lg:items-start lg:text-start">
+    <div className="flex h-screen flex-col items-center justify-center p-8 text-center lg:h-full lg:w-1/3 lg:items-start lg:text-start">
       <Outlet />
     </div>
 
-    <div className="flex h-auto flex-col p-4 lg:w-2/3">
+    <div className="bg-primary flex h-auto flex-col p-4 lg:w-2/3">
       <div className="flex h-screen flex-col items-center justify-center text-center">
         <Text
           type="h1"
-          className="text-dark mb-16 text-[60px] font-extrabold lg:text-[96px]"
+          className="text-important mb-16 text-[60px] font-extrabold lg:text-[96px]"
         >
           Expense Tracker
         </Text>
-        <Text type="h3" className="text-dark">
+        <Text type="h3" className="text-important">
           A platform to manage your expenses.
         </Text>
       </div>

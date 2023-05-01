@@ -15,8 +15,9 @@ import { useRef } from "react";
  */
 export const useForm = () => {
   const refs = useRef<Array<HTMLInputElement | null>>([]);
-  const submitActions = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+
+  const submitActions = (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
     refs.current.forEach((element) => {
       if (!element) return;
       element.focus();
@@ -32,8 +33,8 @@ export const useForm = () => {
     refs.current.push(node);
 
   const onSubmit = (
-    e: React.FormEvent<HTMLFormElement>,
-    callback: () => void
+    callback: () => void,
+    e?: React.FormEvent<HTMLFormElement>
   ) => {
     submitActions(e);
     callback();

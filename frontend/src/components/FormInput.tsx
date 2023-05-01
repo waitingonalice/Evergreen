@@ -1,42 +1,23 @@
-import { useState, forwardRef, Ref } from "react";
+import { forwardRef, Ref } from "react";
 import { z } from "zod";
 import clsx from "clsx";
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
 import { Label, ErrorMessage } from "~/components";
-import { isNumber } from "~/constants";
+import { useValidate } from "~/utils";
 
 interface InputProps {
   id: string;
   label: { required?: boolean; text: string };
-  rules: ReturnType<typeof z.object>;
+  rules?: ReturnType<typeof z.object>;
+
   type?: HTMLInputElement["type"];
   placeholder?: string;
   defaultValue?: string;
   className?: string;
+  disabled?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const validate = (
-  rules: InputProps["rules"],
-  id: string,
-  value: string,
-  setError: (arg: string) => void
-) => {
-  const checkValue = isNumber.test(value) ? +value : value;
-  const subsetSchema = rules.pick({ [id]: true });
-  const result = subsetSchema.safeParse({
-    [id]: checkValue === "" ? undefined : checkValue,
-  });
-
-  if (result && !result.success) {
-    const {
-      error: { issues: data },
-    } = result;
-    setError(data[0].message);
-  } else {
-    setError("");
-  }
-};
 // Uncontrolled form input component
 const FormInput = forwardRef(
   (
@@ -49,10 +30,11 @@ const FormInput = forwardRef(
       defaultValue,
       className,
       onChange,
+      disabled,
     }: InputProps,
     ref: Ref<HTMLInputElement>
   ) => {
-    const [error, setError] = useState<string>("");
+    const { validate, error } = useValidate();
 
     return (
       <div>
@@ -64,11 +46,12 @@ const FormInput = forwardRef(
         </span>
         <div className="relative mt-1 rounded-md shadow-sm">
           <input
+            disabled={disabled}
             ref={ref}
             type={type}
             name={id}
             className={clsx(
-              "bg-important block w-full rounded-md border-0 py-2 text-sm placeholder-gray-300 ring-1  transition-all duration-200 focus:ring-2 focus:ring-offset-1",
+              "block w-full rounded-md border-0 py-2 text-sm placeholder-gray-300 ring-1 transition-all duration-100 focus:ring-2 focus:ring-offset-1",
               error
                 ? "focus:ring-errorSecondary ring-errorSecondary text-errorMain pr-10"
                 : "focus:ring-secondary text-dark ring-gray-400",
@@ -77,10 +60,10 @@ const FormInput = forwardRef(
             placeholder={placeholder}
             defaultValue={defaultValue}
             onBlur={(e) => {
-              validate(rules, id, e.currentTarget.value, setError);
+              if (rules) validate(rules, id, e.currentTarget.value);
             }}
             onChange={(e) => {
-              if (error) validate(rules, id, e.currentTarget.value, setError);
+              if (error && rules) validate(rules, id, e.currentTarget.value);
               if (onChange) onChange(e);
             }}
           />

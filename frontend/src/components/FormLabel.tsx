@@ -6,7 +6,7 @@ interface InputProps {
 }
 
 const FormLabel = ({ children, name }: InputProps) => (
-  <label htmlFor={name} className="text-important block">
+  <label htmlFor={name} className="text-dark block">
     <Text type="button">{children}</Text>
   </label>
 );

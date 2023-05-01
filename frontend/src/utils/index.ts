@@ -1,1 +1,2 @@
-export * from "./hooks/form";
+export * from "./hooks/useForm";
+export * from "./hooks/useValidate";
