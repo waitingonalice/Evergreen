@@ -98,7 +98,7 @@ module.exports = {
    * jsxBracketSameLine: <bool>
    * default: false
    */
-  jsxBracketSameLine: false,
+  jsxBracketSameLine: true,
   /**
    * Arrow Function Parentheses
    * https://prettier.io/docs/en/options.html#arrow-function-parentheses

@@ -1,8 +1,9 @@
-import { db } from "~/utils";
-import { RegisterProps, RegisterDataType } from "~/types/register";
+/* eslint-disable no-console */
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import nodeMailer from "nodemailer";
+import { RegisterProps, RegisterDataType } from "~/types/register";
+import { db } from "~/utils";
 
 enum JwtErrorMessage {
   EXPIRED = "jwt expired",
@@ -10,9 +11,10 @@ enum JwtErrorMessage {
 }
 
 export const register = async (input: RegisterProps) => {
+  const { email, country } = input;
   const token =
     process.env.SESSION_SECRET &&
-    jwt.sign({ data: input.email }, process.env.SESSION_SECRET, {
+    jwt.sign({ data: { email, country } }, process.env.SESSION_SECRET, {
       expiresIn: "24h",
     });
   const hash = await bcrypt.hash(input.password, 10);
@@ -29,6 +31,7 @@ export const register = async (input: RegisterProps) => {
   });
   return createAccount;
 };
+
 export const sendEmailVerification = async (
   registeredData: RegisterDataType
 ) => {
@@ -50,7 +53,7 @@ export const sendEmailVerification = async (
         <a href=http://localhost:3000/verify?code=${registeredData.token}> Click here</a>
         </div>`,
     },
-    function (error, info) {
+    (error, info) => {
       if (error) throw error;
       console.log("Email Sent Successfully");
       console.log(info);
@@ -58,56 +61,49 @@ export const sendEmailVerification = async (
   );
 };
 
+const findAccountByToken = async (token: RegisterDataType["token"]) => {
+  const account = await db.account.findUnique({
+    where: {
+      token,
+    },
+    select: { email: true, active: true },
+  });
+  return account;
+};
+
 export const verify = async (confirmationCode: RegisterDataType["token"]) => {
-  const response = { verified: false, message: "401001" };
   const account = await findAccountByToken(confirmationCode);
   try {
     const decoded =
       process.env.SESSION_SECRET &&
       jwt.verify(confirmationCode, process.env.SESSION_SECRET);
+
+    // if account is not active and token is valid, verify the account by setting active to true
     if (!account?.active && decoded) {
       await db.account.update({
         where: { email: account?.email },
         data: { active: true },
       });
-      return {
-        ...response,
-        verified: true,
-        message: "Verification success!",
-      };
+      return "Verification success!";
     }
-    return {
-      ...response,
-      verified: true,
-      message: "This account has already been verified.",
-    };
+    return "This account has already been verified.";
   } catch (err) {
     const error = err as jwt.VerifyErrors;
     switch (error.message) {
       case JwtErrorMessage.INVALID:
-        return response;
+        return { message: "401001" };
       case JwtErrorMessage.EXPIRED:
         if (!account?.active) {
           await db.account
             .delete({
               where: { token: confirmationCode },
             })
-            .catch((err) => {
-              return console.error(err);
-            });
-          return { ...response, message: "403001" };
+            .catch((err) => console.error(err));
+          return "403001";
         }
+        break;
+      default:
     }
   }
-  return { ...response, message: "404001" };
-};
-
-const findAccountByToken = async (token: RegisterDataType["token"]) => {
-  const account = await db.account.findUnique({
-    where: {
-      token: token,
-    },
-    select: { email: true, active: true },
-  });
-  return account;
+  return "404001";
 };

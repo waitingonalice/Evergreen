@@ -1,4 +1,5 @@
 import { register } from "~/middleware";
+
 export type RegisterProps = {
   email: string;
   password: string;

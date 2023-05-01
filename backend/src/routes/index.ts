@@ -1,1 +1,2 @@
-export { registerRoute } from "./auth/register";
+// eslint-disable-next-line import/prefer-default-export
+export { default as registerRoute } from "./auth/register";

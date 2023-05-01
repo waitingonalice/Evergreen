@@ -11,7 +11,7 @@
     "prisma:migrate": "prisma migrate dev --name",
     "prisma:resolve": "prisma migrate resolve --applied",
     "seed": "prisma db seed",
-    "dev": "nodemon"
+    "dev": "nodemon src/server.ts"
   },
   "keywords": [],
   "author": "",

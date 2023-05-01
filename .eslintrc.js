@@ -4,9 +4,10 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    "prettier",
+    "airbnb",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
+    "prettier",
   ],
   overrides: [],
   parser: "@typescript-eslint/parser",
@@ -20,16 +21,18 @@ module.exports = {
       version: "18.2.0",
     },
   },
-  plugins: ["react", "@typescript-eslint"],
+  plugins: ["react", "@typescript-eslint", "import"],
   rules: {
+    "prefer-arrow-callback": ["error"],
     "linebreak-style": ["error", "unix"],
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { destructuredArrayIgnorePattern: "^_" }, // ignores destructured array variables whose names begin with an underscore
-    ],
+    "@typescript-eslint/no-unused-vars": ["error"],
     "no-console": "warn",
-    "react-hooks/exhaustive-deps": "off",
-    "@typescript-eslint/no-non-null-assertion": "warn",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    "react/jsx-filename-extension": [
+      1,
+      { extensions: [".js", ".jsx", ".ts", ".tsx"] },
+    ],
     "react/self-closing-comp": [
       "error",
       {
@@ -37,11 +40,14 @@ module.exports = {
         html: true,
       },
     ],
-    "react/react-in-jsx-scope": "off",
-    "react/jsx-uses-react": "off",
-    "react/jsx-filename-extension": [
-      1,
-      { extensions: [".js", ".jsx", ".ts", ".tsx"] },
-    ],
+    "import/newline-after-import": ["error", { count: 1 }],
+    "import/no-extraneous-dependencies": ["off"],
+    "import/no-unresolved": "off",
+    "react/function-component-definition": ["off"],
+    "react/require-default-props": ["off"],
+    "import/extensions": "off", // off because of tsconfig paths
+    "import/prefer-default-export": "off",
+    "react/jsx-props-no-spreading": "off",
+    "no-shadow": "off",
   },
 };
