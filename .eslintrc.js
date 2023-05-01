@@ -48,5 +48,6 @@ module.exports = {
     "import/extensions": "off", // off because of tsconfig paths
     "import/prefer-default-export": "off",
     "react/jsx-props-no-spreading": "off",
+    "no-shadow": "off",
   },
 };

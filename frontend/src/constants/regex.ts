@@ -1,1 +1,1 @@
-export const hasNumber = /\d/;
+export const isNumber = /^\d+$/;

@@ -35,19 +35,19 @@ const FormButton = ({
     "whitespace-nowrap transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-30";
 
   const baseStyleButton =
-    "px-4 py-2 first-letter:focus:outline-none shadow-sm focus:ring-2 focus:ring-offset-1 rounded-md border border-transparent";
+    "px-4 py-2 first-letter:focus:outline-none shadow-sm ring-1 focus:ring-2 focus:ring-offset-1 rounded-md border border-transparent hover:ring-2";
 
   const variantMapper = {
     primary: clsx(
-      "bg-primary hover:enabled:bg-secondary text-important focus:ring-tertiary",
+      "bg-primary hover:enabled:bg-secondary text-important focus:ring-secondary hover:ring-secondary",
       baseStyleButton
     ),
     secondary: clsx(
-      "bg-important text-primary hover:enabled:bg-standard focus:ring-tertiary",
+      "bg-important text-primary hover:enabled:bg-standard focus:ring-secondary hover:ring-secondary",
       baseStyleButton
     ),
     error: clsx(
-      "bg-errorMain text-important hover:enabled:bg-errorSecondary focus:ring-errorTertiary",
+      "bg-errorMain text-important hover:enabled:bg-errorSecondary focus:ring-errorTertiary hover:ring-errorTertiary",
       baseStyleButton
     ),
     primaryLink: "hover:text-secondary text-primary",
