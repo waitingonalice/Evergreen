@@ -1,15 +1,13 @@
-import { forwardRef, Ref } from "react";
-import { z } from "zod";
+import { forwardRef, Ref, useState } from "react";
 import clsx from "clsx";
 import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
 import { Label, ErrorMessage } from "~/components";
-import { useValidate } from "~/utils";
+import { useForm } from "~/utils";
 
 interface InputProps {
   id: string;
   label: { required?: boolean; text: string };
-  rules?: ReturnType<typeof z.object>;
-
+  validate?: ReturnType<typeof useForm>["validate"];
   type?: HTMLInputElement["type"];
   placeholder?: string;
   defaultValue?: string;
@@ -24,7 +22,7 @@ const FormInput = forwardRef(
     {
       id,
       type = "text",
-      rules,
+      validate,
       label,
       placeholder,
       defaultValue,
@@ -34,8 +32,22 @@ const FormInput = forwardRef(
     }: InputProps,
     ref: Ref<HTMLInputElement>
   ) => {
-    const { validate, error } = useValidate();
+    const [error, setError] = useState("");
 
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (validate && error) {
+        const message = validate(id, e.currentTarget.value);
+        setError(message);
+      }
+      if (onChange) onChange(e);
+    };
+
+    const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      if (validate) {
+        const message = validate(id, e.currentTarget.value);
+        setError(message);
+      }
+    };
     return (
       <div>
         <span className="flex">
@@ -59,13 +71,8 @@ const FormInput = forwardRef(
             )}
             placeholder={placeholder}
             defaultValue={defaultValue}
-            onBlur={(e) => {
-              if (rules) validate(rules, id, e.currentTarget.value);
-            }}
-            onChange={(e) => {
-              if (error && rules) validate(rules, id, e.currentTarget.value);
-              if (onChange) onChange(e);
-            }}
+            onBlur={(e) => handleOnBlur(e)}
+            onChange={(e) => handleOnChange(e)}
           />
           {error && (
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">

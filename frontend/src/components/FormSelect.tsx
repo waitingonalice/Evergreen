@@ -1,14 +1,13 @@
 import { Ref, forwardRef, useState } from "react";
 import clsx from "clsx";
-import type { z } from "zod";
 import { ErrorMessage, Label } from ".";
-import { useValidate } from "~/utils";
+import { useForm } from "~/utils";
 
 interface SelectProps {
   id: string;
   label: { required?: boolean; text: string };
   options: { label: string; value: string }[];
-  rules?: ReturnType<typeof z.object>;
+  validate?: ReturnType<typeof useForm>["validate"];
   disabled?: boolean;
   placeholder?: string;
   defaultValue?: string;
@@ -21,7 +20,7 @@ const FormSelect = forwardRef(
     {
       id,
       label,
-      rules,
+      validate,
       disabled,
       placeholder,
       defaultValue,
@@ -31,13 +30,23 @@ const FormSelect = forwardRef(
     }: SelectProps,
     ref: Ref<HTMLSelectElement>
   ) => {
-    const { error, validate } = useValidate();
+    const [error, setError] = useState("");
     const [selected, setSelected] = useState<string>(defaultValue ?? "");
 
     const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       if (onChange) onChange(e);
-      if (rules) validate(rules, id, e.currentTarget.value);
+      if (validate) {
+        const message = validate(id, e.currentTarget.value);
+        setError(message);
+      }
       setSelected(e.currentTarget.value);
+    };
+
+    const handleOnBlur = (e: React.FocusEvent<HTMLSelectElement>) => {
+      if (validate) {
+        const message = validate(id, e.currentTarget.value);
+        setError(message);
+      }
     };
 
     return (
@@ -60,9 +69,7 @@ const FormSelect = forwardRef(
               className
             )}
             disabled={disabled}
-            onBlur={(e) => {
-              if (rules) validate(rules, id, e.currentTarget.value);
-            }}
+            onBlur={(e) => handleOnBlur(e)}
             onChange={(e) => handleOnChange(e)}
             value={selected}
           >

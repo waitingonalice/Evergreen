@@ -41,6 +41,7 @@ module.exports = {
       },
     ],
     "import/newline-after-import": ["error", { count: 1 }],
+    "no-return-assign": ["error", "except-parens"],
     "import/no-extraneous-dependencies": ["off"],
     "import/no-unresolved": "off",
     "react/function-component-definition": ["off"],
