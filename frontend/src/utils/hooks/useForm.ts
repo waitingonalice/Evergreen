@@ -25,9 +25,10 @@ export const useForm = (zod?: ReturnType<typeof z.object>) => {
    * @params value - the value of the element to be validated
    */
   const validate = (id: string, value: string) => {
+    if (!zod) return "";
     const checkValue = isNumber.test(value) ? +value : value;
-    const subsetSchema = zod?.pick({ [id]: true });
-    const result = subsetSchema?.safeParse({
+    const subsetSchema = zod.pick({ [id]: true });
+    const result = subsetSchema.safeParse({
       [id]: checkValue === "" ? undefined : checkValue,
     });
 
