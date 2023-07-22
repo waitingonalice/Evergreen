@@ -39,15 +39,15 @@ const FormButton = ({
 
   const variantMapper = {
     primary: clsx(
-      "bg-primary hover:enabled:bg-secondary text-important focus:ring-tertiary hover:ring-tertiary",
+      "bg-primary hover:enabled:bg-secondary text-important focus:ring-tertiary hover:ring-secondary",
       baseStyleButton
     ),
     secondary: clsx(
-      "bg-important text-primary hover:enabled:bg-standard focus:ring-tertiary hover:ring-tertiary",
+      "bg-important text-primary hover:enabled:bg-standard focus:ring-tertiary hover:ring-standard",
       baseStyleButton
     ),
     error: clsx(
-      "bg-errorMain text-important hover:enabled:bg-errorSecondary focus:ring-errorTertiary hover:ring-errorTertiary",
+      "bg-errorMain text-important hover:enabled:bg-errorSecondary focus:ring-errorTertiary hover:ring-errorSecondary",
       baseStyleButton
     ),
     primaryLink: "hover:text-secondary text-primary",

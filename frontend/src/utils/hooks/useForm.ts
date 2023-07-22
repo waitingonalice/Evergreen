@@ -1,20 +1,45 @@
 import { useRef } from "react";
+import type { z } from "zod";
+import { isNumber } from "~/constants";
 
 /**
  * @description
- * useForm is a custom hook that is used to handle form submission.
- * It is used to handle form submission in the following way:
- * 1. Prevent default form submission
- * 2. Iterate through all the form elements and focus on them
- * 3. Scroll to the form element
- * @returns {object} refs - an array of references to be used in the form elements, each ref from an element is pushed into this array.
- * @example ref={(node) => refs.curent.push(node)}
- *
- * @returns {function} onSubmit - a function that takes in the event and a callback function to be executed after the form submission is handled.
- * @example onSubmit={(e) => onSubmit(e, callback)}
+ * useForm is a custom hook that is used to handle form submissions.
+ * @params zod - the zod object schema to be used for validation
+ * @returns {function} addRefs - an array of references to be used in the form elements, each ref from an element is pushed into this array.
+ * @returns {function} onSubmit - a function that takes in an event and a callback function to be executed after the form submission is handled.
+ * @returns {function} validate - a function that takes in an id and a value to be validated.
  */
-export const useForm = () => {
-  const refs = useRef<Array<HTMLInputElement | null>>([]);
+export const useForm = (zod?: ReturnType<typeof z.object>) => {
+  const refs = useRef<Array<HTMLElement | null>>([]);
+
+  /**
+   * @param node - the node to be added to the refs array
+   * @example ref={(node) => addRefs(node)}
+   */
+  const addRefs = <T>(node: T extends HTMLElement ? T : null) =>
+    refs.current.push(node);
+
+  /**
+   * @params id - the id of the element to be validated
+   * @params value - the value of the element to be validated
+   */
+  const validate = (id: string, value: string) => {
+    if (!zod) return "";
+    const checkValue = isNumber.test(value) ? +value : value;
+    const subsetSchema = zod.pick({ [id]: true });
+    const result = subsetSchema.safeParse({
+      [id]: checkValue === "" ? undefined : checkValue,
+    });
+
+    if (result && !result.success) {
+      const {
+        error: { issues: data },
+      } = result;
+      return data[0].message;
+    }
+    return "";
+  };
 
   const submitActions = (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
@@ -29,9 +54,11 @@ export const useForm = () => {
     });
   };
 
-  const addRefs = <T>(node: T extends HTMLInputElement ? T : null) =>
-    refs.current.push(node);
-
+  /**
+   * @param callback - the callback function to be executed after the form submission is handled.
+   * @param e - the event object
+   * @example onSubmit(() => console.log("Form submitted!"));
+   */
   const onSubmit = (
     callback: () => void,
     e?: React.FormEvent<HTMLFormElement>
@@ -39,5 +66,6 @@ export const useForm = () => {
     submitActions(e);
     callback();
   };
-  return { addRefs, onSubmit };
+
+  return { addRefs, onSubmit, validate };
 };

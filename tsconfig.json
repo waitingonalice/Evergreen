@@ -1,10 +1,7 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": ["ES2019", "DOM", "DOM.Iterable"],
-    "paths": {
-      "~/*": ["./frontend/src/*", "./backend/src/*"]
-    }
+    "lib": ["ES2019", "DOM", "DOM.Iterable"]
   },
   "extends": "./backend/tsconfig.json"
 }

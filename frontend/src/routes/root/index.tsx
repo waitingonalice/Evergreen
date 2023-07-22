@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import { Button, Text } from "~/components";
 import { clientRoutes } from "~/constants";
-import { Text, Button } from "~/components";
 
 const Root = () => (
   <>

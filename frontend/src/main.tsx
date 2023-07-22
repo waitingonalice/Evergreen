@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { OnboardLayout, Login, Register, Dashboard, Root } from "~/routes";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout } from "~/components";
-import "../styles/index.css";
+import { Dashboard, Login, OnboardLayout, Register, Root } from "~/routes";
 import "../styles/animations.css";
+import "../styles/index.css";
 
 const router = createBrowserRouter([
   {

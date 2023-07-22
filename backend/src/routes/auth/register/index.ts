@@ -1,39 +1,34 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { register, sendEmailVerification, verify } from "~/middleware";
-import { RegisterProps } from "~/types/register";
+import { ErrorEnum } from "~/constants/enum";
 import { Rest, isEmptyObjectValue } from "~/utils";
+import { sendEmailVerification } from "./middleware/emailVerification";
+import { RegisterProps, register } from "./middleware/registerHash";
 
 const router = Rest.express.Router();
 
 router.post("/register", async (req: Request, res: Response) => {
   const requestBody: RegisterProps = req.body;
   try {
-    if (isEmptyObjectValue(requestBody))
-      return res.status(400).json({ message: "400002" });
+    if (isEmptyObjectValue(requestBody)) throw new Error(ErrorEnum.EMPTY_BODY);
     const registerData = await register(requestBody);
     await sendEmailVerification(registerData);
     return res.json({
       data: registerData,
-      message: "A verification link has been sent to your account.",
     });
   } catch (err: unknown) {
     // to catch prisma errors
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       switch (err.code) {
         case "P2002":
-          return res.status(400).json({ message: "400001" });
+          return res.status(400).json({ code: ErrorEnum.DUPLICATE_EMAIL });
         default:
+          return res.status(500).json({ code: err.message });
       }
-    }
-    return res.status(500).json({ message: "500000" });
+    } else if (err instanceof Error)
+      return res.status(500).json({ code: err.message });
+    return res.status(500).json({ code: ErrorEnum.INTERNAL_SERVER_ERROR });
   }
-});
-
-router.get("/verify/:token", async (req: Request, res: Response) => {
-  const jwtToken = req.params.token;
-  const message = await verify(jwtToken);
-  return res.json({ message });
 });
 
 export default router;

@@ -1,8 +1,9 @@
 import { z } from "zod";
-import { Button, Input, Text, FormSelect } from "~/components";
+import { Button, FormSelect, Input, Text } from "~/components";
 import { clientRoutes, countryOptions } from "~/constants";
 import { useForm } from "~/utils";
 
+let password: string;
 const registrationSchema = z.object({
   firstName: z
     .string({
@@ -33,19 +34,23 @@ const registrationSchema = z.object({
     .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).+$/, {
       message:
         "Password should contain at least one number, one uppercase character and one lowercase character",
-    }),
+    })
+    .refine((val) => (password = val)),
+  confirmPassword: z
+    .string({ required_error: "This field is required" })
+    .refine((val) => val === password, { message: "Passwords do not match" }),
   country: z.string({ required_error: "This field is required" }),
 });
 
 const Register = () => {
-  const { addRefs, onSubmit } = useForm();
+  const { addRefs, onSubmit, validate } = useForm(registrationSchema);
 
   const handleSubmit = () => console.log("submit");
 
   return (
     // TODO: Add onSubmit handler to form and validate inputs
     <form
-      className="flex w-full flex-col  gap-y-4 sm:w-1/2 lg:w-full"
+      className="flex w-full flex-col gap-y-4 sm:w-1/2 lg:w-full"
       onSubmit={(e) => onSubmit(handleSubmit, e)}
     >
       <Text type="subhead-1" className="text-primary box mb-4 font-bold">
@@ -54,14 +59,14 @@ const Register = () => {
       <Input
         id="firstName"
         label={{ text: "First Name", required: true }}
-        rules={registrationSchema}
+        validate={validate}
         ref={addRefs}
         placeholder="John"
       />
       <Input
         id="lastName"
         label={{ text: "Last Name", required: true }}
-        rules={registrationSchema}
+        validate={validate}
         ref={addRefs}
         placeholder="Appleseed"
       />
@@ -69,7 +74,7 @@ const Register = () => {
         id="email"
         type="email"
         label={{ text: "Email", required: true }}
-        rules={registrationSchema}
+        validate={validate}
         ref={addRefs}
         placeholder="johnappleseed@xyz.com"
       />
@@ -77,16 +82,23 @@ const Register = () => {
         id="password"
         type="password"
         label={{ text: "Password", required: true }}
-        rules={registrationSchema}
+        validate={validate}
         ref={addRefs}
       />
-      {/* TODO: Build form select component to support country dropdown */}
+
+      <Input
+        id="confirmPassword"
+        type="password"
+        label={{ text: "Confirm Password", required: true }}
+        validate={validate}
+        ref={addRefs}
+      />
       <FormSelect
         id="country"
         label={{ text: "Country", required: true }}
         options={countryOptions}
         placeholder="Select a country"
-        rules={registrationSchema}
+        validate={validate}
         ref={addRefs}
       />
       <div className="mt-2 flex justify-between">
