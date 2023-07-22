@@ -17,7 +17,8 @@
     "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint",
     "typecheck": "run-p typecheck:*",
     "typecheck:frontend": "tsc --noEmit --skipLibCheck --project ./frontend/tsconfig.json",
-    "typecheck:backend": "tsc --noEmit --skipLibCheck --project ./backend/tsconfig.json"
+    "typecheck:backend": "tsc --noEmit --skipLibCheck --project ./backend/tsconfig.json",
+    "prettier:write": "prettier . --write"
   },
   "config": {
     "commitizen": {
@@ -25,6 +26,7 @@
     }
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
     "eslint": "^8.39.0",
@@ -33,7 +35,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.31.11",
-    "husky": "^8.0.2",
+    "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.1",
@@ -48,7 +50,7 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
-      "tsc-files  --noEmit --skipLibCheck",
+      "bash -c tsc --noEmit",
       "yarn lint:eslint",
       "prettier --write --ignore-unknown"
     ]

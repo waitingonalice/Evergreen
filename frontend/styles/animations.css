@@ -1,7 +1,8 @@
 /* keyframes */
 
 @keyframes slight-bounce {
-  0%,100% {
+  0%,
+  100% {
     transform: translateY(3%);
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
@@ -16,15 +17,15 @@
 }
 
 /* timing functions */
-.ease-linear{
+.ease-linear {
   animation-timing-function: linear;
 }
 
 .ease-in {
-animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
+  animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
 
-.ease-out{
+.ease-out {
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 

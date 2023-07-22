@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { Topbar, NavMenu } from "~/components";
+import { NavMenu, Topbar } from "~/components";
 
 function Layout() {
   return (
