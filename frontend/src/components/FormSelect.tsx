@@ -59,9 +59,10 @@ const FormSelect = forwardRef(
         </span>
         <div className="relative mt-1">
           <select
+            id={id}
             ref={ref}
             className={clsx(
-              "disabled:text-disabled disabled:ring-disabled block w-full rounded-md border-0 py-2 text-sm ring-1 transition-all duration-100 focus:ring-2 focus:ring-offset-1 disabled:cursor-not-allowed",
+              "disabled:text-disabled disabled:ring-disabled block w-full rounded-md border-0 py-2.5 text-sm tracking-wide ring-1 transition-all duration-100 focus:ring-2 focus:ring-offset-1 disabled:cursor-not-allowed",
               error
                 ? "focus:ring-errorSecondary ring-errorSecondary pr-10"
                 : "focus:ring-secondary text-dark ring-gray-400",

@@ -3,16 +3,16 @@ module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      sans: ["roboto", "sans-serif"],
+      sans: ["Manrope"],
     },
     extend: {
       colors: {
-        primary: "#065f46", // emerald-800
-        secondary: "#059669", // emerald-600
-        tertiary: "#22c55e", // green-500
-        errorMain: "#b91c1c", // red-700
-        errorSecondary: "#ef4444", // red-500
-        errorTertiary: "#f43f5e", // rose 500
+        primary: "#047857", // emerald-700
+        secondary: "#065f46", // emerald-800
+        tertiary: "#064e3b", // emerald-900
+        errorMain: "#dc2626", // red-600
+        errorSecondary: "#b91c1c", // red-700
+        errorTertiary: "#991b1b", // red 800
         important: "#fffbeb", // amber-50
         standard: "#e5e5e5", // gray-200
         dark: "#111827", // gray-900

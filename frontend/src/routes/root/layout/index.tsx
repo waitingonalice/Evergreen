@@ -7,7 +7,7 @@ const RootLayout = () => (
       <Outlet />
     </div>
 
-    <div className="bg-primary flex h-auto flex-col p-4 lg:w-2/3">
+    <div className="bg-secondary flex h-auto flex-col p-4 lg:w-2/3">
       <div className="flex h-screen flex-col items-center justify-center text-center">
         <Text
           type="h1"
@@ -21,20 +21,10 @@ const RootLayout = () => (
       </div>
       <footer className="flex justify-center gap-x-4">
         <a href="https://github.com/waitingonalice/Expense-tracker">
-          <img
-            alt="github"
-            src="/github-mark.svg"
-            width={24}
-            className="text-primary"
-          />
+          <img alt="github" src="/github-mark.svg" width={24} />
         </a>
         <a href="https://www.linkedin.com/in/wilson-sie-6a3485155/">
-          <img
-            alt="linkedIn"
-            src="/linkedIn.svg"
-            width={24}
-            className="text-primary"
-          />
+          <img alt="linkedIn" src="/linkedIn.svg" width={24} />
         </a>
       </footer>
     </div>

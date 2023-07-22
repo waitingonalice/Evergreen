@@ -1,4 +1,4 @@
-export enum CountryEnums {
+export enum CountryEnum {
   AF = "Afghanistan",
   AX = "AlandIslands",
   AL = "Albania",
@@ -255,4 +255,4 @@ export const enumsToOptions = (objects: Record<string, string>) =>
     value: key,
   }));
 
-export const countryOptions = enumsToOptions(CountryEnums);
+export const countryOptions = enumsToOptions(CountryEnum);

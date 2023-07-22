@@ -3,7 +3,7 @@ import { Text } from "~/components";
 
 interface ButtonProps {
   className?: string;
-  type: "submit" | "button" | "reset";
+
   variant:
     | "errorLink"
     | "error"
@@ -15,14 +15,13 @@ interface ButtonProps {
   value?: string;
   id: string;
   children: React.ReactNode;
-  onClickHandlder?: () => void;
+  onClick?: () => void;
 }
 
 const FormButton = ({
-  type,
   id,
   value,
-  onClickHandlder,
+  onClick,
   children,
   disabled,
   variant = "primary",
@@ -35,19 +34,19 @@ const FormButton = ({
     "whitespace-nowrap transition-all duration-100 disabled:cursor-not-allowed disabled:opacity-30";
 
   const baseStyleButton =
-    "px-4 py-2 first-letter:focus:outline-none shadow-sm ring-1 focus:ring-2 focus:ring-offset-1 rounded-md hover:ring-2";
+    "px-4 py-2 first-letter:focus:outline-none shadow-sm rounded-md";
 
   const variantMapper = {
     primary: clsx(
-      "bg-primary hover:enabled:bg-secondary text-important focus:ring-tertiary hover:ring-secondary",
+      "bg-primary hover:enabled:bg-secondary text-important active:enabled:bg-tertiary",
       baseStyleButton
     ),
     secondary: clsx(
-      "bg-important text-primary hover:enabled:bg-standard focus:ring-tertiary hover:ring-standard",
+      "bg-important text-primary hover:enabled:bg-green-50 active:enabled:bg-green-100 border-2 border-primary",
       baseStyleButton
     ),
     error: clsx(
-      "bg-errorMain text-important hover:enabled:bg-errorSecondary focus:ring-errorTertiary hover:ring-errorSecondary",
+      "bg-errorMain text-important hover:enabled:bg-errorSecondary active:enabled:bg-errorTertiary",
       baseStyleButton
     ),
     primaryLink: "hover:text-secondary text-primary",
@@ -59,11 +58,11 @@ const FormButton = ({
     <button
       id={id}
       // eslint-disable-next-line react/button-has-type
-      type={type}
+      type="button"
       className={clsx(baseStyle, variantMapper[variant], className)}
       disabled={disabled}
       value={value}
-      onClick={onClickHandlder && onClickHandlder}
+      onClick={onClick && onClick}
     >
       <Text type="button">{children}</Text>
     </button>
