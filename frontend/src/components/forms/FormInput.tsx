@@ -1,4 +1,8 @@
-import { ExclamationCircleIcon } from "@heroicons/react/20/solid";
+import {
+  ExclamationCircleIcon,
+  EyeIcon,
+  EyeSlashIcon,
+} from "@heroicons/react/20/solid";
 import { Ref, forwardRef, useState } from "react";
 import clsx from "clsx";
 import { ErrorMessage, Label } from "~/components";
@@ -8,31 +12,33 @@ interface InputProps {
   id: string;
   label: { required?: boolean; text: string };
   validate?: ReturnType<typeof useForm>["validate"];
-  type?: HTMLInputElement["type"];
   placeholder?: string;
-  defaultValue?: string;
+  value: string;
   className?: string;
   disabled?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  isPassword?: boolean;
 }
 
-// Uncontrolled form input component
+// controlled form input component
 const FormInput = forwardRef(
   (
     {
       id,
-      type = "text",
       validate,
       label,
       placeholder,
-      defaultValue,
+      value,
       className,
       onChange,
       disabled,
+      isPassword,
     }: InputProps,
     ref: Ref<HTMLInputElement>
   ) => {
     const [error, setError] = useState("");
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const Icon = isPasswordVisible ? EyeIcon : EyeSlashIcon;
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (validate && error) {
@@ -60,7 +66,7 @@ const FormInput = forwardRef(
           <input
             disabled={disabled}
             ref={ref}
-            type={type}
+            type={isPassword && !isPasswordVisible ? "password" : "text"}
             id={id}
             className={clsx(
               "block w-full rounded-md border-0 py-2.5 text-sm tracking-wide placeholder-gray-300 ring-1 transition-all duration-100 focus:ring-2 focus:ring-offset-1",
@@ -70,15 +76,29 @@ const FormInput = forwardRef(
               className
             )}
             placeholder={placeholder}
-            defaultValue={defaultValue}
+            value={value}
             onBlur={(e) => handleOnBlur(e)}
             onChange={(e) => handleOnChange(e)}
           />
-          {error && (
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+          {error && !isPassword && (
+            <div
+              className={clsx(
+                "pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
+              )}
+            >
               <ExclamationCircleIcon
                 className="text-errorMain h-5 w-5"
                 aria-hidden="true"
+              />
+            </div>
+          )}
+          {isPassword && (
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+              <Icon
+                className="text-gray-500 h-5 w-5"
+                role="button"
+                tabIndex={0}
+                onClick={() => setIsPasswordVisible((prev) => !prev)}
               />
             </div>
           )}

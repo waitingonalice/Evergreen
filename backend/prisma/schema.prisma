@@ -11,8 +11,7 @@ datasource db {
 }
 
 model Account {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  email     String   @id @unique
   password  String   @db.VarChar(255)
   firstName String
   lastName  String

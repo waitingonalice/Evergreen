@@ -2,7 +2,6 @@ import clsx from "clsx";
 
 interface ButtonProps {
   className?: string;
-
   variant:
     | "errorLink"
     | "error"
@@ -12,7 +11,7 @@ interface ButtonProps {
     | "secondaryLink";
   disabled?: boolean;
   value?: string;
-  id: string;
+  id?: string;
   children: React.ReactNode;
   onClick?: () => void;
 }
@@ -48,9 +47,12 @@ const FormButton = ({
       "bg-errorMain text-important hover:enabled:bg-errorSecondary active:enabled:bg-errorTertiary",
       baseStyleButton
     ),
-    primaryLink: "hover:text-secondary text-primary",
-    secondaryLink: "hover:text-standard text-important",
-    errorLink: "text-errorMain hover:text-errorSecondary",
+    primaryLink:
+      "hover:text-secondary text-primary active:enabled:text-tertiary",
+    secondaryLink:
+      "hover:text-standard text-important active:enabled:text-green-100",
+    errorLink:
+      "text-errorMain hover:text-errorSecondary active:enabled:text-errorTertiary",
   };
 
   return (

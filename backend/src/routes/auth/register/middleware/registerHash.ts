@@ -31,7 +31,6 @@ export const register = async (input: RegisterProps) => {
       token: token ?? "",
     },
     select: {
-      id: true,
       email: true,
       firstName: true,
       lastName: true,
