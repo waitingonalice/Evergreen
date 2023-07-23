@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Layout } from "~/components";
-import { Dashboard, Login, OnboardLayout, Register, Root } from "~/routes";
+import { Layout, OnboardLayout } from "~/components";
+import { Dashboard, Login, Register, Root } from "~/routes";
 import "../styles/animations.css";
 import "../styles/index.css";
 
@@ -24,8 +26,12 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>
 );

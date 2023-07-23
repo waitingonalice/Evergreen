@@ -13,6 +13,7 @@ module.exports = {
         errorMain: "#dc2626", // red-600
         errorSecondary: "#b91c1c", // red-700
         errorTertiary: "#991b1b", // red 800
+        errorLight: "#ffd9d9",
         important: "#fffbeb", // amber-50
         standard: "#e5e5e5", // gray-200
         dark: "#111827", // gray-900

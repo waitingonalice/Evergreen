@@ -49,11 +49,11 @@ export const useForm = ({ zod, data }: UseFormType) => {
             const hasCustomMessage = "message" in schemaCheck;
             // custom message goes here
             if (schemaCheck.kind === "min" && !hasCustomMessage) {
-              schemaCheck.message = "This field is required";
+              schemaCheck.message = "This field is required.";
             }
 
             if (schemaCheck.kind === "max" && !hasCustomMessage) {
-              schemaCheck.message = `This field cannot be longer than ${schemaCheck.value} characters`;
+              schemaCheck.message = `This field cannot be longer than ${schemaCheck.value} characters.`;
             }
           }
         }

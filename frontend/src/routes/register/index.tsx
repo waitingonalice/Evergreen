@@ -1,20 +1,11 @@
 import { useState } from "react";
 import { z } from "zod";
-import { Button, FormSelect, Input, Text } from "~/components";
-import { CountryEnum, clientRoutes, countryOptions } from "~/constants";
-import { useForm } from "~/utils";
+import { Alert, Button, FormSelect, Input, Spinner, Text } from "~/components";
+import { clientRoutes, countryOptions } from "~/constants";
+import { errorMap, useForm } from "~/utils";
+import { RegisterUserInputType, useRegisterUser } from "./loaders/registerUser";
 
-interface FieldTypes {
-  firstName?: string;
-  lastName?: string;
-  country?: CountryEnum;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-}
-
-let password: string;
-const registrationSchema = () =>
+const registrationSchema = (fields: RegisterUserInputType | undefined) =>
   z.object({
     firstName: z.string().min(1),
     lastName: z.string().min(1),
@@ -30,32 +21,38 @@ const registrationSchema = () =>
       .regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).+$/, {
         message:
           "Password should contain at least one number, one uppercase character and one lowercase character",
-      })
-      .refine((val) => (password = val)),
+      }),
     confirmPassword: z
       .string()
       .min(1)
-      .refine((val) => val === password, { message: "Passwords do not match" }),
+      .refine((val) => val === fields?.password, {
+        message: "Passwords do not match",
+      }),
     country: z.string().min(1),
   });
 
 const Register = () => {
-  const [fields, setFields] = useState<FieldTypes>();
+  const [fields, setFields] = useState<RegisterUserInputType>({});
   const { ref, onSubmitValidate, validate } = useForm({
-    zod: registrationSchema(),
-    data: fields ?? {},
+    zod: registrationSchema(fields),
+    data: fields,
   });
+  const { mutate, isLoading, error } = useRegisterUser();
 
   const handleInputOnChange = (id: string, value: string) =>
     setFields((prev) => ({ ...prev, [id]: value }));
 
   const handleSubmit = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const success = onSubmitValidate();
+    if (success) mutate(fields);
   };
 
   return (
     <div className="flex w-full flex-col gap-y-4 sm:w-1/2 lg:w-full">
+      {errorMap(error) ? (
+        <Alert title={errorMap(error)} show={Boolean(errorMap(error))} />
+      ) : null}
+
       <Text type="subhead-1" className="text-primary box mb-4 font-bold">
         Sign Up
       </Text>
@@ -120,7 +117,7 @@ const Register = () => {
           className="w-fit"
           onClick={handleSubmit}
         >
-          Register
+          {isLoading ? <Spinner /> : "Register"}
         </Button>
       </div>
     </div>

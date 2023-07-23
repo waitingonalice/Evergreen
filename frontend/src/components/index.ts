@@ -1,10 +1,13 @@
-export { default as Button } from "./FormButton";
-export { default as Input } from "./FormInput";
-export { default as Label } from "./FormLabel";
-export { default as ErrorMessage } from "./FormError";
-export { default as Layout } from "./layout";
-export { default as NavMenu } from "./layout/Navigation";
-export { default as Topbar } from "./layout/Topbar";
-export { default as FormSelect } from "./FormSelect";
+export { default as Button } from "./button";
+export { default as Input } from "./forms/FormInput";
+export { default as Label } from "./forms/FormLabel";
+export { default as ErrorMessage } from "./forms/FormError";
+export { default as Layout } from "./layout/main";
+export { default as NavMenu } from "./layout/main/Navigation";
+export { default as Topbar } from "./layout/main/Topbar";
+export { default as FormSelect } from "./forms/FormSelect";
+export { default as OnboardLayout } from "./layout/Public";
+export * from "./alert";
+export * from "./spinner";
 
-export * from "./Text";
+export * from "./text";

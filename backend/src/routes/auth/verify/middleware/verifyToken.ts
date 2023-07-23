@@ -55,9 +55,9 @@ export const verify = async (confirmationCode: RegisterDataType["token"]) => {
         }
         break;
       default:
-        return { code: ErrorEnum.INVALID_TOKEN };
+        return { code: ErrorEnum.INTERNAL_SERVER_ERROR };
     }
     if (err instanceof Error) return { code: err.message };
   }
-  return { code: ErrorEnum.EMAIL_NOT_FOUND };
+  return { code: ErrorEnum.INTERNAL_SERVER_ERROR };
 };

@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { Text } from "~/components";
 
 interface ButtonProps {
   className?: string;
@@ -31,7 +30,7 @@ const FormButton = ({
   // Secondary to be used on green background
 
   const baseStyle =
-    "whitespace-nowrap transition-all duration-100 disabled:cursor-not-allowed disabled:opacity-30";
+    "whitespace-nowrap transition-all duration-100 disabled:cursor-not-allowed disabled:opacity-30 text-[14px] font-medium tracking-[0.0125em]";
 
   const baseStyleButton =
     "px-4 py-2 first-letter:focus:outline-none shadow-sm rounded-md";
@@ -64,7 +63,7 @@ const FormButton = ({
       value={value}
       onClick={onClick && onClick}
     >
-      <Text type="button">{children}</Text>
+      {children}
     </button>
   );
 };
