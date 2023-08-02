@@ -8,6 +8,7 @@ import { useVerifyUser } from "./loaders/verify";
 const Verify = () => {
   const [searchParams] = useSearchParams();
   const { isLoading, error } = useVerifyUser(searchParams.get("code") ?? "");
+
   return (
     <div className="flex flex-col items-center text-center justify-center w-full gap-y-4">
       {isLoading ? (

@@ -1,3 +1,5 @@
+import { UseQueryOptions, useQuery } from "react-query";
+
 type SuccessfulResponse = Record<"data", unknown>;
 type ErrorResponse = Record<"code", string>;
 type ResponseType = SuccessfulResponse | ErrorResponse;
@@ -28,3 +30,11 @@ export const request = async <Response extends ResponseType, Variables>({
   } else if (!response.ok) throw new Error(`${response.status}`);
   return res;
 };
+
+export const useFetch = (args: UseQueryOptions) =>
+  useQuery({
+    ...args,
+    retry: "retry" in args ? args.retry : false,
+    refetchOnWindowFocus:
+      "refetchOnWindowFocus" in args ? args.refetchOnWindowFocus : false,
+  });

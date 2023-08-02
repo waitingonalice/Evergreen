@@ -1,6 +1,5 @@
-import { useQuery } from "react-query";
 import { apiRoutes } from "~/constants";
-import { request } from "~/utils/fetch";
+import { request, useFetch } from "~/utils/fetch";
 
 interface VerifyUserResponseType {
   data: {
@@ -9,11 +8,11 @@ interface VerifyUserResponseType {
 }
 
 export const useVerifyUser = (token: string) =>
-  useQuery({
+  useFetch({
+    queryKey: ["verify", token],
     queryFn: () =>
       request<VerifyUserResponseType, undefined>({
         url: apiRoutes.auth.verify(token),
         method: "GET",
       }),
-    retry: false,
   });

@@ -51,7 +51,11 @@ const Register = () => {
   return (
     <div className="w-full sm:w-1/2 lg:w-full">
       {errorMap(error) ? (
-        <Alert title={errorMap(error)} show={Boolean(errorMap(error))} />
+        <Alert
+          className="mb-4"
+          title={errorMap(error)}
+          show={Boolean(errorMap(error))}
+        />
       ) : null}
 
       {data ? (
