@@ -4,6 +4,7 @@ export const clientRoutes = {
   root: "/",
   login: "/login",
   register: "/register",
+  verify: "/verify",
 };
 
 export const apiRoutes = {

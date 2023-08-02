@@ -5,15 +5,15 @@ export const errorMap = (error: unknown): string | undefined => {
       case "400000":
         return "Bad Request";
       case "400001":
-        return "This email already exists";
+        return "This email already exists.";
       case "400002":
-        return "Empty request body";
+        return "Empty request body.";
       case "400003":
-        return "An invalid email was provided";
+        return "An invalid email was provided.";
       case "400004":
-        return "Failed to create account";
+        return "Failed to create account.";
       case "400005":
-        return "This email has already been verified";
+        return "This email has already been verified.";
       case "400006":
         return "Invalid token";
       case "400007":

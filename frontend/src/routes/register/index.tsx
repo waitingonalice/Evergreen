@@ -38,14 +38,14 @@ const Register = () => {
     zod: registrationSchema(fields),
     data: fields,
   });
-  const { mutate, isLoading, error, data } = useRegisterUser();
+  const { mutate: createAccount, isLoading, error, data } = useRegisterUser();
 
   const handleInputOnChange = (id: string, value: string) =>
     setFields((prev) => ({ ...prev, [id]: value }));
 
   const handleSubmit = () => {
     const success = onSubmitValidate();
-    if (success) mutate(fields);
+    if (success) createAccount(fields);
   };
 
   return (
