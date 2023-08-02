@@ -21,23 +21,21 @@ export const register = async (input: RegisterProps) => {
     });
   const hash = confirmPassword && (await bcrypt.hash(confirmPassword, 10));
 
-  const createAccount = await db.account.create({
+  const account = await db.account.create({
     data: {
       email,
       country,
       firstName,
       lastName,
       password: hash,
-      token: token ?? "",
     },
     select: {
       email: true,
       firstName: true,
       lastName: true,
       country: true,
-      token: true,
     },
   });
-  if (!createAccount) throw new Error(ErrorEnum.CREATION_ACCOUNT_FAILED);
-  return createAccount;
+  if (!account) throw new Error(ErrorEnum.CREATION_ACCOUNT_FAILED);
+  return { account, token };
 };

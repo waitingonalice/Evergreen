@@ -16,7 +16,6 @@ model Account {
   firstName String
   lastName  String
   country   String
-  token     String   @unique
   active    Boolean  @default(false)
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())

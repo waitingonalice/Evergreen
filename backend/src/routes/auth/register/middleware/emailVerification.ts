@@ -16,10 +16,10 @@ export const sendEmailVerification = async (
   transporter.sendMail(
     {
       from: process.env.SUPPORT_EMAIL_ADDRESS,
-      to: registeredData.email,
+      to: registeredData.account.email,
       subject: "Email verification",
       html: `<h1>Email Confirmation for Expense Tracker</h1>
-        <h2>Hello ${registeredData.firstName}</h2>
+        <h2>Hello ${registeredData.account.firstName}</h2>
         <p>Thank you for registering. Please confirm your email by clicking on the following link below.</p>
         <a href=${process.env.DOMAIN_URL}/verify?code=${registeredData.token}> Click here</a>
         </div>`,

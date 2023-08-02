@@ -1,37 +1,32 @@
 import jwt from "jsonwebtoken";
 import { ErrorEnum } from "~/constants/enum";
 import { db } from "~/utils";
-import { register } from "../../register/middleware/registerHash";
 
 enum JwtErrorMessage {
   EXPIRED = "jwt expired",
   INVALID = "invalid signature",
 }
 
-type RegisterDataType = Awaited<ReturnType<typeof register>>;
+interface DecodedType {
+  data: {
+    email: string;
+    country: string;
+  };
+}
 
-const findAccountByToken = async (token: RegisterDataType["token"]) => {
+export const verify = async (token: string) => {
+  const decoded = (process.env.SESSION_SECRET &&
+    jwt.verify(token, process.env.SESSION_SECRET)) as DecodedType | undefined;
+  const email = decoded?.data.email;
   const account = await db.account.findUnique({
-    where: {
-      token,
-    },
-    select: { email: true, active: true },
+    where: { email },
+    select: { active: true },
   });
-  if (!account) throw new Error(ErrorEnum.EMAIL_NOT_FOUND);
-  return account;
-};
-
-export const verify = async (confirmationCode: RegisterDataType["token"]) => {
-  const account = await findAccountByToken(confirmationCode);
   try {
-    const decoded =
-      process.env.SESSION_SECRET &&
-      jwt.verify(confirmationCode, process.env.SESSION_SECRET);
-
     // if account is not active and token is valid, verify the account by setting active to true
-    if (!account?.active && decoded) {
+    if (!account?.active && email) {
       const data = await db.account.update({
-        where: { email: account?.email },
+        where: { email },
         data: { active: true },
         select: { email: true },
       });
@@ -48,7 +43,7 @@ export const verify = async (confirmationCode: RegisterDataType["token"]) => {
         if (!account?.active) {
           await db.account
             .delete({
-              where: { token: confirmationCode },
+              where: { email },
             })
             .catch((err) => console.error(err));
           return { code: ErrorEnum.EXPIRED_TOKEN };

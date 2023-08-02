@@ -54,7 +54,9 @@ const Register = () => {
         <Alert title={errorMap(error)} show={Boolean(errorMap(error))} />
       ) : null}
 
-      {!data ? (
+      {data ? (
+        <RegistrationSuccess />
+      ) : (
         <div className="flex flex-col gap-y-4">
           <Text type="subhead-1" className="text-primary box mb-4 font-bold">
             Sign Up
@@ -128,8 +130,6 @@ const Register = () => {
             </Button>
           </div>
         </div>
-      ) : (
-        <RegistrationSuccess />
       )}
     </div>
   );
