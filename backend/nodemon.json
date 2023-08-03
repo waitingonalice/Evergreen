@@ -1,0 +1,6 @@
+{
+  "exec": "yarn ts-node ./src/server.ts",
+  "ext": ".ts,.js",
+  "ignore": [],
+  "watch": ["src"]
+}

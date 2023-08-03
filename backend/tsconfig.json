@@ -6,17 +6,19 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "lib": ["ES2019"],
+    "lib": ["es6"],
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "noEmit": true,
+    "outDir": "build",
     "paths": {
       "~/*": ["*"]
     },
     "resolveJsonModule": true,
+    "rootDir": "./src",
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2019",
+    "target": "es5",
+    "types": ["node"],
     "useDefineForClassFields": true
   },
   "exclude": ["node_modules"],
