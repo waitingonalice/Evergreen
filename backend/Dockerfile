@@ -7,7 +7,7 @@ FROM node:${NODE_VERSION}-slim as base
 LABEL fly_launch_runtime="Node.js/Prisma"
 
 # Node.js/Prisma app lives here
-WORKDIR /app
+WORKDIR /backend
 
 # Set production environment
 ENV NODE_ENV="production"
@@ -47,8 +47,8 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built application
-COPY --from=build /app /app
+COPY --from=build /backend /backend
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 8000
+EXPOSE 3000
 CMD [ "yarn", "run", "start" ]
