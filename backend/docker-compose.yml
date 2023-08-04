@@ -1,12 +1,12 @@
 version: "3.8"
 
 services:
-  express-tracker-server:
+  server:
     build: 
       context:  .
       args: 
         NODE_VERSION: 18.0.0
-    image: ae5ad2782abd
+    image: expense-tracker-server
     env_file: 
       - .env
     ports: 
