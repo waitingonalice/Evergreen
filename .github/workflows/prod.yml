@@ -1,5 +1,4 @@
-name: Fly deploy
-
+name: PROD Deploy
 on:
   push:
     branches:
@@ -35,7 +34,7 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v3
-      - name: Login to fly 
-        run: fly auth login -t ${{ secrets.FLY_API_TOKEN }}
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy -a expense-tracker-best --remote-only
+        env:
+            FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }} 
