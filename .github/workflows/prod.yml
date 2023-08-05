@@ -27,7 +27,7 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: "${{ secrets.DOCKERHUB_USERNAME }}"/expense-tracker-server:latest
+          tags: wilsonsie/expense-tracker-server:latest
 
   deploy:
     needs: build
