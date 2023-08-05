@@ -1,22 +1,30 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
-    "useDefineForClassFields": true,
-    "lib": ["ES2019"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "baseUrl": "./src",
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "lib": ["es6"],
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
+    "outDir": "build",
     "paths": {
-      "~/*": ["./src/*"]
-    }
+      "~/*": ["*"]
+    },
+    "resolveJsonModule": true,
+    "rootDir": "./src",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es5",
+    "types": ["node"],
+    "useDefineForClassFields": true
   },
-  "include": ["**/*.ts"]
+  "exclude": ["node_modules"],
+  "include": ["**/*.ts"],
+  // "references" is not supported in nodejs, need to manually add here.
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }

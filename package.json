@@ -1,14 +1,58 @@
 {
+  "name": "expense-tracker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:waitingonalice/Expense-tracker.git",
+  "author": "Wilson <fcsie55@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "commitizen": "^4.2.5"
   },
   "scripts": {
-    "commit": "git-cz"
+    "dev:backend": "cd ./backend && yarn dev",
+    "dev:frontend": "cd ./frontend && yarn dev",
+    "commit": "git-cz",
+    "prepare": "husky install",
+    "lint": "run-p lint:*",
+    "lint:eslint": "eslint --cache --cache-location ./node_modules/.cache/eslint",
+    "typecheck": "run-p typecheck:*",
+    "typecheck:frontend": "tsc --noEmit --skipLibCheck --project ./frontend/tsconfig.json",
+    "typecheck:backend": "tsc --noEmit --skipLibCheck --project ./backend/tsconfig.json",
+    "prettier:write": "prettier . --write"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
+    "eslint": "^8.39.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.31.11",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.1",
+    "prettier-plugin-sort-json": "^1.0.0",
+    "prettier-plugin-tailwindcss": "^0.2.1",
+    "tsc-files": "^1.1.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx}": [
+      "bash -c tsc --noEmit",
+      "yarn lint:eslint",
+      "prettier --write --ignore-unknown"
+    ]
+  }
 }
