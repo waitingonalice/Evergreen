@@ -22,7 +22,7 @@ jobs:
           node-version: "18.x"
       - uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./backend
           push: true
           tags: wilsonsie/expense-tracker-server:latest
 
