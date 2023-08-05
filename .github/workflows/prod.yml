@@ -23,8 +23,8 @@ jobs:
           context: ./backend
           push: true
           tags: wilsonsie/expense-tracker-server:latest
-          username: ${{ env.DOCKERHUB_USERNAME }}
-          password: ${{ env.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       env:
         DOCKER_BUILDKIT: 1
 
