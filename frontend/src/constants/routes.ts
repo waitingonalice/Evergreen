@@ -9,7 +9,7 @@ export const clientRoutes = {
 
 export const apiRoutes = {
   auth: {
-    register: `${api}/auth/register`,
-    verify: (token: string) => `${api}/auth/verify/${token}`,
+    register: `${api}auth/register`,
+    verify: (token: string) => `${api}auth/verify/${token}`,
   },
 };
