@@ -19,4 +19,4 @@ jobs:
           node-version: "18.x"
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
+      - run: flyctl deploy -a expense-tracker-best --remote-only
