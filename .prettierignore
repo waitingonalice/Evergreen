@@ -7,6 +7,7 @@ api/_build
 prisma/migrations
 prisma/migration_lock.toml
 yarn.lock
+.github/workflows
 # tailwind css output
 /app/styles
 
