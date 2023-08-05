@@ -20,7 +20,6 @@ jobs:
           cd backend
           npm install
           npm run build
-      - name: build docker image
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
