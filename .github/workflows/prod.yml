@@ -25,6 +25,7 @@ jobs:
       - name: Build and push the image
         uses: docker/build-push-action@v3
         with:
+          context: ./backend
           push: true
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: wilsonsie/expense-tracker-server:latest
