@@ -24,8 +24,8 @@ jobs:
           tags: wilsonsie/expense-tracker-server:latest
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      env:
-        DOCKER_BUILDKIT: 1
+          env:
+            DOCKER_BUILDKIT: 1
 
   deploy:
     needs: build
