@@ -19,6 +19,7 @@ export const register = async (input: RegisterProps) => {
     jwt.sign({ data: { email, country } }, process.env.SESSION_SECRET, {
       expiresIn: "24h",
     });
+  if (!token) throw new Error(ErrorEnum.INTERNAL_SERVER_ERROR);
   const hash = confirmPassword && (await bcrypt.hash(confirmPassword, 10));
 
   const account = await db.account.create({
