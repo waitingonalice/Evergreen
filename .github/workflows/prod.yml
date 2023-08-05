@@ -15,11 +15,6 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v3
-      - name: build backend
-        run: |
-          cd backend
-          npm install
-          npm run build
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
