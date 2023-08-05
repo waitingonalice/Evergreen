@@ -8,6 +8,6 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineConfig({
   plugins: [react(), tsconfigPaths(), svgr()],
   server: {
-    port: 5000,
+    port: 6006,
   },
 });
