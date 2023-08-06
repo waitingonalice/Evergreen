@@ -1,0 +1,24 @@
+name: Health check
+
+on:
+  pull-request:
+    branches:
+      - dev
+      - master
+  
+jobs: 
+  lint-checks: 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Run lint checks
+        run: yarn lint
+      - name: Run type checks
+        run: yarn typecheck
+    
+
+
+
