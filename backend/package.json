@@ -27,6 +27,7 @@
     "helmet": "^6.0.1",
     "jsonwebtoken": "^9.0.0",
     "nodemailer": "^6.8.0",
+    "pg": "^8.11.2",
     "zod": "^3.21.4"
   },
   "devDependencies": {
@@ -39,6 +40,7 @@
     "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "^18.11.0",
     "@types/nodemailer": "^6.4.7",
+    "@types/pg": "^8.10.2",
     "esbuild-register": "^3.3.3",
     "nodemon": "^2.0.20",
     "prisma": "5",

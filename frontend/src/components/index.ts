@@ -9,5 +9,5 @@ export { default as FormSelect } from "./forms/FormSelect";
 export { default as OnboardLayout } from "./layout/Public";
 export * from "./alert";
 export * from "./spinner";
-
+export * from "./checkbox";
 export * from "./text";

@@ -68,7 +68,12 @@ export const useForm = ({ zod, data }: UseFormType) => {
      * @param node - the node to be added to the refs array
      * @example ref={(node) => addRefs(node)}
      */
-    ref: <T>(node: T extends HTMLElement ? T : null) => refs.current.push(node),
+    ref: <T>(node: T extends HTMLElement ? T : null) => {
+      const duplicateRef = [...refs.current].find(
+        (ref) => ref && node && ref.id === node.id
+      );
+      if (!duplicateRef && node) refs.current.push(node);
+    },
 
     /**
      * @param callback - the callback function to be executed after the form submission is handled.

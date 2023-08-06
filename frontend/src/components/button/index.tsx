@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 interface ButtonProps {
   className?: string;
-  variant:
+  variant?:
     | "errorLink"
     | "error"
     | "primary"

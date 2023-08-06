@@ -15,9 +15,9 @@ const router = createBrowserRouter([
     children: [
       { path: clientRoutes.root, element: <Root /> },
       // Authentication routes
-      { path: clientRoutes.login, element: <Login /> },
-      { path: clientRoutes.register, element: <Register /> },
-      { path: clientRoutes.verify, element: <Verify /> },
+      { path: clientRoutes.auth.login, element: <Login /> },
+      { path: clientRoutes.auth.register, element: <Register /> },
+      { path: clientRoutes.auth.verify, element: <Verify /> },
     ],
   },
 

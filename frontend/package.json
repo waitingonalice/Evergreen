@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
+    "@supabase/supabase-js": "^2.31.0",
     "clsx": "^1.2.1",
     "lodash": "^4.17.21",
     "react": "^18.2.0",

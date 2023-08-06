@@ -19,9 +19,9 @@ jobs:
       - name: Install root dependencies
         run: yarn install
       - name: Install frontend dependencies 
-        run: cd ./frontend && yarn install
+        run: cd ./frontend && yarn install --frozen-lockfile
       - name: Install backend dependencies
-        run: cd ./backend && yarn install
+        run: cd ./backend && yarn install --frozen-lockfile
       - name: Run typechecks
         run: yarn typecheck
       - name: Run lint checks
