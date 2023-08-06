@@ -42,6 +42,10 @@ jobs:
     - name: Install dependencies
       run: npm install
     - run: npm run build
+    - name: Apply and resolve previously set migrations
+      run: npx prisma migrate resolve --applied
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
     - name: Run migrations
       run: npx prisma migrate deploy
       env:
