@@ -40,6 +40,8 @@ jobs:
         node-version: '18.x'
     - name: Install dependencies
       run: npm install
+    - name: generate prisma client
+      run: npx prisma generate
     - name: Run migrations
       run: yarn migrate-deploy
       env: 
