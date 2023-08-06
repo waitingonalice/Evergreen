@@ -5,11 +5,12 @@
   "main": "build/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prisma:migrate-draft": "prisma migrate dev --create-only",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:resolve": "prisma migrate resolve --applied",
+    "migrate-draft": "prisma migrate dev --create-only",
+    "migrate-dev": "prisma migrate dev",
+    "migrate-deploy": "prisma migrate deploy",
+    "resolve": "prisma migrate resolve --applied",
     "seed": "prisma db seed",
-    "dev": "yarn nodemon",
+    "dev": "nodemon",
     "build": "rm -rf ./build && yarn tsc && yarn tsc-alias -p tsconfig.json",
     "start": "node build/server.js"
   },

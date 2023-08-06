@@ -41,13 +41,13 @@ jobs:
     - name: Install dependencies
       run: npm install
     - name: Run migrations
-      run: npm prisma migrate deploy
+      run: yarn migrate-deploy
       env: 
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
    
 
   deploy-container:
-    needs: migrate
+    needs: build
     runs-on: ubuntu-latest
     environment: production
     steps:
