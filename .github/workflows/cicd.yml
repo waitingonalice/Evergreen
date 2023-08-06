@@ -25,9 +25,9 @@ jobs:
       - name: Run typechecks
         run: yarn typecheck
       - name: Run lint checks
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
+        run: yarn lint
+    
+    
        
 
 
