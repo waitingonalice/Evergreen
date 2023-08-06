@@ -9,7 +9,7 @@ defaults:
     working-directory: ./backend
 
 jobs:
-  build:
+  build-and-push-image:
     runs-on: ubuntu-latest
     environment: production
     steps:
@@ -28,8 +28,26 @@ jobs:
           push: true
           tags: wilsonsie/expense-tracker-server:latest
 
-  deploy:
-    needs: build
+  migrate:
+    needs: build-and-push-image
+    runs-on: ubuntu-latest
+    steps: 
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up Nodejs
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.x'
+    - name: Install dependencies
+      run: npm install
+    - name: Run migrations
+      run: npm prisma migrate deploy
+      env: 
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+   
+
+  deploy-container:
+    needs: migrate
     runs-on: ubuntu-latest
     environment: production
     steps:
