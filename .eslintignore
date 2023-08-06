@@ -11,5 +11,6 @@ api/_build
 prisma/migrations
 prisma/migration_lock.toml
 
+.github
 *.js
 *.d.ts

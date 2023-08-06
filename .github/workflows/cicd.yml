@@ -1,0 +1,35 @@
+name: Health check
+on: push
+
+defaults:
+  run:
+    working-directory: ./
+  
+jobs: 
+  lint-checks: 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - name: Install root dependencies
+        run: yarn install
+      - name: Install frontend dependencies 
+        run: cd ./frontend && yarn install
+      - name: Install backend dependencies
+        run: cd ./backend && yarn install
+      - name: Run typechecks
+        run: yarn typecheck
+      - name: Run lint checks
+        run: yarn lint
+    
+    
+       
+
+
+
+
