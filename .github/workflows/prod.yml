@@ -35,16 +35,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Set up Nodejs
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: '18.x'
     - name: Install dependencies
       run: npm install
-    - name: generate prisma client
-      run: npx prisma generate
+    - run: npm run build
     - name: Run migrations
-      run: yarn migrate-deploy
-      env: 
+      run: npx prisma migrate deploy
+      env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
    
 
