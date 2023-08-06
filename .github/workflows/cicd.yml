@@ -1,5 +1,9 @@
 name: Health check
 on: push
+
+defaults:
+  run:
+    working-directory: ./
   
 jobs: 
   lint-checks: 
@@ -14,6 +18,8 @@ jobs:
           node-version: 18.x
       - name: Install dependencies
         run: yarn install
+      - name: Run typechecks
+        run: yarn typecheck
       - name: Run lint checks
         uses: wearerequired/lint-action@v2
         with:
