@@ -18,6 +18,8 @@ jobs:
           node-version: 18.x
       - name: Install dependencies
         run: yarn install
+        run: cd ./frontend && yarn install
+        run: cd ./backend && yarn install
       - name: Run typechecks
         run: yarn typecheck
       - name: Run lint checks
