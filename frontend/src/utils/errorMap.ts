@@ -26,6 +26,10 @@ export const errorMap = (error: unknown): string | undefined => {
         return "Resource Not Found";
       case "404001":
         return "Invalid email provided.";
+      case "429000":
+        return "There were too many account creation attempts. Please try again later.";
+      case "429001":
+        return "There were too many login attempts. Please try again later.";
       default:
         return "Internal Server Error";
     }

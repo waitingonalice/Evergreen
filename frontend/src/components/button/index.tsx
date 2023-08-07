@@ -29,7 +29,7 @@ const FormButton = ({
   // Secondary to be used on green background
 
   const baseStyle =
-    "whitespace-nowrap transition-all duration-100 disabled:cursor-not-allowed disabled:opacity-30 text-[14px] font-medium tracking-[0.0125em]";
+    "whitespace-nowrap transition-all duration-100 disabled:cursor-not-allowed disabled:opacity-30 text-[14px] font-medium tracking-[0.0125em] flex justify-center";
 
   const baseStyleButton =
     "px-4 py-2 first-letter:focus:outline-none shadow-sm rounded-md";

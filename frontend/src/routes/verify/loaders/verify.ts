@@ -2,7 +2,7 @@ import { apiRoutes } from "~/constants";
 import { request, useFetch } from "~/utils/fetch";
 
 interface VerifyUserResponseType {
-  data: {
+  result: {
     email: string;
   };
 }

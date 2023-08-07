@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { Button, Checkbox, Input, Spinner, Text } from "~/components";
 import { clientRoutes } from "~/constants";
 import { useForm } from "~/utils";
+import { setCookie } from "~/utils/cookie";
 import { InputValuesType, useLogin } from "./loaders/login";
 
 const loginSchema = z.object({
@@ -20,8 +21,7 @@ const Login = () => {
     zod: loginSchema,
     data: values,
   });
-  const { mutate: login, isLoading } = useLogin();
-
+  const { mutate: login, isLoading, data: { result } = {} } = useLogin();
   const handleOnChange = (
     key: keyof InputValuesType,
     value: string | boolean
@@ -33,6 +33,11 @@ const Login = () => {
     const success = onSubmitValidate();
     if (success) login(values);
   };
+  console.log(result);
+
+  useEffect(() => {
+    if (result) setCookie("authToken", JSON.stringify(result.tokens.auth));
+  }, [result]);
 
   return (
     <div className="flex flex-col w-full gap-y-4 items-center lg:items-start">
@@ -61,7 +66,7 @@ const Login = () => {
       <Checkbox
         className="w-full sm:w-1/2 lg:w-full"
         id="rememberMe"
-        label="Remember me"
+        label="Keep me logged in"
         onChange={(value) => handleOnChange("rememberMe", value)}
         value={values.rememberMe as boolean}
       />

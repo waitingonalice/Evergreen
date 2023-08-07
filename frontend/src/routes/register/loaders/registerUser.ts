@@ -12,7 +12,7 @@ export interface RegisterUserInputType {
 }
 
 export interface RegisterUserResponseType {
-  data: {
+  result: {
     id: string;
     firstName: string;
     lastName: string;

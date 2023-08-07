@@ -1,28 +1,29 @@
 import jwt from "jsonwebtoken";
-import { nanoid } from "nanoid";
 
 interface User {
-  email: string;
+  id: number;
+  active: boolean;
   country: string;
   firstName: string;
   lastName: string;
 }
 
-export const generateToken = (user: User) => {
-  const { email, country, firstName, lastName } = user;
-  const uniqueId = nanoid();
-  console.log(uniqueId);
+export const generateToken = (user: User, rememberMe: boolean) => {
+  const { id, country, firstName, lastName, active } = user;
+
   const auth =
     process.env.SESSION_SECRET &&
     jwt.sign(
-      { data: { email, country, firstName, lastName, id: uniqueId } },
+      { data: { userId: id, country, firstName, lastName, verified: active } },
       process.env.SESSION_SECRET,
-      { expiresIn: 1000 * 60 * 15 } // 15 minutes
+      { expiresIn: "15min" }
     );
 
   const refresh =
     process.env.SESSION_SECRET &&
-    jwt.sign({ id: uniqueId, email }, process.env.SESSION_SECRET);
+    jwt.sign({ id, rememberMe }, process.env.SESSION_SECRET, {
+      expiresIn: "365d",
+    });
 
   return { auth, refresh };
 };

@@ -28,13 +28,6 @@ export const Checkbox = ({
 
   return (
     <div className={clsx("flex items-center gap-x-2", className)}>
-      {label && (
-        <label htmlFor={id}>
-          <Text type="button" className="text-body">
-            {label}
-          </Text>
-        </label>
-      )}
       <input
         onChange={(e) => handleChecked(e)}
         id={id}
@@ -52,6 +45,13 @@ export const Checkbox = ({
         // eslint-disable-next-line no-param-reassign
         ref={(el) => el && indeterminate && (el.indeterminate = indeterminate)}
       />
+      {label && (
+        <label htmlFor={id}>
+          <Text type="button" className="text-body">
+            {label}
+          </Text>
+        </label>
+      )}
     </div>
   );
 };

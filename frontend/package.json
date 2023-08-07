@@ -14,6 +14,7 @@
     "@heroicons/react": "^2.0.13",
     "@supabase/supabase-js": "^2.31.0",
     "clsx": "^1.2.1",
+    "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
+    "@types/js-cookie": "^3.0.3",
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.17",
     "@types/react": "^18.0.26",

@@ -1,6 +1,6 @@
 import { UseQueryOptions, useQuery } from "react-query";
 
-type SuccessfulResponse = Record<"data", unknown>;
+type SuccessfulResponse = Record<"result", unknown>;
 type ErrorResponse = Record<"code", string>;
 type ResponseType = SuccessfulResponse | ErrorResponse;
 interface FetchType<T> {

@@ -52,13 +52,14 @@ const Register = () => {
     <div className="w-full sm:w-1/2 lg:w-full">
       {errorMap(error) ? (
         <Alert
-          className="mb-4"
+          className="mb-12"
           title={errorMap(error)}
           show={Boolean(errorMap(error))}
+          type="error"
         />
       ) : null}
 
-      {data ? (
+      {data?.result ? (
         <RegistrationSuccess />
       ) : (
         <div className="flex flex-col gap-y-4">
