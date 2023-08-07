@@ -35,7 +35,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col w-full gap-y-4 items-center">
+    <div className="flex flex-col w-full gap-y-4 items-center lg:items-start">
       <Text type="subhead-1" className="text-primary mb-4">
         Login
       </Text>

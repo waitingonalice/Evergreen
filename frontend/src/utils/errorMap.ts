@@ -25,7 +25,7 @@ export const errorMap = (error: unknown): string | undefined => {
       case "404000":
         return "Resource Not Found";
       case "404001":
-        return "Email not found";
+        return "Invalid email provided.";
       default:
         return "Internal Server Error";
     }
