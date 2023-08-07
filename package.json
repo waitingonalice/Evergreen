@@ -51,7 +51,7 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
-      "bash -c tsc --noEmit",
+      "yarn typecheck",
       "eslint ./frontend",
       "eslint ./backend",
       "prettier --write --ignore-unknown"
