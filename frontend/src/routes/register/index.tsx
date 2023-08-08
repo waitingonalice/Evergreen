@@ -50,14 +50,12 @@ const Register = () => {
 
   return (
     <div className="w-full sm:w-1/2 lg:w-full">
-      {errorMap(error) ? (
-        <Alert
-          className="mb-12"
-          title={errorMap(error)}
-          show={Boolean(errorMap(error))}
-          type="error"
-        />
-      ) : null}
+      <Alert
+        className="mb-12"
+        title={errorMap(error)}
+        show={Boolean(errorMap(error))}
+        type="error"
+      />
 
       {data?.result ? (
         <RegistrationSuccess />

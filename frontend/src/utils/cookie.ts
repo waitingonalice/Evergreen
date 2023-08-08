@@ -6,9 +6,14 @@ export const setCookie = (
   options?: Parameters<typeof cookies["set"]>[2]
 ) => {
   cookies.set(key, value, {
+    path: "/",
     secure: true,
     sameSite: "strict",
-    httpOnly: true,
+    httpOnly: false,
     ...options,
   });
 };
+
+export const getCookie = (key: string) => cookies.get(key);
+
+export const removeCookie = (key: string) => cookies.remove(key);

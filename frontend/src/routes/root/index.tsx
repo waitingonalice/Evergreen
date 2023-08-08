@@ -11,7 +11,7 @@ const Root = () => (
       <Button id="signUp" variant="primary">
         <a
           href={clientRoutes.auth.login}
-          className="flex items-center justify-between"
+          className="flex items-center justify-between w-full"
         >
           Login
           <ChevronRightIcon width={20} className="text-green-500 stroke-2" />
@@ -21,7 +21,7 @@ const Root = () => (
       <Button id="signUp" variant="primary">
         <a
           href={clientRoutes.auth.register}
-          className="flex items-center justify-between"
+          className="flex items-center justify-between w-full"
         >
           Sign Up
           <ChevronRightIcon width={20} className="text-green-500 stroke-2" />

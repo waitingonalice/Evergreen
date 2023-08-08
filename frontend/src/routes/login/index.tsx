@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Button, Checkbox, Input, Spinner, Text } from "~/components";
 import { clientRoutes } from "~/constants";
 import { useForm } from "~/utils";
 import { setCookie } from "~/utils/cookie";
+import { MessageBox } from "./components/MessageBox";
 import { InputValuesType, useLogin } from "./loaders/login";
 
 const loginSchema = z.object({
@@ -21,26 +23,35 @@ const Login = () => {
     zod: loginSchema,
     data: values,
   });
-  const { mutate: login, isLoading, data: { result } = {} } = useLogin();
+  const navigate = useNavigate();
+
+  const { mutate: login, isLoading, data: { result } = {}, error } = useLogin();
+
   const handleOnChange = (
     key: keyof InputValuesType,
     value: string | boolean
-  ) => {
-    setValues((prev) => ({ ...prev, [key]: value }));
-  };
+  ) => setValues((prev) => ({ ...prev, [key]: value }));
 
   const handleSubmit = () => {
     const success = onSubmitValidate();
     if (success) login(values);
   };
-  console.log(result);
 
   useEffect(() => {
-    if (result) setCookie("authToken", JSON.stringify(result.tokens.auth));
+    if (result) {
+      setCookie("authToken", result.tokens.auth);
+      setCookie(
+        "refreshToken",
+        result.tokens.refresh,
+        ...(values.rememberMe ? [{ expires: 30 }] : [])
+      );
+      navigate(clientRoutes.dashboard.index);
+    }
   }, [result]);
 
   return (
     <div className="flex flex-col w-full gap-y-4 items-center lg:items-start">
+      <MessageBox error={error} />
       <Text type="subhead-1" className="text-primary mb-4">
         Login
       </Text>

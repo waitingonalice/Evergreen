@@ -49,8 +49,8 @@ export const Alert = ({
 
   const alertBgType = {
     error: "bg-errorLight text-errorMain",
-    success: "bg-successMain text-successSecondary",
-    warning: "bg-warningMain text-warningSecondary",
+    success: "bg-successMain text-successTertiary",
+    warning: "bg-warningMain text-warningTertiary",
   };
 
   if (show) {

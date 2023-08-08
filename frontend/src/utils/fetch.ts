@@ -1,4 +1,6 @@
 import { UseQueryOptions, useQuery } from "react-query";
+import { refreshAuthToken } from "./auth";
+import { getCookie } from "./cookie";
 
 type SuccessfulResponse = Record<"result", unknown>;
 type ErrorResponse = Record<"code", string>;
@@ -17,11 +19,16 @@ export const request = async <Response extends ResponseType, Variables>({
   method = "GET",
   type = "application/json",
 }: FetchType<Variables>) => {
+  const authToken = getCookie("authToken");
+  const refreshToken = getCookie("refreshToken");
+  if (authToken && refreshToken)
+    await refreshAuthToken({ authToken, refreshToken });
   const response = await fetch(url, {
     method,
     body: JSON.stringify(input),
     headers: {
       "Content-Type": type,
+      Authorization: getCookie("authToken") ? `${getCookie("authToken")}` : "",
     },
   });
   const res: Response = await response.json();

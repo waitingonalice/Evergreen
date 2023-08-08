@@ -20,6 +20,10 @@ export const errorMap = (error: unknown): string | undefined => {
         return "Expired token";
       case "400008":
         return "Password mismatch";
+      case "400009":
+        return "Email not verified";
+      case "400010":
+        return "The email or password you entered is incorrect.";
       case "401000":
         return "Unauthorized access";
       case "404000":
