@@ -8,23 +8,30 @@ import { clientRoutes } from "~/constants";
 import { Dashboard, Login, Register, Root, Verify } from "~/routes";
 import "../styles/animations.css";
 import "../styles/index.css";
+import { App } from "./components/app-context";
 
 const router = createBrowserRouter([
   {
-    element: <OnboardLayout />,
+    element: <App />,
     children: [
-      { path: clientRoutes.root, element: <Root /> },
-      // Authentication routes
-      { path: clientRoutes.login, element: <Login /> },
-      { path: clientRoutes.register, element: <Register /> },
-      { path: clientRoutes.verify, element: <Verify /> },
+      {
+        element: <OnboardLayout />,
+        children: [
+          { path: clientRoutes.root, element: <Root /> },
+          // Authentication routes
+          { path: clientRoutes.auth.login, element: <Login /> },
+          { path: clientRoutes.auth.register, element: <Register /> },
+          { path: clientRoutes.auth.verify, element: <Verify /> },
+        ],
+      },
+      // Main content starts here
+      {
+        element: <Layout />,
+        children: [
+          { path: clientRoutes.dashboard.index, element: <Dashboard /> },
+        ],
+      },
     ],
-  },
-
-  // Main content starts here
-  {
-    element: <Layout />,
-    children: [{ path: "/dashboard", element: <Dashboard /> }],
   },
 ]);
 

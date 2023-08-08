@@ -9,14 +9,6 @@ interface UseFormType {
   data: Record<string, any>;
 }
 
-/**
- * @description
- * useForm is a custom hook that is used to handle form submissions.
- * @params zod - the zod object schema to be used for validation
- * @returns {function} addRefs - an array of references to be used in the form elements, each ref from an element is pushed into this array.
- * @returns {function} onSubmit - a function that takes in an event and a callback function to be executed after the form submission is handled.
- * @returns {function} validate - a function that takes in an id and a value to be validated.
- */
 export const useForm = ({ zod, data }: UseFormType) => {
   const refs = useRef<Array<HTMLElement | null>>([]);
 
@@ -68,7 +60,12 @@ export const useForm = ({ zod, data }: UseFormType) => {
      * @param node - the node to be added to the refs array
      * @example ref={(node) => addRefs(node)}
      */
-    ref: <T>(node: T extends HTMLElement ? T : null) => refs.current.push(node),
+    ref: <T>(node: T extends HTMLElement ? T : null) => {
+      const duplicateRef = [...refs.current].find(
+        (ref) => ref && node && ref.id === node.id
+      );
+      if (!duplicateRef && node) refs.current.push(node);
+    },
 
     /**
      * @param callback - the callback function to be executed after the form submission is handled.

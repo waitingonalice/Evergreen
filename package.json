@@ -16,9 +16,9 @@
     "lint": "run-p lint:*",
     "lint:frontend": "eslint ./frontend --cache --cache-location ./node_modules/.cache/eslint",
     "lint:backend": "eslint ./backend --cache --cache-location ./node_modules/.cache/eslint",
-    "typecheck": "run-p typecheck:*",
-    "typecheck:frontend": "tsc --noEmit --skipLibCheck --project ./frontend/tsconfig.json",
-    "typecheck:backend": "tsc --noEmit --skipLibCheck --project ./backend/tsconfig.json",
+    "typecheck": "run-p tsc:*",
+    "tsc:frontend": "tsc --noEmit --skipLibCheck --project ./frontend/tsconfig.json",
+    "tsc:backend": "tsc --noEmit --skipLibCheck --project ./backend/tsconfig.json",
     "prettier:write": "prettier . --write"
   },
   "config": {
@@ -51,7 +51,6 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
-      "bash -c tsc --noEmit",
       "eslint ./frontend",
       "eslint ./backend",
       "prettier --write --ignore-unknown"
