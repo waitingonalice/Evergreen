@@ -4,7 +4,7 @@ import { removeCookie, setCookie } from "./cookie";
 
 interface RefreshAuthTokenResponse {
   result: {
-    authToken: string;
+    auth: string;
   };
 }
 
@@ -21,17 +21,15 @@ export const refreshAuthToken = async (tokens: RefreshAuthTokenArgType) => {
       const authExpired = decodedAuth.exp * 1000 < Date.now();
       if (!authExpired) return;
       const res = await fetch(apiRoutes.auth.refreshToken, {
-        method: "POST",
-        body: refreshToken,
+        method: "GET",
+        body: JSON.stringify({ refreshToken }),
         headers: {
           "Content-Type": "application/json",
         },
       });
 
       const data: RefreshAuthTokenResponse = await res.json();
-      setCookie("authToken", data.result.authToken);
-    } else {
-      window.location.assign(`${clientRoutes.auth.login}?expired`);
+      setCookie("authToken", data.result.auth);
     }
   } catch (err) {
     window.location.assign(`${clientRoutes.auth.login}?expired`);

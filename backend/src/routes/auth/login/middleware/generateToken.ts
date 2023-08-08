@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 interface User {
-  id: string;
+  id: string | null;
   email: string;
   active: boolean;
   country: string;

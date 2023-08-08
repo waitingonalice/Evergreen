@@ -53,10 +53,7 @@ export const App = () => {
     if (authToken) {
       const decodedAuthToken = jwtDecode<AuthToken>(authToken);
       setUser(decodedAuthToken.data);
-
       redirectOnRememberMe();
-    } else {
-      navigate(`${clientRoutes.auth.login}?expired`);
     }
   }, []);
 
