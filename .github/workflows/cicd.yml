@@ -1,5 +1,10 @@
 name: Health check
-on: push
+
+on: 
+  push:
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
 
 defaults:
   run:
