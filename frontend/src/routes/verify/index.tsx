@@ -20,7 +20,7 @@ const Verify = () => {
               <XCircleIcon className="text-errorTertiary h-20 w-20" />
               <Text type="subhead-2">{errorMap(error)}</Text>
               <Button variant="primaryLink">
-                <a href={clientRoutes.login}>Back to login page</a>
+                <a href={clientRoutes.auth.login}>Back to login page</a>
               </Button>
             </>
           ) : (
@@ -30,7 +30,7 @@ const Verify = () => {
                 Account has been successfully verified
               </Text>
               <Button variant="primaryLink">
-                <a href={clientRoutes.login}>Back to login page</a>
+                <a href={clientRoutes.auth.login}>Back to login page</a>
               </Button>
             </>
           )}

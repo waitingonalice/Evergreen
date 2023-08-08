@@ -20,12 +20,20 @@ export const errorMap = (error: unknown): string | undefined => {
         return "Expired token";
       case "400008":
         return "Password mismatch";
+      case "400009":
+        return "Email not verified";
+      case "400010":
+        return "The email or password you entered is incorrect.";
       case "401000":
         return "Unauthorized access";
       case "404000":
         return "Resource Not Found";
       case "404001":
-        return "Email not found";
+        return "Invalid email provided.";
+      case "429000":
+        return "There were too many account creation attempts. Please try again later.";
+      case "429001":
+        return "There were too many login attempts. Please try again later.";
       default:
         return "Internal Server Error";
     }

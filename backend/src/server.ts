@@ -1,8 +1,8 @@
+/* eslint-disable no-console */
 import type { Request, Response } from "express";
-import { api } from "~/constants/routes";
 import { Rest } from "~/utils";
-import registerRoute from "./routes/auth/register";
-import verifyRoute from "./routes/auth/verify";
+import authenticationEndpoints from "./routes/auth";
+import welcomeTemplate from "./template/welcome";
 
 Rest.dotenv.config({ path: `${__dirname}/.env` });
 if (!process.env.PORT) {
@@ -16,12 +16,9 @@ app.use(Rest.cors());
 app.use(Rest.express.json());
 app.use(Rest.helmet());
 
-app.get("/", (req: Request, res: Response) =>
-  res.send("<h1>Expense tracker API</h1>")
-);
+app.get("/", (req: Request, res: Response) => res.send(welcomeTemplate));
 
-app.use(api.auth, registerRoute);
-app.use(api.auth, verifyRoute);
+authenticationEndpoints(app);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
