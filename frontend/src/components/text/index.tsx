@@ -19,10 +19,10 @@ interface TextProps {
 
 export const Text = ({ type, children, className }: TextProps) => {
   const textClassMapper = {
-    h1: "text-[96px] font-light tracking-[-0.015em]",
-    h2: "text-[60px] font-light tracking-[-0.005em]",
-    h3: "text-[48px] font-light tracking-normal",
-    "subhead-1": "text-[34px] font-light tracking-[0.0025em]",
+    h1: "text-[96px] font-bold tracking-[-0.015em]",
+    h2: "text-[60px] font-bold tracking-[-0.005em]",
+    h3: "text-[48px] font-bold tracking-normal",
+    "subhead-1": "text-[34px] font-medium tracking-[0.0025em]",
     "subhead-2": "text-[24px] font-light tracking-wide",
     "body-bold": "text-[16px] font-semibold",
     body: "text-[16px] font-normal",

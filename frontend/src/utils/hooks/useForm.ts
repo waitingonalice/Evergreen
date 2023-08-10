@@ -6,7 +6,7 @@ import { findKey } from "../formatting";
 
 interface UseFormType {
   zod: ZodObject<any> | ZodEffects<ZodObject<any>>;
-  data: Record<string, any>;
+  data: Record<string, unknown>;
 }
 
 export const useForm = ({ zod, data }: UseFormType) => {

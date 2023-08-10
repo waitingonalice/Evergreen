@@ -3,11 +3,12 @@ module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      sans: ["Manrope"],
+      sans: ["Inter"],
     },
     extend: {
       colors: {
         primary: "#047857", // emerald-700
+        "primary-2": "#01C246",
         secondary: "#065f46", // emerald-800
         tertiary: "#064e3b", // emerald-900
         errorMain: "#dc2626", // red-600

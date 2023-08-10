@@ -4,8 +4,8 @@ import { clientRoutes } from "~/constants";
 
 const Root = () => (
   <>
-    <Text type="subhead-2" className="text-dark mb-8">
-      How would you like to connect?
+    <Text type="subhead-2" className="text-secondary mb-8">
+      Welcome!
     </Text>
     <div className="relative flex w-1/2 min-w-[280px] flex-col gap-y-4 lg:w-full">
       <Button id="signUp" variant="primary">
