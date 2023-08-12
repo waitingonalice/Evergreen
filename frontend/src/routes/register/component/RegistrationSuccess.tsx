@@ -10,7 +10,7 @@ export const RegistrationSuccess = () => (
       been sent to your email address.
     </Text>
     <Button variant="primaryLink">
-      <a href={clientRoutes.root}>Back to home page</a>
+      <a href={clientRoutes.root}>Back to login page</a>
     </Button>
   </div>
 );

@@ -16,8 +16,6 @@ const ForgotPassword = () => {
     mutate: forgotPassword,
     data,
     isLoading,
-    // TOOD: integrate error handling
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     error,
   } = useForgotPassword();
   const { onSubmitValidate, ref, validate } = useForm({
@@ -31,22 +29,24 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex flex-col gap-y-8 w-full">
-      <Text type="subhead-1" className="text-primary">
-        Forgot Password
-      </Text>
-
-      <div className="flex flex-col gap-y-6">
-        {data?.result ? (
-          <>
+    <div className="max-w-md w-full">
+      <>
+        {data?.result || error ? (
+          <div className="flex flex-col gap-y-4 items-center">
             <CheckCircleIcon className="w-20 h-20 text-primary mt-8" />
-            <Text type="body" className="mb-8">
+            <Text type="subhead-2" className="text-center">
               A link to reset your password has been sent to your email address.
             </Text>
-          </>
+            <Button variant="primaryLink">
+              <a href={clientRoutes.auth.login}>Back to login page</a>
+            </Button>
+          </div>
         ) : (
-          <>
-            <Text className="text-dark" type="body">
+          <div className="flex flex-col gap-y-4">
+            <Text type="subhead-1" className="text-primary">
+              Forgot Password
+            </Text>
+            <Text className="text-dark my-4" type="body-bold">
               Enter your email for verification
             </Text>
             <Input
@@ -59,15 +59,17 @@ const ForgotPassword = () => {
               ref={ref}
               validate={validate}
             />
-            <Button className="w-full mt-2" onClick={handleClick}>
-              {isLoading ? <Spinner /> : "Next"}
-            </Button>
-            <Button variant="primaryLink" className="mb-2">
-              <a href={clientRoutes.auth.login}>Back</a>
-            </Button>
-          </>
+            <div className="flex justify-between items-center">
+              <Button variant="primaryLink">
+                <a href={clientRoutes.auth.login}>Back</a>
+              </Button>
+              <Button onClick={handleClick}>
+                {isLoading ? <Spinner /> : "Next"}
+              </Button>
+            </div>
+          </div>
         )}
-      </div>
+      </>
     </div>
   );
 };

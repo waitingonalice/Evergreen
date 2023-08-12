@@ -27,7 +27,7 @@ const Verify = () => {
             <>
               <CheckCircleIcon className="text-primary h-20 w-20" />
               <Text type="subhead-2">
-                Account has been successfully verified
+                Account has been successfully verified.
               </Text>
               <Button variant="primaryLink">
                 <a href={clientRoutes.auth.login}>Back to login page</a>

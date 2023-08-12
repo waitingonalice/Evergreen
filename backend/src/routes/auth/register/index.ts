@@ -1,8 +1,9 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 import { ErrorEnum } from "~/constants/enum";
+import { sendEmailVerification } from "~/middleware/emailVerification";
+import { emailVerificationTemplate } from "~/template/verify";
 import { Rest } from "~/utils";
-import { sendEmailVerification } from "./middleware/emailVerification";
 import { createAccountLimiter } from "./middleware/rateLimiter";
 import { RegisterProps, register } from "./middleware/registerHash";
 import { registrationSchema } from "./utils/validation";
@@ -20,7 +21,13 @@ router.post(
       if (!validate.success) throw new Error(validate.error.errors[0].message);
 
       const registerData = await register(requestBody);
-      await sendEmailVerification(registerData);
+      await sendEmailVerification(
+        registerData.account.email,
+        emailVerificationTemplate(
+          registerData.account.firstName,
+          `${process.env.DOMAIN_URL}/verify?code=${registerData.token}`
+        )
+      );
       return res.json({
         result: registerData,
       });

@@ -11,6 +11,7 @@ module.exports = {
         "primary-2": "#01C246",
         secondary: "#065f46", // emerald-800
         tertiary: "#064e3b", // emerald-900
+        "primary-dark": "#01241A",
         errorMain: "#dc2626", // red-600
         errorSecondary: "#b91c1c", // red-700
         errorTertiary: "#991b1b", // red 800
@@ -21,8 +22,7 @@ module.exports = {
         warningMain: "#fff5cc",
         warningSecondary: "#ffcf0d",
         warningTertiary: "#997b00",
-        important: "#fffbeb", // amber-50
-        standard: "#e5e5e5", // gray-200
+        important: "#efedea",
         dark: "#111827", // gray-900
         disabled: "#d1d5db", // gray-300
       },

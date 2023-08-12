@@ -8,7 +8,6 @@ import verifyRoute from "./verify";
 
 export * from "./register/middleware/registerHash";
 export * from "./verify/middleware/verifyToken";
-export * from "./register/middleware/emailVerification";
 
 const authenticationEndpoints = (app: ReturnType<typeof express>) => {
   app.use(api.auth, registerRoute);

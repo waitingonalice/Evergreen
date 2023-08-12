@@ -53,13 +53,13 @@ const Login = () => {
   }, [result]);
 
   return (
-    <div className="flex flex-col w-full gap-y-4 items-center lg:items-start">
+    <div className="flex flex-col w-full gap-y-4 max-w-md">
       <MessageBox error={error} />
       <Text type="subhead-1" className="text-primary mb-4">
         Login
       </Text>
       <Input
-        className="w-full sm:w-1/2 lg:w-full"
+        className="w-full"
         id="email"
         onChange={(e) => handleOnChange("email", e.currentTarget.value)}
         label={{ text: "Email Address", required: true }}
@@ -68,7 +68,7 @@ const Login = () => {
         ref={ref}
       />
       <Input
-        className="w-full sm:w-1/2 lg:w-full"
+        className="w-full"
         id="password"
         onChange={(e) => handleOnChange("password", e.currentTarget.value)}
         label={{ text: "Password", required: true }}
@@ -77,25 +77,26 @@ const Login = () => {
         validate={validate}
         ref={ref}
       />
-      <Checkbox
-        className="w-full sm:w-1/2 lg:w-full"
-        id="rememberMe"
-        label="Keep me logged in"
-        onChange={(value) => handleOnChange("rememberMe", value)}
-        value={values.rememberMe as boolean}
-      />
-      <Button
-        className="min-w-fit w-full lg:w-full sm:w-1/2 mt-2"
-        onClick={handleSubmit}
-      >
-        {isLoading ? <Spinner /> : "Login"}
-      </Button>
-      <div className="flex flex-col-reverse lg:flex-row justify-between w-full sm:w-1/2 lg:w-full gap-y-4 mt-2">
-        <Button variant="primaryLink">
+      <div className="flex justify-between w-full gap-x-2">
+        <Checkbox
+          id="rememberMe"
+          label="Remember me"
+          onChange={(value) => handleOnChange("rememberMe", value)}
+          value={values.rememberMe as boolean}
+        />
+        <Button className="w-fit" variant="primaryLink">
           <a href={clientRoutes.auth.forgotPassword}>Forgot password?</a>
         </Button>
-        <Button variant="primaryLink">
-          <a href={clientRoutes.auth.register}>Create account</a>
+      </div>
+      <Button className="w-full mt-2" onClick={handleSubmit}>
+        {isLoading ? <Spinner /> : "Login"}
+      </Button>
+      <div className="flex gap-x-1 justify-center">
+        <Text className="whitespace-nowrap" type="button">
+          No Account?
+        </Text>
+        <Button className="text-center" variant="primaryLink">
+          <a href={clientRoutes.auth.register}>Sign up here</a>
         </Button>
       </div>
     </div>
