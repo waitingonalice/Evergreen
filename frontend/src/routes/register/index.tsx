@@ -49,7 +49,7 @@ const Register = () => {
   };
 
   return (
-    <div className="w-full sm:w-1/2 lg:w-full">
+    <div className="w-full max-w-md">
       <Alert
         className="mb-12"
         title={errorMap(error)}
@@ -72,6 +72,7 @@ const Register = () => {
             placeholder="John"
             onChange={(e) => handleInputOnChange(e.target.id, e.target.value)}
             value={fields.firstName ?? ""}
+            className="w-full"
           />
           <Input
             id="lastName"
@@ -81,6 +82,7 @@ const Register = () => {
             placeholder="Appleseed"
             onChange={(e) => handleInputOnChange(e.target.id, e.target.value)}
             value={fields.lastName ?? ""}
+            className="w-full"
           />
           <Input
             id="email"
@@ -119,9 +121,9 @@ const Register = () => {
             ref={ref}
             onChange={(e) => handleInputOnChange(e.target.id, e.target.value)}
           />
-          <div className="mt-2 flex justify-between">
+          <div className="mt-2 w-full items-center gap-x-2 flex justify-between">
             <Button id="cancel" variant="primaryLink" className="w-fit">
-              <a href={clientRoutes.root}>Cancel</a>
+              <a href={clientRoutes.auth.login}>Cancel</a>
             </Button>
             <Button
               id="regsiter"

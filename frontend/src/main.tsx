@@ -5,7 +5,14 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout, OnboardLayout } from "~/components";
 import { clientRoutes } from "~/constants";
-import { Dashboard, Login, Register, Root, Verify } from "~/routes";
+import {
+  Dashboard,
+  ForgotPassword,
+  Login,
+  Register,
+  Root,
+  Verify,
+} from "~/routes";
 import "../styles/animations.css";
 import "../styles/index.css";
 import { App } from "./components/app-context";
@@ -22,6 +29,10 @@ const router = createBrowserRouter([
           { path: clientRoutes.auth.login, element: <Login /> },
           { path: clientRoutes.auth.register, element: <Register /> },
           { path: clientRoutes.auth.verify, element: <Verify /> },
+          {
+            path: clientRoutes.auth.forgotPassword,
+            element: <ForgotPassword />,
+          },
         ],
       },
       // Main content starts here
