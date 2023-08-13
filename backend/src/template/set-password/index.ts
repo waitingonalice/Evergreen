@@ -290,7 +290,7 @@ export const setPasswordTemplate = (
                                         font-size: 16px;
                                         line-height: 28.8px;
                                       "
-                                      >Password has been successfully reset!<br />
+                                      >Your password has been successfully reset!<br />
                                       Click on the button below to login with
                                       your new password.
                                     </strong>
