@@ -4,7 +4,7 @@ import z from "zod";
 import { ErrorEnum } from "~/constants/enum";
 import { sendEmailVerification } from "~/middleware/emailVerification";
 import { forgotPasswordTemplate } from "~/template/forgot-password";
-import { Rest, db } from "~/utils";
+import { db, rest } from "~/utils";
 
 interface RequestBody {
   email: string;
@@ -12,7 +12,7 @@ interface RequestBody {
 
 const emailSchema = z.string().email({ message: ErrorEnum.INVALID_EMAIL });
 
-const router = Rest.express.Router();
+const router = rest.express.Router();
 
 router.post("/forgot-password", async (req: Request, res: Response) => {
   const { email }: RequestBody = req.body;
