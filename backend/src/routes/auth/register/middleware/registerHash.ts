@@ -1,7 +1,7 @@
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { ErrorEnum } from "~/constants/enum";
 import { db } from "~/utils";
+import { passwordHash } from "~/utils/auth";
 
 export type RegisterProps = {
   email: string;
@@ -20,7 +20,7 @@ export const register = async (input: RegisterProps) => {
       expiresIn: "24h",
     });
   if (!token) throw new Error(ErrorEnum.INTERNAL_SERVER_ERROR);
-  const hash = confirmPassword && (await bcrypt.hash(confirmPassword, 10));
+  const hash = await passwordHash(confirmPassword);
 
   const account = await db.account.create({
     data: {
