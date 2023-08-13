@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { ErrorEnum } from "~/constants/enum";
 import { generateAuthToken } from "~/middleware/generateToken";
-import { Rest, db } from "~/utils";
+import { db, rest } from "~/utils";
 
 type RequestBody = {
   refreshToken: string;
@@ -12,7 +12,7 @@ interface DecodedToken {
   rememberMe: boolean;
 }
 
-const router = Rest.express.Router();
+const router = rest.express.Router();
 
 router.get("/refresh-token", async (req, res) => {
   const input: RequestBody = req.body;

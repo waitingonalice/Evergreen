@@ -5,7 +5,7 @@ import {
   generateAuthToken,
   generateRefreshToken,
 } from "~/middleware/generateToken";
-import { Rest, db } from "~/utils";
+import { db, rest } from "~/utils";
 import { loginLimiter } from "./middleware/rateLimiter";
 
 export type InputValues = {
@@ -14,7 +14,7 @@ export type InputValues = {
   rememberMe: boolean;
 };
 
-const router = Rest.express.Router();
+const router = rest.express.Router();
 
 router.post("/login", loginLimiter, async (req: Request, res: Response) => {
   try {

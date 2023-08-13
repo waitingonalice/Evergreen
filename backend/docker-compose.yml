@@ -6,7 +6,7 @@ services:
       context:  .
       args: 
         NODE_VERSION: 18.0.0
-    image: expense-tracker-server
+    image: wilsonsie/expense-tracker-server:latest
     env_file: 
       - .env
     ports: 

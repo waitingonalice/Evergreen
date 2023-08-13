@@ -3,12 +3,12 @@ import { Request, Response } from "express";
 import { ErrorEnum } from "~/constants/enum";
 import { sendEmailVerification } from "~/middleware/emailVerification";
 import { emailVerificationTemplate } from "~/template/verify";
-import { Rest } from "~/utils";
+import { rest } from "~/utils";
 import { createAccountLimiter } from "./middleware/rateLimiter";
 import { RegisterProps, register } from "./middleware/registerHash";
 import { registrationSchema } from "./utils/validation";
 
-const router = Rest.express.Router();
+const router = rest.express.Router();
 
 router.post(
   "/register",

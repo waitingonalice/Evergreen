@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 import { z } from "zod";
 import { Button, Checkbox, Input, Spinner, Text } from "~/components";
 import { clientRoutes } from "~/constants";
 import { useForm } from "~/utils";
-import { setCookie } from "~/utils/cookie";
+import { getCookie, setCookie } from "~/utils/cookie";
 import { MessageBox } from "./components/MessageBox";
 import { InputValuesType, useLogin } from "./loaders/login";
+
+interface RefreshToken {
+  data: {
+    id: number;
+    rememberMe: boolean;
+  };
+}
 
 const loginSchema = z.object({
   email: z
@@ -15,6 +23,7 @@ const loginSchema = z.object({
     .email({ message: "Invalid email address" }),
   password: z.string().min(1, { message: "Password is required." }),
 });
+const rememberMeForbiddenParams = ["?expired", "?logout"];
 
 const Login = () => {
   const [values, setValues] = useState<InputValuesType>({
@@ -27,6 +36,7 @@ const Login = () => {
     data: values,
   });
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { mutate: login, isLoading, data: { result } = {}, error } = useLogin();
 
@@ -51,6 +61,26 @@ const Login = () => {
       navigate(clientRoutes.dashboard.index);
     }
   }, [result]);
+
+  useEffect(() => {
+    const refreshToken = getCookie("refreshToken");
+    const authToken = getCookie("authToken");
+
+    const redirectOnRememberMe = () => {
+      if (!refreshToken || !authToken) return;
+      const decodedRefreshToken = jwtDecode<RefreshToken>(refreshToken);
+      // if remember me was selected and the user is not on the authenticated path, redirect to dashboard where the request handler in that page will validate the token
+      if (
+        authToken &&
+        decodedRefreshToken.data.rememberMe &&
+        !location.pathname.includes("tracker") &&
+        !rememberMeForbiddenParams.includes(location.search)
+      )
+        navigate(clientRoutes.dashboard.index);
+    };
+
+    redirectOnRememberMe();
+  }, []);
 
   return (
     <div className="flex flex-col w-full gap-y-4 max-w-md">
@@ -89,14 +119,14 @@ const Login = () => {
         </Button>
       </div>
       <Button className="w-full mt-2" onClick={handleSubmit}>
-        {isLoading ? <Spinner /> : "Login"}
+        {isLoading ? <Spinner /> : "Sign in"}
       </Button>
       <div className="flex gap-x-1 justify-center">
         <Text className="whitespace-nowrap" type="button">
-          No Account?
+          Don&apos;t have an account?
         </Text>
         <Button className="text-center" variant="primaryLink">
-          <a href={clientRoutes.auth.register}>Sign up here</a>
+          <a href={clientRoutes.auth.register}>Sign up</a>
         </Button>
       </div>
     </div>

@@ -5,7 +5,7 @@ import helmet from "helmet";
 
 export { isEmptyObjectValue } from "./formatting";
 export { db } from "./db.server";
-export const Rest = {
+export const rest = {
   express,
   cors,
   dotenv,

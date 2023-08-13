@@ -3,7 +3,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { Button, Input, Spinner, Text } from "~/components";
 import { clientRoutes } from "~/constants";
-import { useForm } from "~/utils";
+import { logout, useForm } from "~/utils";
 import { useForgotPassword } from "./loaders/forgotPassword";
 
 const emailSchema = z.object({
@@ -25,7 +25,10 @@ const ForgotPassword = () => {
 
   const handleClick = () => {
     const success = onSubmitValidate();
-    if (success) forgotPassword({ email });
+    if (success) {
+      forgotPassword({ email });
+      logout();
+    }
   };
 
   return (
