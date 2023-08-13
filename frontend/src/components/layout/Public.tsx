@@ -19,13 +19,21 @@ const RootLayout = () => {
         />
       </div>
       <footer className="absolute flex gap-x-4 bottom-0 left-0 m-2">
-        <a href="https://github.com/waitingonalice/Expense-tracker">
+        <a
+          rel="noreferrer"
+          target="_blank"
+          href="https://github.com/waitingonalice/Expense-tracker"
+        >
           <img alt="github" src="/github-mark.svg" width={24} />
         </a>
-        <a href="https://www.linkedin.com/in/wilson-sie-6a3485155/">
+        <a
+          rel="noreferrer"
+          target="_blank"
+          href="https://www.linkedin.com/in/wilson-sie-6a3485155/"
+        >
           <img alt="linkedIn" src="/linkedIn.svg" width={24} />
         </a>
-        <Text type="body">Expense Tracker &copy;</Text>
+        <Text type="body">Expense Tracker&copy; 2023</Text>
       </footer>
     </div>
   );

@@ -288,7 +288,7 @@ export const forgotPasswordTemplate = (name: string, url: string) => `
                                         font-size: 16px;
                                         line-height: 28.8px;
                                       "
-                                      >You recently requested to reset your
+                                      >You have recently requested to reset your
                                       password for your Expense Tracker account.
                                       <br />
                                       To proceed, please click on the
@@ -416,8 +416,8 @@ export const forgotPasswordTemplate = (name: string, url: string) => `
                                         font-size: 16px;
                                         line-height: 27.2px;
                                       "
-                                      >If you did not request for a password
-                                      reset, please ignore this email. This
+                                      >If this request was not made by you,
+                                      please ignore this email. This
                                       password reset is only valid for the next
                                       30 minutes.
                                     </span>
