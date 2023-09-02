@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { ErrorEnum } from "~/constants/enum";
-import { generateAuthToken } from "~/middleware/generateToken";
+import { generateAuthToken } from "~/controllers/auth";
 import { db, rest } from "~/utils";
 
 type RequestBody = {

@@ -1,12 +1,11 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 import { ErrorEnum } from "~/constants/enum";
-import { sendEmailVerification } from "~/middleware/emailVerification";
+import { sendEmailVerification } from "~/controllers/auth";
 import { emailVerificationTemplate } from "~/template/verify";
 import { rest } from "~/utils";
 import { createAccountLimiter } from "./middleware/rateLimiter";
-import { RegisterProps, register } from "./middleware/registerHash";
-import { registrationSchema } from "./utils/validation";
+import { RegisterProps, register, registrationSchema } from "./controllers";
 
 const router = rest.express.Router();
 

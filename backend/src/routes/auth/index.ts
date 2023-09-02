@@ -7,9 +7,6 @@ import registerRoute from "./register";
 import setPasswordRoute from "./set-password";
 import verifyRoute from "./verify";
 
-export * from "./register/middleware/registerHash";
-export * from "./verify/middleware/verifyToken";
-
 const authenticationEndpoints = (app: ReturnType<typeof express>) => {
   app.use(api.auth, registerRoute);
   app.use(api.auth, verifyRoute);

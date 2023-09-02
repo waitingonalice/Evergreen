@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { rest } from "~/utils";
-import { verify } from "./middleware/verifyToken";
+import { verify } from "./controllers/verifyToken";
 
 const router = rest.express.Router();
 
