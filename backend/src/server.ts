@@ -16,7 +16,7 @@ app.use(rest.cors());
 app.use(rest.express.json());
 app.use(rest.helmet());
 
-app.get("/", (req: Request, res: Response) => res.send(welcomeTemplate));
+app.get("/", (_: Request, res: Response) => res.send(welcomeTemplate));
 
 authenticationEndpoints(app);
 

@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
+import { z } from "zod";
 import { ErrorEnum } from "~/constants/enum";
+import { passwordHash } from "~/controllers/auth";
 import { db } from "~/utils";
-import { passwordHash } from "~/utils/auth";
 
 export type RegisterProps = {
   email: string;
@@ -40,3 +41,14 @@ export const register = async (input: RegisterProps) => {
   if (!account) throw new Error(ErrorEnum.CREATION_ACCOUNT_FAILED);
   return { account, token };
 };
+
+export const registrationSchema = z
+  .object({
+    email: z.string().min(1).email({ message: ErrorEnum.INVALID_EMAIL }),
+    password: z.string().min(1),
+    confirmPassword: z.string().min(1),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: ErrorEnum.PASSWORD_MISMATCH,
+    path: ["confirmPassword"],
+  });

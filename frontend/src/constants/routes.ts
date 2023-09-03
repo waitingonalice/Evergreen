@@ -8,6 +8,7 @@ export const clientRoutes = {
     register: "/register",
     verify: "/verify",
     forgotPassword: "/forgot-password",
+    resetPassword: "/set-password",
   },
 
   dashboard: {
@@ -22,5 +23,6 @@ export const apiRoutes = {
     login: `${api}auth/login`,
     refreshToken: `${api}auth/refresh-token`,
     forgotPassword: `${api}auth/forgot-password`,
+    resetPassword: (token: string) => `${api}auth/set-password/${token}`,
   },
 };

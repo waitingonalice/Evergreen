@@ -17,7 +17,7 @@ export const errorMap = (error: unknown): string | undefined => {
       case "400006":
         return "Invalid token";
       case "400007":
-        return "Expired token";
+        return "The current session has expired.";
       case "400008":
         return "Password mismatch";
       case "400009":
@@ -34,6 +34,8 @@ export const errorMap = (error: unknown): string | undefined => {
         return "There were too many account creation attempts. Please try again later.";
       case "429001":
         return "There were too many login attempts. Please try again later.";
+      case "429002":
+        return "There were too many password reset attempts. Please try again later.";
       default:
         return "Internal Server Error";
     }

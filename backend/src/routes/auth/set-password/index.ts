@@ -1,22 +1,13 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ErrorEnum } from "~/constants/enum";
-import { sendEmailVerification } from "~/middleware/emailVerification";
-import { setPasswordTemplate } from "~/template/set-password";
-import { db, rest } from "~/utils";
-import { passwordHash } from "~/utils/auth";
+import { rest } from "~/utils";
 import { setPasswordLimiter } from "./middleware/rateLimiter";
-import { passwordSchema } from "./utils/validation";
+import { updateUserPassword, verifyUserData } from "./controllers";
 
-interface RequestBody {
+export interface RequestBody {
   password: string;
   confirmPassword: string;
-}
-
-interface JwtPayload {
-  data: {
-    id: string;
-  };
 }
 
 enum JwtErrorMessage {
@@ -33,31 +24,12 @@ router.post(
     try {
       const { password, confirmPassword } = req.body as RequestBody;
       const { token } = req.params;
-      const validate = passwordSchema.safeParse({ password, confirmPassword });
-      if (!validate.success) throw new Error(validate.error.errors[0].message);
-
-      if (!process.env.SESSION_SECRET)
-        throw new Error("SESSION_SECRET is not defined");
-
-      const decoded = jwt.verify(token, process.env.SESSION_SECRET) as
-        | JwtPayload
-        | undefined;
-      if (!decoded) throw new Error(ErrorEnum.INVALID_TOKEN);
-
-      const hashPassword = await passwordHash(confirmPassword);
-
-      const user = await db.account.update({
-        where: { id: decoded?.data.id },
-        data: { password: hashPassword },
-        select: { firstName: true, email: true },
+      const decodedUserData = verifyUserData({
+        password,
+        confirmPassword,
+        token,
       });
-
-      if (!user) throw new Error(ErrorEnum.INTERNAL_SERVER_ERROR);
-
-      await sendEmailVerification(
-        user.email,
-        setPasswordTemplate(user.firstName, `${process.env.DOMAIN_URL}/login`)
-      );
+      await updateUserPassword(decodedUserData, confirmPassword);
 
       return res.status(200).json({ result: "ok" });
     } catch (err) {

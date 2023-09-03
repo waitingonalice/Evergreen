@@ -10,6 +10,7 @@ import {
   ForgotPassword,
   Login,
   Register,
+  ResetPassword,
   Root,
   Verify,
 } from "~/routes";
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
             path: clientRoutes.auth.forgotPassword,
             element: <ForgotPassword />,
           },
+          { path: clientRoutes.auth.resetPassword, element: <ResetPassword /> },
         ],
       },
       // Main content starts here

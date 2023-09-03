@@ -1,41 +1,22 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import z from "zod";
 import { ErrorEnum } from "~/constants/enum";
-import { sendEmailVerification } from "~/middleware/emailVerification";
-import { forgotPasswordTemplate } from "~/template/forgot-password";
-import { db, rest } from "~/utils";
+import { rest } from "~/utils";
+import {
+  generateTokenAndSendEmailTemplate,
+  verifyUserByEmail,
+} from "./controllers";
 
 interface RequestBody {
   email: string;
 }
-
-const emailSchema = z.string().email({ message: ErrorEnum.INVALID_EMAIL });
 
 const router = rest.express.Router();
 
 router.post("/forgot-password", async (req: Request, res: Response) => {
   const { email }: RequestBody = req.body;
   try {
-    const result = emailSchema.safeParse(email);
-    if (!result.success) throw new Error(result.error.errors[0].message);
-    const user = await db.account.findUnique({ where: { email } });
-    if (!user) throw new Error(ErrorEnum.INVALID_EMAIL);
-
-    const token =
-      process.env.SESSION_SECRET &&
-      jwt.sign({ data: { id: user.id } }, process.env.SESSION_SECRET, {
-        expiresIn: "30min",
-      });
-
-    await sendEmailVerification(
-      user.email,
-      forgotPasswordTemplate(
-        user.firstName,
-        `${process.env.DOMAIN_URL}/set-password?code=${token}`
-      ),
-      "Reset password"
-    );
+    const user = await verifyUserByEmail(email);
+    await generateTokenAndSendEmailTemplate(user);
     return res.status(200).json({ result: "ok" });
   } catch (err) {
     if (err instanceof Error) {
