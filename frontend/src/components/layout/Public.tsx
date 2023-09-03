@@ -8,9 +8,9 @@ const RootLayout = () => {
   useCanvasGradient(canvasRef);
   return (
     <div className="flex flex-col lg:h-screen lg:flex-row">
-      <div className="flex h-screen flex-col items-center justify-center p-8 lg:h-full lg:w-1/2 relative">
+      <main className="flex h-screen flex-col items-center justify-center p-8 lg:h-full lg:w-1/2 relative">
         <Outlet />
-      </div>
+      </main>
       <div className="lg:w-1/2 bg-primary-dark">
         <img
           src="/landing.svg"

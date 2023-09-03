@@ -96,7 +96,7 @@ export const useForm = ({ zod, data }: UseFormType) => {
      */
     validate: (id: string, value: string) => {
       if (!zod) return "";
-      const checkValue = isNumber(value) ? +value : value ?? "";
+      const checkValue = isNumber(value) ? Number(value) : value ?? "";
       const singleSchema = subsetSchema(id);
       const result = singleSchema.safeParse({
         [id]: checkValue,
