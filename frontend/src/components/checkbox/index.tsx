@@ -47,7 +47,7 @@ export const Checkbox = ({
       />
       {label && (
         <label htmlFor={id}>
-          <Text type="button" className="text-body">
+          <Text type="button" className="text-body whitespace-nowrap">
             {label}
           </Text>
         </label>

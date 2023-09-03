@@ -1,9 +1,8 @@
-import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { ErrorEnum } from "~/constants/enum";
-import { Rest, db } from "~/utils";
-import { generateToken } from "./middleware/generateToken";
+import { rest } from "~/utils";
 import { loginLimiter } from "./middleware/rateLimiter";
+import { generateTokens, verifyCredentials } from "./controllers";
 
 export type InputValues = {
   email: string;
@@ -11,22 +10,19 @@ export type InputValues = {
   rememberMe: boolean;
 };
 
-const router = Rest.express.Router();
+const router = rest.express.Router();
 
 router.post("/login", loginLimiter, async (req: Request, res: Response) => {
   try {
     const input = req.body as InputValues;
-    const user = await db.account.findUnique({
-      where: { email: input.email },
-    });
-    if (!user) throw new Error(ErrorEnum.INVALID_LOGIN_CRED);
-    if (user && !user.active) throw new Error(ErrorEnum.EMAIL_NOT_VERIFIED);
-    const passwordMatch = await bcrypt.compare(input.password, user.password);
-    if (!passwordMatch) throw new Error(ErrorEnum.INVALID_LOGIN_CRED);
-    const tokens = generateToken(user, input.rememberMe);
+    const user = await verifyCredentials(input);
+    const { auth, refresh } = generateTokens(input, user);
     return res.status(200).json({
       result: {
-        tokens,
+        tokens: {
+          auth,
+          refresh,
+        },
         id: user.id,
         country: user.country,
         firstName: user.firstName,

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { ErrorEnum } from "~/constants/enum";
-import { Rest, db } from "~/utils";
+import { generateAuthToken } from "~/controllers/auth";
+import { db, rest } from "~/utils";
 
 type RequestBody = {
   refreshToken: string;
@@ -11,9 +12,9 @@ interface DecodedToken {
   rememberMe: boolean;
 }
 
-const router = Rest.express.Router();
+const router = rest.express.Router();
 
-router.get("/refreshToken", async (req, res) => {
+router.get("/refresh-token", async (req, res) => {
   const input: RequestBody = req.body;
 
   try {
@@ -22,27 +23,11 @@ router.get("/refreshToken", async (req, res) => {
     const { id } = decoded as DecodedToken;
     const user = await db.account.findUnique({ where: { id } });
     if (!user) throw new Error(ErrorEnum.INVALID_REFRESH_TOKEN);
-    const { id: userId, country, firstName, lastName, active, email } = user;
-
-    const auth = jwt.sign(
-      {
-        data: {
-          userId,
-          country,
-          firstName,
-          lastName,
-          verified: active,
-          email,
-        },
-      },
-      process.env.SESSION_SECRET,
-      { expiresIn: "15min" }
-    );
+    const auth = generateAuthToken(user, process.env.SESSION_SECRET);
     return res.status(200).json({ result: { auth } });
   } catch (err) {
-    if (err instanceof Error) {
+    if (err instanceof Error)
       return res.status(401).json({ code: err.message });
-    }
     return res.status(500).json({ code: ErrorEnum.INTERNAL_SERVER_ERROR });
   }
 });

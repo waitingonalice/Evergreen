@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { Rest } from "~/utils";
-import { verify } from "./middleware/verifyToken";
+import { rest } from "~/utils";
+import { verify } from "./controllers/verifyToken";
 
-const router = Rest.express.Router();
+const router = rest.express.Router();
 
 router.get("/verify/:token", async (req: Request, res: Response) => {
   const jwtToken = req.params.token;
