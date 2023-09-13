@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { ErrorEnum } from "~/constants/enum";
 import { passwordHash } from "~/controllers/auth";
-import { db } from "~/utils";
+import { prisma } from "~/db";
 
 export type RegisterProps = {
   email: string;
@@ -23,7 +23,7 @@ export const register = async (input: RegisterProps) => {
   if (!token) throw new Error(ErrorEnum.INTERNAL_SERVER_ERROR);
   const hash = await passwordHash(confirmPassword);
 
-  const account = await db.account.create({
+  const account = await prisma.account.create({
     data: {
       email,
       country,

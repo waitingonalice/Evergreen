@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { ErrorEnum } from "~/constants/enum";
-import { db } from "~/utils";
+import { prisma } from "~/db";
 
 enum JwtErrorMessage {
   EXPIRED = "jwt expired",
@@ -19,14 +19,14 @@ export const verify = async (token: string) => {
     const decoded = (process.env.SESSION_SECRET &&
       jwt.verify(token, process.env.SESSION_SECRET)) as DecodedType | undefined;
     const email = decoded?.data.email || "";
-    const account = await db.account.findUnique({
+    const account = await prisma.account.findUnique({
       where: { email },
       select: { active: true },
     });
     if (account?.active) {
       throw new Error(ErrorEnum.DUPLICATE_TOKEN);
     } else if (email) {
-      const data = await db.account.update({
+      const data = await prisma.account.update({
         where: { email },
         data: { active: true },
         select: { email: true },

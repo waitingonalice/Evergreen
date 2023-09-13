@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { ErrorEnum } from "~/constants/enum";
 import { generateAuthToken, generateRefreshToken } from "~/controllers/auth";
-import { db } from "~/utils";
+import { prisma } from "~/db";
 
 export type InputValues = {
   email: string;
@@ -9,7 +9,7 @@ export type InputValues = {
   rememberMe: boolean;
 };
 export const verifyCredentials = async (input: InputValues) => {
-  const user = await db.account.findUnique({
+  const user = await prisma.account.findUnique({
     where: { email: input.email },
   });
   if (!user) throw new Error(ErrorEnum.INVALID_LOGIN_CRED);

@@ -2,8 +2,8 @@ import jwt from "jsonwebtoken";
 import z from "zod";
 import { ErrorEnum } from "~/constants/enum";
 import { passwordHash, sendEmailVerification } from "~/controllers/auth";
+import { prisma } from "~/db";
 import { setPasswordTemplate } from "~/template/set-password";
-import { db } from "~/utils";
 import { RequestBody } from "..";
 
 export const passwordSchema = z
@@ -51,7 +51,7 @@ export const updateUserPassword = async (
   confirmPassword: string
 ) => {
   const hashPassword = await passwordHash(confirmPassword);
-  const user = await db.account.update({
+  const user = await prisma.account.update({
     where: { id: decodedToken?.data.id },
     data: { password: hashPassword },
     select: { firstName: true, email: true },
