@@ -1,13 +1,12 @@
 /* eslint-disable no-console */
 
 /* eslint-disable lines-between-class-members */
-import { Pool } from "pg";
+import { Pool, QueryResultRow } from "pg";
 
 interface QueryConfigType {
   text: string;
   values?: any[];
   name?: string;
-  rowMode?: string;
 }
 class PgClient {
   private client?: Pool;
@@ -47,15 +46,19 @@ class PgClient {
     }
   };
 
-  query = async <T>({ text, values, name }: QueryConfigType) => {
+  query = async <T extends QueryResultRow>({
+    text,
+    values,
+    name,
+  }: QueryConfigType) => {
     try {
       this.lastQuery = text;
-      const res = await this.client?.query({
+      const res = await this.client?.query<T>({
         text,
         values,
         name,
       });
-      return res as T;
+      return res;
     } catch (err) {
       console.error(err);
       return null;
