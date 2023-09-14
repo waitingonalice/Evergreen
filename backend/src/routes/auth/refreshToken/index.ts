@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import { ErrorEnum } from "~/constants/enum";
 import { generateAuthToken } from "~/controllers/auth";
-import { db, rest } from "~/utils";
+import { prisma } from "~/db";
+import { rest } from "~/utils";
 
 type RequestBody = {
   refreshToken: string;
@@ -21,7 +22,7 @@ router.get("/refresh-token", async (req, res) => {
     if (!process.env.SESSION_SECRET) throw new Error("SESSION_SECRET not set");
     const decoded = jwt.verify(input.refreshToken, process.env.SESSION_SECRET);
     const { id } = decoded as DecodedToken;
-    const user = await db.account.findUnique({ where: { id } });
+    const user = await prisma.account.findUnique({ where: { id } });
     if (!user) throw new Error(ErrorEnum.INVALID_REFRESH_TOKEN);
     const auth = generateAuthToken(user, process.env.SESSION_SECRET);
     return res.status(200).json({ result: { auth } });

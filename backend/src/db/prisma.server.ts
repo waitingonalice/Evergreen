@@ -5,7 +5,7 @@
 /* eslint-disable import/no-mutable-exports */
 import { PrismaClient } from "@prisma/client";
 
-let db: PrismaClient;
+let prisma: PrismaClient;
 declare global {
   // eslint-disable-next-line no-var
   var __db: PrismaClient | undefined;
@@ -16,6 +16,6 @@ if (!global.__db) {
 }
 
 // eslint-disable-next-line prefer-const
-db = global.__db;
+prisma = global.__db;
 
-export { db };
+export { prisma };

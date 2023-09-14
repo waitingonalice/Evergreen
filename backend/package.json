@@ -12,7 +12,8 @@
     "seed": "prisma db seed",
     "dev": "nodemon",
     "build": "rm -rf ./build && yarn tsc && yarn tsc-alias -p tsconfig.json",
-    "start": "node build/server.js"
+    "start": "node build/server.js",
+    "run-container": "docker-compose up -d --build"
   },
   "keywords": [],
   "author": "",

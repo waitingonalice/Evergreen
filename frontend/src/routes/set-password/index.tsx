@@ -45,7 +45,7 @@ const ResetPassword = () => {
       const success = onSubmitValidate();
       if (success) {
         const token = params.get("code");
-        if (!token) throw new Error("Missing token");
+        if (!token) throw new Error("Invalid token");
         resetPassword({ ...fields, token });
         params.delete("code");
       }

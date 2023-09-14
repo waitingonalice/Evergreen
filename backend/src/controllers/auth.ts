@@ -41,6 +41,17 @@ interface User {
   email: string;
 }
 
+export interface DecodedAuthTokenType {
+  data: {
+    userId: string;
+    country: string;
+    firstName: string;
+    lastName: string;
+    verified: boolean;
+    email: string;
+  };
+  exp: number;
+}
 export const generateAuthToken = (user: User, secret: string) => {
   const { id: userId, country, firstName, lastName, active, email } = user;
   const auth = jwt.sign(
