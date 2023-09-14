@@ -9,8 +9,9 @@ interface QueryConfigType {
   name?: string;
 }
 class PgClient {
-  private client?: Pool;
+  private client: Pool;
   private lastQuery?: string;
+  private stats?: Record<string, number>;
 
   constructor() {
     const config = {
@@ -20,29 +21,39 @@ class PgClient {
       idle_in_transaction_session_timeout: 20000, // 20 seconds
     };
 
-    const pool = new Pool(config);
-    this.client = pool;
+    this.client = new Pool(config);
 
-    pool.on("error", (err) => {
+    this.client.on("error", (err) => {
       console.error("Unexpected error on idle client", err);
-      pool.end();
+      this.client.end();
       process.exit(-1);
     });
+
+    this.stats = {
+      totalCount: 0,
+      idleCount: 0,
+      waitingCount: 0,
+    };
+  }
+
+  private setStats() {
+    this.stats = {
+      totalCount: this.client.totalCount,
+      idleCount: this.client.idleCount,
+      waitingCount: this.client.waitingCount,
+    };
   }
 
   clientHealthCheck = async () => {
     try {
       await this.client?.query("SELECT NOW()");
-      const totalCount = this.client?.totalCount;
-      const idleCount = this.client?.idleCount;
-      const waitingCount = this.client?.waitingCount;
-      console.log("totalCount", totalCount);
-      console.log("idleCount", idleCount);
-      console.log("waitingCount", waitingCount);
-      console.log("lastQuery", this.lastQuery);
+      this.setStats();
+      console.log("stats", this.stats);
     } catch (err) {
       console.error("PostgreSQL is not connected");
       console.error(err);
+      this.setStats();
+      console.error(this.stats);
     }
   };
 
@@ -58,6 +69,7 @@ class PgClient {
         values,
         name,
       });
+      this.setStats();
       return res;
     } catch (err) {
       console.error(err);
