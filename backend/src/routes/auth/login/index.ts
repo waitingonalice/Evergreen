@@ -31,7 +31,7 @@ router.post("/login", loginLimiter, async (req: Request, res: Response) => {
     });
   } catch (error) {
     if (error instanceof Error)
-      return res.status(400).json({ code: error.message });
+      return res.status(401).json({ code: error.message });
     return res.status(500).json({ code: ErrorEnum.INTERNAL_SERVER_ERROR });
   }
 });

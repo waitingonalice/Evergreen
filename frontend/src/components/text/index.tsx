@@ -8,6 +8,7 @@ interface TextProps {
     | "h3"
     | "subhead-1"
     | "subhead-2"
+    | "subhead-2-bold"
     | "body-bold"
     | "body"
     | "button"
@@ -23,7 +24,8 @@ export const Text = ({ type, children, className }: TextProps) => {
     h2: "text-[60px] font-bold tracking-[-0.005em]",
     h3: "text-[48px] font-bold tracking-normal",
     "subhead-1": "text-[34px] font-medium tracking-[0.0025em]",
-    "subhead-2": "text-[24px] font-light tracking-wide",
+    "subhead-2": "text-[18px] font-light tracking-normal",
+    "subhead-2-bold": "text-[18px] font-medium tracking-normal",
     "body-bold": "text-[16px] font-semibold",
     body: "text-[16px] font-normal",
     button: "text-[14px] font-medium tracking-[0.0125em]",
@@ -37,6 +39,7 @@ export const Text = ({ type, children, className }: TextProps) => {
     h3: "h3",
     "subhead-1": "h4",
     "subhead-2": "h5",
+    "subhead-2-bold": "h5",
     "body-bold": "h5",
     body: "p",
     button: "p",

@@ -37,6 +37,7 @@ export const request = async <Response extends ResponseType, Variables>({
     if (res.code === "401000") {
       return window.location.assign(`${clientRoutes.auth.login}?expired`);
     }
+
     throw new Error(res.code);
   } else if (!response.ok) {
     throw new Error(`${response.status}`);

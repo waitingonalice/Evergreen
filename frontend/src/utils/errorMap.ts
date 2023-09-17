@@ -20,12 +20,14 @@ export const errorMap = (error: unknown): string | undefined => {
         return "The current session has expired.";
       case "400008":
         return "Password mismatch";
-      case "400009":
-        return "Email not verified";
       case "400010":
         return "The email or password you entered is incorrect.";
       case "401000":
         return "Unauthorized access";
+      case "401009":
+        return "Email not verified";
+      case "403000":
+        return "Forbidden access";
       case "404000":
         return "Resource Not Found";
       case "404001":

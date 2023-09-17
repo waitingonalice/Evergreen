@@ -1,13 +1,12 @@
 import { Outlet } from "react-router-dom";
-import { NavMenu, Topbar } from "~/components";
+import { SideBar } from "./Sidebar";
 
 function Layout() {
   return (
-    <>
-      <Topbar />
-      <NavMenu />
+    <main className="w-full min-w-fit">
+      <SideBar />
       <Outlet />
-    </>
+    </main>
   );
 }
 
