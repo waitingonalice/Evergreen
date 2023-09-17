@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.0.0",
+    "@prisma/client": "^5.3.1",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.9",
@@ -48,7 +48,7 @@
     "@types/uuid": "^9.0.2",
     "esbuild-register": "^3.3.3",
     "nodemon": "^2.0.20",
-    "prisma": "5",
+    "prisma": "^5.3.1",
     "ts-node": "^10.9.1",
     "tsc-alias": "^1.8.7",
     "tsconfig-paths": "^4.2.0",

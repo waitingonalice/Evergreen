@@ -17,4 +17,40 @@ model Account {
   active    Boolean  @default(false)
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
+  balance   Balance?
+}
+
+model Balance {
+  id           Int           @id @default(autoincrement())
+  account      Account       @relation(fields: [accountId], references: [id])
+  accountId    String        @unique
+  currency     Currency      @default(USD)
+  total        Decimal       @default(0)
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+}
+
+model Transaction {
+  id                  Int                  @id @default(autoincrement())
+  balance             Balance              @relation(fields: [balanceId], references: [id])
+  balanceId           Int
+  amount              Decimal
+  recurring           Boolean              @default(false)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  transactionSchedule TransactionSchedule?
+}
+
+model TransactionSchedule {
+  id            Int         @id @default(autoincrement())
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  transactionId Int         @unique
+  frequency     String
+  nextRun       Int
+  createdAt     DateTime    @default(now())
+}
+
+enum Currency {
+  SGD
+  USD
 }
