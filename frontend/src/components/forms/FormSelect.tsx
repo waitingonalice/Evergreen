@@ -10,10 +10,10 @@ interface SelectProps {
   validate?: ReturnType<typeof useForm>["validate"];
   disabled?: boolean;
   placeholder?: string;
-  defaultValue?: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   selectClassName?: string;
   className?: string;
+  value?: string;
 }
 // controlled component
 const FormSelect = forwardRef(
@@ -24,16 +24,15 @@ const FormSelect = forwardRef(
       validate,
       disabled,
       placeholder,
-      defaultValue,
       className,
       selectClassName,
       onChange,
       options,
+      value,
     }: SelectProps,
     ref: Ref<HTMLSelectElement>
   ) => {
     const [error, setError] = useState("");
-    const [selected, setSelected] = useState<string>(defaultValue ?? "");
 
     const handleOnChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       if (onChange) onChange(e);
@@ -41,7 +40,6 @@ const FormSelect = forwardRef(
         const message = validate(id, e.currentTarget.value);
         setError(message);
       }
-      setSelected(e.currentTarget.value);
     };
 
     const handleOnBlur = (e: React.FocusEvent<HTMLSelectElement>) => {
@@ -64,17 +62,17 @@ const FormSelect = forwardRef(
             id={id}
             ref={ref}
             className={clsx(
-              "disabled:text-disabled disabled:ring-disabled block w-full rounded-sm border-0 py-2.5 text-sm tracking-wide ring-1 transition-all duration-100 focus:ring-2 focus:ring-offset-1 disabled:cursor-not-allowed",
+              "disabled:text-disabled disabled:ring-disabled block w-full rounded-md border-0 py-2.5 text-sm tracking-wide ring-1 transition-all duration-100 focus:ring-2 focus:ring-offset-1 disabled:cursor-not-allowed",
               error
                 ? "focus:ring-errorMain ring-errorMain pr-10"
                 : "focus:ring-secondary text-dark ring-gray-400",
-              placeholder && !selected && "text-disabled",
+              placeholder && !value && "text-disabled",
               selectClassName
             )}
             disabled={disabled}
             onBlur={(e) => handleOnBlur(e)}
             onChange={(e) => handleOnChange(e)}
-            value={selected}
+            value={value}
           >
             {placeholder && (
               <option value="" disabled>

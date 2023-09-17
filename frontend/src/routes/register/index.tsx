@@ -118,6 +118,7 @@ const Register = () => {
             options={countryOptions}
             placeholder="Select a country"
             validate={validate}
+            value={fields.country ?? ""}
             ref={ref}
             onChange={(e) => handleInputOnChange(e.target.id, e.target.value)}
           />
