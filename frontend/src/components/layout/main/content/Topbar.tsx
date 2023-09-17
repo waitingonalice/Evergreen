@@ -67,7 +67,7 @@ const Topbar = ({ buttons, className, search }: TopbarProps) => {
 
       <div
         className={clsx(
-          "sticky top-0 pl-40 pr-4 py-6 border-b border-gray-300 bg-dark shadow-md flex justify-end items-center",
+          "sticky top-0 pl-40 pr-4 py-4 border-b border-gray-300 bg-dark shadow-md flex justify-end items-center",
           className
         )}
       >
@@ -92,7 +92,7 @@ const Topbar = ({ buttons, className, search }: TopbarProps) => {
           </Button>
         ))}
         <Menu as="div" className="relative">
-          <Menu.Button className="transition duration-100 ease-out rounded-full focus:outline-none focus:ring-2 focus:ring-primary-2">
+          <Menu.Button className="items-center flex transition duration-100 ease-out rounded-full focus:outline-none focus:ring-2 focus:ring-primary-2">
             {/* TODO: integrate profile avatar */}
             <UserCircleIcon className="h-10 w-auto text-white opacity-60" />
           </Menu.Button>
