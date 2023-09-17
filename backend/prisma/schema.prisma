@@ -21,13 +21,22 @@ model Account {
 }
 
 model Balance {
-  id           Int           @id @default(autoincrement())
-  account      Account       @relation(fields: [accountId], references: [id])
-  accountId    String        @unique
-  currency     Currency      @default(USD)
-  total        Decimal       @default(0)
-  updatedAt    DateTime      @updatedAt
-  transactions Transaction[]
+  id               Int              @id @default(autoincrement())
+  account          Account          @relation(fields: [accountId], references: [id])
+  accountId        String           @unique
+  previousCurrency Currency?
+  currency         Currency         @default(USD)
+  updatedAt        DateTime         @updatedAt
+  transactions     Transaction[]
+  balanceHistory   BalanceHistory[]
+}
+
+model BalanceHistory {
+  id        Int      @id @default(autoincrement())
+  balance   Balance  @relation(fields: [balanceId], references: [id])
+  balanceId Int
+  total     Decimal  @default(0)
+  createdAt DateTime @default(now())
 }
 
 model Transaction {
