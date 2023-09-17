@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-interface ButtonProps {
+export interface ButtonProps {
   className?: string;
   variant?:
     | "errorLink"
@@ -13,7 +13,7 @@ interface ButtonProps {
   value?: string;
   id?: string;
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const FormButton = ({
@@ -36,23 +36,29 @@ const FormButton = ({
 
   const variantMapper = {
     primary: clsx(
-      "bg-primary hover:enabled:bg-secondary text-important active:enabled:bg-tertiary",
+      "bg-primary hover:enabled:bg-secondary text-important active:enabled:bg-tertiary active:enabled:ring-primary active:enabled:ring-2 active:enabled:ring-offset-1",
       baseStyleButton
     ),
     secondary: clsx(
-      "bg-important text-primary hover:enabled:bg-green-50 active:enabled:bg-green-100 border-2 border-primary",
+      "bg-important text-primary hover:enabled:bg-gray-200 active:enabled:bg-gray-300 active:enabled:ring-primary active:enabled:ring-2 active:enabled:ring-offset-1",
       baseStyleButton
     ),
     error: clsx(
-      "bg-errorMain text-important hover:enabled:bg-errorSecondary active:enabled:bg-errorTertiary",
+      "bg-errorMain text-important hover:enabled:bg-errorSecondary active:enabled:bg-errorTertiary active:enabled:ring-errorMain active:enabled:ring-2 active:enabled:ring-offset-1",
       baseStyleButton
     ),
     primaryLink:
       "hover:text-secondary text-primary active:enabled:text-tertiary",
     secondaryLink:
-      "hover:text-standard text-important active:enabled:text-green-100",
+      "hover:text-gray-200 text-important active:enabled:text-gray-300",
     errorLink:
       "text-errorMain hover:text-errorSecondary active:enabled:text-errorTertiary",
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (onClick) {
+      onClick(e);
+    }
   };
 
   return (
@@ -63,7 +69,7 @@ const FormButton = ({
       className={clsx(baseStyle, variantMapper[variant], className)}
       disabled={disabled}
       value={value}
-      onClick={onClick && onClick}
+      onClick={handleClick}
     >
       {children}
     </button>

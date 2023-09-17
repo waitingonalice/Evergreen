@@ -11,8 +11,22 @@ export const clientRoutes = {
     resetPassword: "/set-password",
   },
 
+  profile: { index: authRoute("/profile") },
+
   dashboard: {
     index: authRoute("/dashboard"),
+  },
+  billing: {
+    index: authRoute("/billing"),
+  },
+  payment: {
+    index: authRoute("/payment"),
+  },
+  balance: {
+    index: authRoute("/balance"),
+  },
+  kanban: {
+    index: authRoute("/kanban"),
   },
 };
 

@@ -10,7 +10,7 @@ import { useForm } from "~/utils";
 
 interface InputProps {
   id: string;
-  label: { required?: boolean; text: string };
+  label?: { required?: boolean; text: string };
   validate?: ReturnType<typeof useForm>["validate"];
   placeholder?: string;
   value: string;
@@ -18,12 +18,14 @@ interface InputProps {
   disabled?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isPassword?: boolean;
+  inputClassName?: string;
+  prefixIcon?: React.ReactNode;
 }
 
 // controlled form input component
 const FormInput = forwardRef(
-  (
-    {
+  (props: InputProps, ref: Ref<HTMLInputElement>) => {
+    const {
       id,
       validate,
       label,
@@ -33,9 +35,9 @@ const FormInput = forwardRef(
       onChange,
       disabled,
       isPassword,
-    }: InputProps,
-    ref: Ref<HTMLInputElement>
-  ) => {
+      inputClassName,
+      prefixIcon,
+    } = props;
     const [error, setError] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const Icon = isPasswordVisible ? EyeIcon : EyeSlashIcon;
@@ -56,13 +58,20 @@ const FormInput = forwardRef(
     };
     return (
       <div className={className}>
-        <span className="flex">
-          <Label name={id}>{label.text}</Label>
-          {label.required ? (
-            <span className="ml-1 text-lg text-red-500">*</span>
-          ) : null}
-        </span>
+        {label && (
+          <span className="flex">
+            <Label name={id}>{label.text}</Label>
+            {label.required ? (
+              <span className="ml-1 text-lg text-red-500">*</span>
+            ) : null}
+          </span>
+        )}
         <div className="relative mt-1 rounded-md shadow-sm">
+          {prefixIcon && (
+            <div className="inset-y-0 left-0 px-3 absolute items-center flex">
+              {prefixIcon}
+            </div>
+          )}
           <input
             disabled={disabled}
             ref={ref}
@@ -72,7 +81,9 @@ const FormInput = forwardRef(
               "block w-full rounded-md border-0 py-2.5 text-sm tracking-wide placeholder-gray-300 ring-1 transition-all duration-100 focus:ring-2 focus:ring-offset-1",
               error
                 ? "focus:ring-errorMain ring-errorMain text-errorMain pr-10"
-                : "focus:ring-secondary text-dark ring-gray-400"
+                : "focus:ring-secondary text-dark ring-gray-400",
+              inputClassName,
+              prefixIcon && "pl-10"
             )}
             placeholder={placeholder}
             value={value}

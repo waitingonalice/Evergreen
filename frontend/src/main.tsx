@@ -6,12 +6,17 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Layout, OnboardLayout } from "~/components";
 import { clientRoutes } from "~/constants";
 import {
+  Balance,
+  Billing,
   Dashboard,
   ForgotPassword,
+  Kanban,
   Login,
+  Payment,
   Register,
   ResetPassword,
   Root,
+  UnknownRoute,
   Verify,
 } from "~/routes";
 import "../styles/animations.css";
@@ -37,13 +42,19 @@ const router = createBrowserRouter([
           { path: clientRoutes.auth.resetPassword, element: <ResetPassword /> },
         ],
       },
-      // Main content starts here
+      // Main app starts here
       {
         element: <Layout />,
         children: [
           { path: clientRoutes.dashboard.index, element: <Dashboard /> },
+          { path: clientRoutes.balance.index, element: <Balance /> },
+          { path: clientRoutes.payment.index, element: <Payment /> },
+          { path: clientRoutes.billing.index, element: <Billing /> },
+          { path: clientRoutes.kanban.index, element: <Kanban /> },
         ],
       },
+      // 404
+      { element: <UnknownRoute />, path: "*" },
     ],
   },
 ]);

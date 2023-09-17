@@ -37,7 +37,7 @@ export const MessageBox = ({ error }: MessageBoxProps) => {
         <Alert
           className={className}
           show={Boolean(location.search)}
-          title="Logout successful."
+          title="Account successfully signed out."
           type="success"
         />
       );
