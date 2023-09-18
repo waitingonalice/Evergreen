@@ -32,26 +32,26 @@ model BalanceHistory {
 }
 
 model Transaction {
-  id                  Int                  @id @default(autoincrement())
-  title               String
-  description         String?
-  amount              Decimal
-  category            String
-  recurring           Boolean              @default(false) // to be used for billing payments
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
-  account             Account              @relation(fields: [accountId], references: [id])
-  accountId           String
-  transactionSchedule TransactionSchedule?
+  id                    Int                  @id @default(autoincrement())
+  title                 String
+  description           String?
+  amount                Decimal
+  category              String
+  recurring             Boolean              @default(false) // to be used for billing payments
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  account               Account              @relation(fields: [accountId], references: [id])
+  accountId             String
+  transactionSchedule   TransactionSchedule? @relation(fields: [transactionScheduleId], references: [id])
+  transactionScheduleId Int?
 }
 
 // used for billing payment
 model TransactionSchedule {
-  id            Int         @id @default(autoincrement())
-  transaction   Transaction @relation(fields: [transactionId], references: [id])
-  transactionId Int         @unique
-  frequency     String
-  nextRun       Int
+  id          Int           @id @default(autoincrement())
+  frequency   String
+  nextRun     Int
+  transaction Transaction[]
 }
 
 enum Currency {
