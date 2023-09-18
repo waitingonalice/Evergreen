@@ -17,8 +17,8 @@
     "lint:frontend": "nx exec -- eslint ./frontend --cache --cache-location ./node_modules/.cache/eslint",
     "lint:backend": "nx exec -- eslint ./backend --cache --cache-location ./node_modules/.cache/eslint",
     "typecheck": "nx exec -- run-p tsc:*",
-    "tsc:frontend": "nx exec -- tsc --noEmit --skipLibCheck --project ./frontend/tsconfig.json",
-    "tsc:backend": "nx exec -- tsc --noEmit --skipLibCheck --project ./backend/tsconfig.json",
+    "tsc:frontend": "nx exec -- tsc --noEmit --skipLibCheck -p ./frontend/tsconfig.json",
+    "tsc:backend": "nx exec -- tsc --noEmit --skipLibCheck -p ./backend/tsconfig.json",
     "prettier:write": "prettier . --write"
   },
   "config": {
@@ -53,8 +53,10 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
-      "yarn lint",
-      "yarn typecheck",
+      "eslint ./frontend",
+      "eslint ./backend",
+      "cd ./frontend && tsc",
+      "cd ./backend && tsc",
       "prettier --write --ignore-unknown"
     ]
   },
