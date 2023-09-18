@@ -1,0 +1,21 @@
+{
+  "affected": {
+    "defaultBase": "dev"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "options": {
+        "accessToken": "MzA1NTJiZDMtYjZhMi00NDdhLTgzYTQtMGU1Y2IwNmRjMDk0fHJlYWQtd3JpdGU=",
+        "cacheableOperations": [
+          "lint",
+          "typecheck",
+          "lint-frontend",
+          "lint-backend",
+          "tsc:frontend",
+          "tsc:backend"
+        ]
+      },
+      "runner": "nx-cloud"
+    }
+  }
+}
