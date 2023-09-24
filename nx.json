@@ -1,0 +1,20 @@
+{
+  "affected": {
+    "defaultBase": "dev"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "options": {
+        "cacheableOperations": [
+          "lint",
+          "typecheck",
+          "lint-frontend",
+          "lint-backend",
+          "tsc:frontend",
+          "tsc:backend"
+        ]
+      },
+      "runner": "nx-cloud"
+    }
+  }
+}
