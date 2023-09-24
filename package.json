@@ -40,11 +40,11 @@
     "lint-staged": "^13.1.0",
     "npm-run-all": "^4.1.5",
     "nx": "16.8.1",
+    "nx-cloud": "latest",
     "prettier": "^2.8.1",
     "prettier-plugin-sort-json": "^1.0.0",
     "prettier-plugin-tailwindcss": "^0.2.1",
-    "tsc-files": "^1.1.3",
-    "nx-cloud": "latest"
+    "tsc-files": "^1.1.3"
   },
   "husky": {
     "hooks": {
@@ -55,8 +55,6 @@
     "**/*.{ts,tsx}": [
       "eslint ./frontend",
       "eslint ./backend",
-      "cd ./frontend && tsc",
-      "cd ./backend && tsc",
       "prettier --write --ignore-unknown"
     ]
   },
