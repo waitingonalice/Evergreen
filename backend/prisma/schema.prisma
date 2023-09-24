@@ -8,19 +8,27 @@ datasource db {
 }
 
 model Account {
-  id               String           @id @default(uuid())
-  email            String           @unique
-  password         String           @db.VarChar(255)
-  firstName        String
-  lastName         String
-  country          String
-  active           Boolean          @default(false)
-  previousCurrency Currency?
-  currency         Currency         @default(USD)
-  updatedAt        DateTime         @updatedAt
-  createdAt        DateTime         @default(now())
-  transactions     Transaction[]
-  balanceHistory   BalanceHistory[]
+  id             String           @id @default(uuid())
+  email          String           @unique
+  password       String           @db.VarChar(255)
+  firstName      String
+  lastName       String
+  country        String
+  active         Boolean          @default(false)
+  updatedAt      DateTime         @updatedAt
+  createdAt      DateTime         @default(now())
+  transactions   Transaction[]
+  balanceHistory BalanceHistory[]
+  profile        Profile?
+}
+
+model Profile {
+  id             Int      @id @default(autoincrement())
+  Account        Account  @relation(fields: [accountId], references: [id])
+  accountId      String   @unique
+  baseCurrency   Currency @default(SGD)
+  profilePicture String?
+  updatedAt      DateTime @updatedAt
 }
 
 model BalanceHistory {
@@ -28,6 +36,7 @@ model BalanceHistory {
   account   Account  @relation(fields: [accountId], references: [id])
   accountId String
   total     Decimal  @default(0)
+  currency  Currency @default(SGD)
   createdAt DateTime @default(now())
 }
 
