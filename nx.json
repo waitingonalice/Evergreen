@@ -5,7 +5,6 @@
   "tasksRunnerOptions": {
     "default": {
       "options": {
-        "accessToken": "MzA1NTJiZDMtYjZhMi00NDdhLTgzYTQtMGU1Y2IwNmRjMDk0fHJlYWQtd3JpdGU=",
         "cacheableOperations": [
           "lint",
           "typecheck",
