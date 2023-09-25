@@ -47,7 +47,10 @@ const Login = () => {
 
   const handleSubmit = () => {
     const success = onSubmitValidate();
-    if (success) login(values);
+    if (success) {
+      login(values);
+      navigate(clientRoutes.auth.login, { replace: true });
+    }
   };
 
   useEffect(() => {
@@ -73,7 +76,7 @@ const Login = () => {
       if (
         authToken &&
         decodedRefreshToken.data.rememberMe &&
-        !location.pathname.includes("tracker") &&
+        !location.pathname.includes("track") &&
         !rememberMeForbiddenParams.includes(location.search)
       )
         navigate(clientRoutes.dashboard.index);
@@ -112,7 +115,7 @@ const Login = () => {
           id="rememberMe"
           label="Remember me"
           onChange={(value) => handleOnChange("rememberMe", value)}
-          value={values.rememberMe as boolean}
+          checked={values.rememberMe as boolean}
         />
         <Button className="w-fit" variant="primaryLink">
           <a href={clientRoutes.auth.forgotPassword}>Forgot password?</a>

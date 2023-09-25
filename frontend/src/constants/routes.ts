@@ -1,5 +1,5 @@
 export const api = import.meta.env.VITE_ENDPOINT_URL;
-const authRoute = (toPath: string) => `/tracker${toPath}`;
+const authRoute = (toPath: string) => `/track${toPath}`;
 
 export const clientRoutes = {
   root: "/",
@@ -17,13 +17,14 @@ export const clientRoutes = {
     index: authRoute("/dashboard"),
   },
   billing: {
-    index: authRoute("/billing"),
+    index: authRoute("/billings"),
   },
-  payment: {
-    index: authRoute("/payment"),
+  transactions: {
+    index: authRoute("/transactions"),
+    create: authRoute("/transactions/create"),
   },
   balance: {
-    index: authRoute("/balance"),
+    index: authRoute("/balances"),
   },
   kanban: {
     index: authRoute("/kanban"),
