@@ -10,6 +10,7 @@ interface AppContextProps {
     lastName: string;
     country: string;
     userId: string;
+    email: string;
   };
 }
 

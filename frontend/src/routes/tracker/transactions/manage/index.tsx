@@ -9,9 +9,9 @@ function Payments() {
         buttons={[
           {
             children: (
-              <a href={clientRoutes.transactions.create}>Add Transaction</a>
+              <a href={clientRoutes.transactions.create}>Create transaction</a>
             ),
-            prefixIcon: <PlusIcon className="w-4 h-auto" />,
+            prefixIcon: <PlusIcon className="w-5 h-auto" />,
           },
         ]}
       />
