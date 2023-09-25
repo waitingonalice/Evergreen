@@ -11,7 +11,7 @@ export const Main = ({ children, className }: ContentProps) => (
 );
 
 const Content = ({ children, className }: ContentProps) => (
-  <section className={clsx("min-w-[1024px] pl-28 py-6 pr-8", className)}>
+  <section className={clsx("min-w-fit pl-28 py-6 pr-8", className)}>
     {children}
   </section>
 );

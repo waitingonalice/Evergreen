@@ -32,12 +32,14 @@ model Profile {
 }
 
 model BalanceHistory {
-  id        Int      @id @default(autoincrement())
-  account   Account  @relation(fields: [accountId], references: [id])
-  accountId String
-  total     Decimal  @default(0)
-  currency  Currency @default(SGD)
-  createdAt DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  account      Account  @relation(fields: [accountId], references: [id])
+  accountId    String
+  total        Decimal  @default(0)
+  totalIncome  Decimal  @default(0)
+  totalExpense Decimal  @default(0)
+  currency     Currency @default(SGD)
+  createdAt    DateTime @default(now())
 }
 
 model Transaction {
@@ -46,6 +48,7 @@ model Transaction {
   description           String?
   amount                Decimal
   category              String
+  type                  TransactionType
   recurring             Boolean              @default(false) // to be used for billing payments
   createdAt             DateTime             @default(now())
   updatedAt             DateTime             @updatedAt
@@ -66,4 +69,9 @@ model TransactionSchedule {
 enum Currency {
   SGD
   USD
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
 }

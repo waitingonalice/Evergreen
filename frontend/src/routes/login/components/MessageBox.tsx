@@ -20,7 +20,7 @@ export const MessageBox = ({ error }: MessageBoxProps) => {
     );
   }
   switch (location.search) {
-    case "?expired":
+    case "?expired": {
       logout();
       return (
         <Alert
@@ -30,7 +30,7 @@ export const MessageBox = ({ error }: MessageBoxProps) => {
           type="warning"
         />
       );
-
+    }
     case "?logout":
       logout();
       return (

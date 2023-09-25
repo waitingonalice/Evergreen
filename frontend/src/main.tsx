@@ -8,14 +8,15 @@ import { clientRoutes } from "~/constants";
 import {
   Balance,
   Billing,
+  CreateTransaction,
   Dashboard,
   ForgotPassword,
   Kanban,
   Login,
-  Payment,
   Register,
   ResetPassword,
   Root,
+  Transaction,
   UnknownRoute,
   Verify,
 } from "~/routes";
@@ -48,7 +49,11 @@ const router = createBrowserRouter([
         children: [
           { path: clientRoutes.dashboard.index, element: <Dashboard /> },
           { path: clientRoutes.balance.index, element: <Balance /> },
-          { path: clientRoutes.payment.index, element: <Payment /> },
+          { path: clientRoutes.transactions.index, element: <Transaction /> },
+          {
+            path: clientRoutes.transactions.create,
+            element: <CreateTransaction />,
+          },
           { path: clientRoutes.billing.index, element: <Billing /> },
           { path: clientRoutes.kanban.index, element: <Kanban /> },
         ],

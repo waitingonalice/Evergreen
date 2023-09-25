@@ -81,7 +81,7 @@ const FormInput = forwardRef(
               "block w-full rounded-md border-0 py-2.5 text-sm tracking-wide placeholder-gray-300 ring-1 transition-all duration-100 focus:ring-2 focus:ring-offset-1",
               error
                 ? "focus:ring-errorMain ring-errorMain text-errorMain pr-10"
-                : "focus:ring-secondary text-dark ring-gray-400",
+                : "focus:ring-primary-2 text-dark ring-gray-400",
               inputClassName,
               prefixIcon && "pl-10"
             )}

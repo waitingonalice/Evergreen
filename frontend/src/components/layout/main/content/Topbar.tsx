@@ -8,12 +8,8 @@ import { Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { Button, Input, Modal, Text } from "~/components";
+import { ButtonProps } from "~/components/button";
 import { clientRoutes } from "~/constants";
-
-interface ButtonProps {
-  name: React.ReactNode;
-  onClick: () => void;
-}
 
 interface TopbarProps {
   search?: {
@@ -53,7 +49,7 @@ const Topbar = ({ buttons, className, search }: TopbarProps) => {
         open={open}
         buttons={[
           {
-            variant: "primaryLink",
+            variant: "secondary",
             children: "Cancel",
             onClick: handleClose,
           },
@@ -67,7 +63,7 @@ const Topbar = ({ buttons, className, search }: TopbarProps) => {
 
       <div
         className={clsx(
-          "sticky top-0 pl-40 pr-4 py-4 border-b border-gray-300 bg-dark shadow-md flex justify-end items-center",
+          "sticky top-0 pl-40 pr-4 py-4 border-b border-gray-300 bg-primary shadow-md flex justify-end items-center",
           className
         )}
       >
@@ -83,12 +79,13 @@ const Topbar = ({ buttons, className, search }: TopbarProps) => {
         )}
         {buttons?.map((item, index) => (
           <Button
-            variant="secondary"
+            {...item}
+            variant={item.variant ?? "secondary"}
             key={index}
             onClick={item.onClick}
-            className="mr-4"
+            className={clsx("mr-4", item.className)}
           >
-            {item.name}
+            {item.children}
           </Button>
         ))}
         <Menu as="div" className="relative">

@@ -26,8 +26,8 @@ const navigation = [
     current: false,
   },
   {
-    name: "Payments",
-    href: clientRoutes.payment.index,
+    name: "Transactions",
+    href: clientRoutes.transactions.index,
     icon: CreditCardIcon,
     current: false,
   },

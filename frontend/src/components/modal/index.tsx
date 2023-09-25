@@ -1,6 +1,5 @@
 /* eslint-disable react/no-array-index-key */
 import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment } from "react";
 import clsx from "clsx";
 import { ButtonProps } from "../button";
@@ -50,7 +49,7 @@ export function Modal({
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="flex min-h-full items-center justify-center text-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -62,24 +61,17 @@ export function Modal({
             >
               <Dialog.Panel
                 className={clsx(
-                  "transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all",
+                  "transform overflow-hidden rounded-md bg-white text-left align-middle shadow-xl transition-all",
+                  children && "divide-y",
                   sizeMapper[size]
                 )}
               >
-                <div className="flex gap-x-6">
-                  <Text className="text-dark" type="subhead-2-bold">
-                    {title}
-                  </Text>
-                  <XMarkIcon
-                    onClick={onClose}
-                    tabIndex={0}
-                    role="button"
-                    className="outline-none h-6 w-auto text-gray-400 shrink-0"
-                  />
-                </div>
-                <div className="mt-6">{children}</div>
+                <Text className="text-dark p-6" type="subhead-2-bold">
+                  {title}
+                </Text>
+                {children && <div className="bg-gray-100 p-6">{children}</div>}
                 {buttons && (
-                  <div className="mt-6 flex gap-x-4 justify-end items-center">
+                  <div className="flex gap-x-4 justify-end items-center px-6 py-4">
                     {buttons.map((button, index) => (
                       <Button key={index} {...button}>
                         {button.children}
