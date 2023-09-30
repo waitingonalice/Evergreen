@@ -7,7 +7,7 @@ export interface CheckboxProps {
   label?: string;
   checked?: boolean;
   indeterminate?: boolean;
-  onChange: (checked: boolean) => void;
+  onChange?: (checked: boolean) => void;
   disabled?: boolean;
   className?: string;
 }
@@ -23,7 +23,7 @@ export const Checkbox = ({
 }: CheckboxProps) => {
   const handleChecked = (e: ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
-    onChange(e.currentTarget.checked);
+    onChange?.(e.currentTarget.checked);
   };
 
   return (
@@ -39,7 +39,7 @@ export const Checkbox = ({
             "enabled:indeterminate:bg-primary disabled:indeterminate:bg-primary",
           checked &&
             "enabled:checked:bg-primary disabled:checked:bg-primary checked:ring-transparent",
-          disabled && "disabled:opacity-50"
+          disabled && "disabled:opacity-50 bg-disabled"
         )}
         checked={checked}
         // eslint-disable-next-line no-param-reassign

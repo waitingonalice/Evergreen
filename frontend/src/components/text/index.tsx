@@ -28,7 +28,7 @@ export const Text = ({ type, children, className }: TextProps) => {
     "subhead-1": "text-[30px] font-medium tracking-[0.0025em]",
     "subhead-1-bold": "text-[30px] font-bold tracking-[0.0025em]",
     "subhead-2": "text-[18px] font-light tracking-normal",
-    "subhead-2-bold": "text-[18px] font-medium tracking-normal",
+    "subhead-2-bold": "text-[18px] font-semibold tracking-normal",
     "body-bold": "text-[14px] font-semibold",
     body: "text-[14px] font-normal",
     button: "text-[14px] font-medium tracking-[0.0125em]",

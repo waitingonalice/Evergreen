@@ -44,8 +44,8 @@ model BalanceHistory {
 
 model Transaction {
   id                    Int                  @id @default(autoincrement())
-  title                 String
-  description           String?
+  title                 String               @db.VarChar(300)
+  description           String?              @db.VarChar(2000)
   amount                Decimal
   category              String
   type                  TransactionType

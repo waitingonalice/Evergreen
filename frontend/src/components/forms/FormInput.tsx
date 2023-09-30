@@ -20,6 +20,7 @@ interface InputProps {
   isPassword?: boolean;
   inputClassName?: string;
   prefixIcon?: React.ReactNode;
+  size?: "small" | "default";
 }
 
 // controlled form input component
@@ -37,6 +38,7 @@ const FormInput = forwardRef(
       isPassword,
       inputClassName,
       prefixIcon,
+      size = "default",
     } = props;
     const [error, setError] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -59,14 +61,14 @@ const FormInput = forwardRef(
     return (
       <div className={className}>
         {label && (
-          <span className="flex">
+          <span className="flex mb-1">
             <Label name={id}>{label.text}</Label>
             {label.required ? (
               <span className="ml-1 text-lg text-red-500">*</span>
             ) : null}
           </span>
         )}
-        <div className="relative mt-1 rounded-md shadow-sm">
+        <div className="relative rounded-md shadow-sm">
           {prefixIcon && (
             <div className="inset-y-0 left-0 px-3 absolute items-center flex">
               {prefixIcon}
@@ -78,11 +80,13 @@ const FormInput = forwardRef(
             type={isPassword && !isPasswordVisible ? "password" : "text"}
             id={id}
             className={clsx(
-              "block w-full rounded-md border-0 py-2.5 text-sm tracking-wide placeholder-gray-300 ring-1 transition-all duration-100 focus:ring-2 focus:ring-offset-1",
-              error
-                ? "focus:ring-errorMain ring-errorMain text-errorMain pr-10"
-                : "focus:ring-primary-2 text-dark ring-gray-400",
               inputClassName,
+              size === "small" ? "py-1" : "py-2",
+              "block w-full rounded-md border-0 text-sm tracking-wide placeholder-gray-300 ring-1 transition-all duration-100 focus:ring-2 focus:ring-offset-1",
+              error
+                ? "focus:ring-errorMain ring-errorMain text-errorMain"
+                : "focus:ring-primary-2 text-dark ring-gray-400",
+              (isPassword || error) && "pr-10",
               prefixIcon && "pl-10"
             )}
             placeholder={placeholder}

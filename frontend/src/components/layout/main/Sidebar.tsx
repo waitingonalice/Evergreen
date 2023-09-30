@@ -1,36 +1,35 @@
-import { ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
-import { Text } from "~/components";
-import { FullNavBar, IconNavBar } from "./Navigation";
+import clsx from "clsx";
+import { Text } from "~/components/text";
+import { useNavigation } from "~/utils/hooks/useNavigation";
 
-const Icon = () => (
-  <Text className="text-primary-2 !font-semibold" type="subhead-2">
-    ET
-  </Text>
-);
-
+const transition = "ease-out transition duration-200";
 export const SideBar = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { navigation } = useNavigation();
   return (
-    <div className="fixed inset-y-0 left-0 z-40 block w-20 overflow-y-auto bg-tertiary pb-4">
-      <div className="flex h-16 shrink-0 items-center justify-center">
-        <Icon />
-      </div>
-      <FullNavBar
-        show={sidebarOpen}
-        onClickClose={setSidebarOpen}
-        icon={<Icon />}
-      />
-      <IconNavBar />
-      <div className="flex justify-center items-center shrink-0">
-        <ChevronDoubleRightIcon
-          tabIndex={0}
-          role="button"
-          className="absolute bottom-12 text-gray-300 w-auto"
-          height={32}
-          onClick={() => setSidebarOpen((prev) => !prev)}
-        />
-      </div>
+    <div className="fixed inset-y-0 left-0 z-20 border-r border-primary-2 block w-fit pl-4 pr-12 overflow-y-auto bg-important">
+      <div className="h-16" />
+
+      <nav className="mt-8">
+        <ul className="flex flex-col space-y-1">
+          {navigation.map((item) => (
+            <li key={item.name}>
+              <a
+                href={item.href}
+                className={clsx(
+                  transition,
+                  "flex gap-x-3 rounded-md p-2 items-center",
+                  item.current
+                    ? "text-primary"
+                    : "text-dark opacity-60 hover:text-primary-2 hover:opacity-100"
+                )}
+              >
+                <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
+                <Text type="body-bold">{item.name}</Text>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
   );
 };

@@ -249,6 +249,8 @@ export enum CountryEnum {
   ZW = "Zimbabwe",
 }
 
+export enum CategoryEnum {}
+
 export const enumsToOptions = (objects: Record<string, string>) =>
   Object.entries(objects).map(([key, value]) => ({
     label: value,

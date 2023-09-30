@@ -3,6 +3,7 @@ import { Menu, Transition } from "@headlessui/react";
 import {
   ArrowRightOnRectangleIcon,
   Cog8ToothIcon,
+  XMarkIcon,
 } from "@heroicons/react/20/solid";
 import { MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
@@ -20,10 +21,18 @@ interface TopbarProps {
     value: string;
   };
   buttons?: ButtonProps[];
+  onBackClick?: () => void;
   className?: string;
+  title?: string;
 }
 
-const Topbar = ({ buttons, className, search }: TopbarProps) => {
+const Topbar = ({
+  buttons,
+  className,
+  search,
+  onBackClick,
+  title,
+}: TopbarProps) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { user } = useAppContext();
@@ -64,88 +73,110 @@ const Topbar = ({ buttons, className, search }: TopbarProps) => {
         ]}
         title="Are you sure you want to sign out?"
       />
-
       <div
         className={clsx(
-          "sticky top-0 pl-40 pr-4 py-4 border-b border-gray-300 bg-primary shadow-md flex justify-end items-center",
+          "sticky top-0 px-4 py-3 bg-important border-b border-primary-2 flex items-center z-30 gap-x-4 w-full justify-between",
           className
         )}
       >
+        <span className="flex gap-x-4">
+          {onBackClick && (
+            <>
+              <Button variant="primaryLink" onClick={onBackClick}>
+                <XMarkIcon className="h-5 w-auto" />
+              </Button>
+              <div className="border-l border-gray-400 h-5" />
+            </>
+          )}
+          {title && (
+            <Text type="body-bold" className="text-dark whitespace-nowrap">
+              {title}
+            </Text>
+          )}
+        </span>
+
         {search && (
           <Input
             prefixIcon={<MagnifyingGlassIcon className="h-5 text-gray-400" />}
-            className="w-full mr-16 mb-1"
+            className="w-full flex justify-center"
+            size="small"
+            inputClassName="hover:bg-gray-100 w-96"
             id="search"
             onChange={search.onChange}
             value={search.value}
             placeholder={search.placeholder}
           />
         )}
-        {buttons?.map((item, index) => (
-          <Button
-            {...item}
-            variant={item.variant ?? "secondary"}
-            key={index}
-            onClick={item.onClick}
-            className={clsx("mr-4", item.className)}
-          >
-            {item.children}
-          </Button>
-        ))}
-        <Menu as="div" className="relative">
-          <Menu.Button className="items-center flex transition duration-100 ease-out rounded-full focus:outline-none focus:ring-2 focus:ring-primary-2">
-            {/* TODO: integrate profile avatar */}
-            <Cog8ToothIcon className="h-5 w-auto text-white opacity-60" />
-          </Menu.Button>
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-150"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-150"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="absolute right-0 z-10 mt-2 min-w-[200px] w-fit rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              {navigation.map(({ href, name, onClick }) => (
-                <Menu.Item key={name}>
-                  {href ? (
-                    <a
-                      href={href}
-                      className={clsx(
-                        "px-4 py-2 hover:bg-gray-100 text-primary opacity-60 flex gap-x-2"
-                      )}
-                    >
-                      <UserIcon className="h-5 w-auto" />
-                      <Text type="body-bold">{name}</Text>
-                    </a>
-                  ) : (
-                    <>
-                      <div
+        <div className="flex items-center">
+          {buttons?.map((item, index) => (
+            <Button
+              size={item.size ?? "small"}
+              {...item}
+              variant={item.variant ?? "primary"}
+              key={index}
+              onClick={item.onClick}
+              className={clsx("mr-4", item.className)}
+            >
+              {item.children}
+            </Button>
+          ))}
+          <Menu as="div" className="relative">
+            <Menu.Button className="items-center flex transition duration-100 ease-out rounded-full focus:outline-none focus:ring-2 focus:ring-primary-2">
+              {/* TODO: integrate profile avatar */}
+              <Cog8ToothIcon className="h-5 w-auto text-primary" />
+            </Menu.Button>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-150"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-150"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute right-0 z-10 mt-2 min-w-[200px] w-fit rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                {navigation.map(({ href, name, onClick }) => (
+                  <Menu.Item key={name}>
+                    {href ? (
+                      <a
+                        href={href}
                         className={clsx(
-                          "px-4 py-2 flex gap-x-2 cursor-pointer hover:bg-gray-100 text-primary opacity-60"
+                          "px-4 py-2 hover:bg-gray-100 text-primary flex gap-x-2"
                         )}
-                        role="button"
-                        tabIndex={0}
-                        aria-hidden="true"
-                        onClick={onClick}
                       >
-                        <ArrowRightOnRectangleIcon className="h-5 w-auto text-primary" />
-                        <Text type="body-bold">Sign out</Text>
-                      </div>
-                      <div className="mx-4 my-2 text-dark">
-                        <Text type="body" className="pt-2 border-t">
-                          {fullName.toUpperCase()}
-                        </Text>
-                        <Text type="caption-bold">{user?.email}</Text>
-                      </div>
-                    </>
-                  )}
-                </Menu.Item>
-              ))}
-            </Menu.Items>
-          </Transition>
-        </Menu>
+                        <UserIcon className="h-5 w-auto" />
+                        <Text type="body-bold">{name}</Text>
+                      </a>
+                    ) : (
+                      <>
+                        <div
+                          className={clsx(
+                            "px-4 py-2 flex gap-x-2 cursor-pointer hover:bg-gray-100 text-primary"
+                          )}
+                          role="button"
+                          tabIndex={0}
+                          aria-hidden="true"
+                          onClick={onClick}
+                        >
+                          <ArrowRightOnRectangleIcon className="h-5 w-auto text-primary" />
+                          <Text type="body-bold">Sign out</Text>
+                        </div>
+                        {user && (
+                          <div className="mx-4 my-2 text-dark">
+                            <Text type="body" className="pt-2 border-t">
+                              {fullName.toUpperCase()}
+                            </Text>
+                            <Text type="caption-bold">{user.email}</Text>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </Menu.Item>
+                ))}
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        </div>
       </div>
     </>
   );
