@@ -10,14 +10,12 @@
     "commitizen": "^4.2.5"
   },
   "scripts": {
+    "dev": "concurrently \"yarn dev:backend\" \"yarn dev:frontend\"",
     "dev:backend": "yarn workspace backend dev",
     "dev:frontend": "yarn workspace frontend dev",
-    "dev": "concurrently \"yarn dev:backend\" \"yarn dev:frontend\"",
+    "build": "run-p build:*",
     "build:backend": "yarn workspace backend build",
     "build:shared": "yarn workspace @expense-tracker/shared build",
-    "build": "run-p build:*",
-    "commit": "git-cz",
-    "prepare": "husky install",
     "lint": "run-p lint:*",
     "lint:frontend": "eslint ./frontend --cache --cache-location ./node_modules/.cache/eslint",
     "lint:backend": "eslint ./backend --cache --cache-location ./node_modules/.cache/eslint",
@@ -25,7 +23,9 @@
     "typecheck:frontend": "yarn workspace frontend tsc",
     "typecheck:backend": "yarn workspace backend tsc",
     "typecheck:shared": "yarn workspace @expense-tracker/shared tsc",
-    "prettier:write": "prettier . --write"
+    "prettier:write": "prettier . --write",
+    "commit": "git-cz",
+    "prepare": "husky install"
   },
   "config": {
     "commitizen": {
