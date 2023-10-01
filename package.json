@@ -10,19 +10,18 @@
     "commitizen": "^4.2.5"
   },
   "scripts": {
-    "dev": "concurrently \"yarn dev:backend\" \"yarn dev:frontend\"",
-    "dev:backend": "yarn workspace backend dev",
-    "dev:frontend": "yarn workspace frontend dev",
-    "build": "run-p build:*",
+    "dev": "lerna run dev",
+    "build": "lerna run build --parallel",
     "build:backend": "yarn workspace backend build",
     "build:shared": "yarn workspace @expense-tracker/shared build",
+    "build:frontend": "yarn workspace frontend build",
     "lint": "run-p lint:*",
     "lint:frontend": "eslint ./frontend --cache --cache-location ./node_modules/.cache/eslint",
     "lint:backend": "eslint ./backend --cache --cache-location ./node_modules/.cache/eslint",
-    "typecheck": "run-s typecheck:*",
-    "typecheck:frontend": "yarn workspace frontend tsc",
-    "typecheck:backend": "yarn workspace backend tsc",
-    "typecheck:shared": "yarn workspace @expense-tracker/shared tsc",
+    "typecheck": "lerna run typecheck",
+    "typecheck:frontend": "tsc --noEmit --skipLibCheck --project ./frontend/tsconfig.json",
+    "typecheck:backend": "tsc --noEmit --skipLibCheck --project ./backend/tsconfig.json",
+    "typecheck:shared": "tsc --noEmit --skipLibCheck --project ./shared/tsconfig.json",
     "prettier:write": "prettier . --write",
     "commit": "git-cz",
     "prepare": "husky install"
@@ -36,7 +35,6 @@
     "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "@typescript-eslint/eslint-plugin": "^5.47.1",
     "@typescript-eslint/parser": "^5.47.1",
-    "concurrently": "^8.2.1",
     "eslint": "^8.39.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
@@ -44,6 +42,7 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.31.11",
     "husky": "^8.0.3",
+    "lerna": "^7.3.0",
     "lint-staged": "^13.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.1",
@@ -58,16 +57,15 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
+      "typecheck",
       "eslint ./frontend",
       "eslint ./backend",
       "prettier --write --ignore-unknown"
     ]
   },
-  "workspaces": {
-    "packages": [
-      "backend",
-      "shared",
-      "frontend"
-    ]
-  }
+  "workspaces": [
+    "backend",
+    "frontend",
+    "shared"
+  ]
 }

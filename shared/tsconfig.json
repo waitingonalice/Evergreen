@@ -4,14 +4,14 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "declaration": true, // emit declaration files
-    "declarationDir": "./dist/types", // output directory for declaration files
+    "declarationDir": "dist", // output directory for declaration files
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "lib": ["es6"],
-    "module": "CommonJS",
+    "module": "ES6",
     "moduleResolution": "Node",
-    "outDir": "dist/src",
+    "outDir": "dist",
     "resolveJsonModule": true,
     "rootDir": "./src",
     "skipLibCheck": true,

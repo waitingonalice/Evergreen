@@ -1,12 +1,26 @@
 {
   "name": "@expense-tracker/shared",
-  "version": "1.0.0",
-  "main": "./dist/src/index.js",
-  "types": "./dist/types/index.d.ts",
+  "version": "0.0.0",
+  "author": "Wilson",
+  "homepage": "https://github.com/waitingonalice/Expense-tracker#readme",
   "license": "MIT",
+  "main": "dist/index.js",
+  "directories": {
+    "src": "src"
+  },
+  "publishConfig": {
+    "registry": "https://registry.yarnpkg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waitingonalice/Expense-tracker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/waitingonalice/Expense-tracker/issues"
+  },
   "scripts": {
     "build": "rm -rf ./dist && yarn tsc",
-    "tsc": "tsc --skipLibCheck"
+    "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.37.0",
@@ -16,6 +30,7 @@
     "typescript": "^5.2.2"
   },
   "files": [
+    "src",
     "dist",
     "package.json"
   ]
