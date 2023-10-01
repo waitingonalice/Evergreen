@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "lerna run dev",
-    "build": "lerna run build --parallel",
+    "build": "lerna run build",
     "build:backend": "yarn workspace backend build",
     "build:shared": "yarn workspace @expense-tracker/shared build",
     "build:frontend": "yarn workspace frontend build",
