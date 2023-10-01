@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "@expense-tracker/shared": "*",
+    "@expense-tracker/shared": "file:../shared",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.13",
     "clsx": "^1.2.1",
