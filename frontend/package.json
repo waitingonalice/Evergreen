@@ -8,9 +8,11 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "tsc": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
+    "@expense-tracker/shared": "*",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.13",
     "clsx": "^1.2.1",

@@ -4,11 +4,11 @@ import { z } from "zod";
 import { FormSelect, Input, Main, Text } from "~/components";
 import { clientRoutes } from "~/constants";
 
-const CreateTransactionSchema = z.object({
-  title: z.string().min(1).max(300),
-  description: z.string().min(1).max(2000),
-  amount: z.number().min(0.01).max(999999.99),
-});
+// const createTransactionSchema = z.object({
+//   title: z.string().min(1).max(300),
+//   description: z.string().min(1).max(2000),
+//   amount: z.number().min(0.01).max(999999.99),
+// });
 
 function CreateTransaction() {
   const navigate = useNavigate();
