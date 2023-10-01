@@ -14,7 +14,6 @@
     "dev:frontend": "yarn workspace frontend dev",
     "dev": "concurrently \"yarn dev:backend\" \"yarn dev:frontend\"",
     "build:backend": "yarn workspace backend build",
-    "build:frontend": "yarn workspace frontend build",
     "build:shared": "yarn workspace @expense-tracker/shared build",
     "build": "run-p build:*",
     "commit": "git-cz",

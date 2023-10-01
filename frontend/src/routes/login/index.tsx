@@ -1,7 +1,7 @@
+import { loginSchema } from "@expense-tracker/shared";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
-import { z } from "zod";
 import { Button, Checkbox, Input, Spinner, Text } from "~/components";
 import { clientRoutes } from "~/constants";
 import { useForm } from "~/utils";
@@ -16,13 +16,6 @@ interface RefreshToken {
   };
 }
 
-const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: "Email Address is required." })
-    .email({ message: "Invalid email address" }),
-  password: z.string().min(1, { message: "Password is required." }),
-});
 const rememberMeForbiddenParams = ["?expired", "?logout"];
 
 const Login = () => {
@@ -37,7 +30,6 @@ const Login = () => {
   });
   const navigate = useNavigate();
   const location = useLocation();
-
   const { mutate: login, isLoading, data: { result } = {}, error } = useLogin();
 
   const handleOnChange = (

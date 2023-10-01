@@ -14,7 +14,7 @@
     "build": "rm -rf ./build && yarn tsc && yarn tsc-alias -p tsconfig.json",
     "start": "node build/server.js",
     "run-container": "docker-compose up -d --build",
-    "tsc": "tsc --noEmit --skipLibCheck"
+    "tsc": "tsc --skipLibCheck"
   },
   "keywords": [],
   "author": "",

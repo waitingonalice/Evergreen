@@ -4,13 +4,14 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "declaration": true, // emit declaration files
+    "declarationDir": "./dist/types", // output directory for declaration files
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "lib": ["es6"],
     "module": "CommonJS",
     "moduleResolution": "Node",
-    "outDir": "dist",
+    "outDir": "dist/src",
     "resolveJsonModule": true,
     "rootDir": "./src",
     "skipLibCheck": true,
@@ -19,6 +20,6 @@
     "types": ["node"],
     "useDefineForClassFields": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "dist"],
   "include": ["**/*.ts"]
 }
