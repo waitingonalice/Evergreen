@@ -4,7 +4,8 @@
   "author": "Wilson",
   "homepage": "https://github.com/waitingonalice/Expense-tracker#readme",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "directories": {
     "src": "src"
   },
