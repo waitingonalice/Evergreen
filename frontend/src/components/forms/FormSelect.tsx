@@ -5,7 +5,7 @@ import { ErrorMessage, Label } from "..";
 
 interface SelectProps {
   id: string;
-  label: { required?: boolean; text: string };
+  label?: { required?: boolean; text: string };
   options: { label: string; value: string }[];
   validate?: ReturnType<typeof useForm>["validate"];
   disabled?: boolean;
@@ -51,12 +51,14 @@ const FormSelect = forwardRef(
 
     return (
       <div className={className}>
-        <span className="flex">
-          <Label name={id}>{label.text}</Label>
-          {label.required ? (
-            <span className="ml-1 text-lg text-red-500">*</span>
-          ) : null}
-        </span>
+        {label && (
+          <span className="flex">
+            <Label name={id}>{label.text}</Label>
+            {label.required ? (
+              <span className="ml-1 text-lg text-red-500">*</span>
+            ) : null}
+          </span>
+        )}
         <div className="relative mt-1">
           <select
             id={id}

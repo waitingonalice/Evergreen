@@ -5,7 +5,9 @@ module.exports = {
     fontFamily: {
       sans: ["Inter"],
     },
+
     extend: {
+      animation: {},
       colors: {
         primary: "#047857", // emerald-700
         "primary-2": "#059669",
@@ -23,6 +25,7 @@ module.exports = {
         warningSecondary: "#ffcf0d",
         warningTertiary: "#997b00",
         important: "#efedea",
+        background: "#e7e5e4",
         dark: "#1f2937", // gray-800
         disabled: "#d1d5db", // gray-300
       },

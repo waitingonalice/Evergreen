@@ -9,9 +9,8 @@ defaults:
     working-directory: ./
   
 jobs: 
-  lint: 
+  build_and_lint: 
     runs-on: ubuntu-latest
-
     steps: 
       - name: Check out Git repository
         uses: actions/checkout@v3
@@ -19,12 +18,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-      - name: Install root dependencies
+      - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Install frontend dependencies 
-        run: cd ./frontend && yarn install --frozen-lockfile
-      - name: Install backend dependencies
-        run: cd ./backend && yarn install --frozen-lockfile
+      - name: Build project
+        run: yarn build
       - name: Run type check
         run: yarn typecheck
       - name: Run lint check

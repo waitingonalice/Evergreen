@@ -8,9 +8,11 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
+    "@expense-tracker/shared": "*",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.13",
     "clsx": "^1.2.1",
@@ -33,7 +35,6 @@
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@vitejs/plugin-react": "^3.0.0",
-    "@vitest/coverage-c8": "^0.26.2",
     "autoprefixer": "^10.4.13",
     "cssnano": "^5.1.14",
     "jsdom": "^20.0.3",

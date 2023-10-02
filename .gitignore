@@ -3,6 +3,7 @@ node_modules
 coverage
 .env
 .env.db
+nx-cloud.env
 
 logs
 *.log

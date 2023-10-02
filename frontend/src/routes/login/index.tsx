@@ -9,6 +9,14 @@ import { getCookie, setCookie } from "~/utils/cookie";
 import { MessageBox } from "./components/MessageBox";
 import { InputValuesType, useLogin } from "./loaders/login";
 
+export const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "Email Address is required." })
+    .email({ message: "Invalid email address" }),
+  password: z.string().min(1, { message: "Password is required." }),
+});
+
 interface RefreshToken {
   data: {
     id: number;
@@ -16,13 +24,6 @@ interface RefreshToken {
   };
 }
 
-const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: "Email Address is required." })
-    .email({ message: "Invalid email address" }),
-  password: z.string().min(1, { message: "Password is required." }),
-});
 const rememberMeForbiddenParams = ["?expired", "?logout"];
 
 const Login = () => {
@@ -37,7 +38,6 @@ const Login = () => {
   });
   const navigate = useNavigate();
   const location = useLocation();
-
   const { mutate: login, isLoading, data: { result } = {}, error } = useLogin();
 
   const handleOnChange = (
