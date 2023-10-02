@@ -98,9 +98,9 @@ const Topbar = ({
         {search && (
           <Input
             prefixIcon={<MagnifyingGlassIcon className="h-5 text-gray-400" />}
-            className="w-full flex justify-center"
+            className="w-96"
             size="small"
-            inputClassName="hover:bg-gray-100 w-96"
+            inputClassName="hover:bg-gray-100"
             id="search"
             onChange={search.onChange}
             value={search.value}
