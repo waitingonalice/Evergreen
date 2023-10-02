@@ -459,12 +459,6 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.50.0.tgz#9e93b850f0f3fa35f5fa59adfd03adae8488e484"
   integrity sha512-NCC3zz2+nvYd+Ckfh87rA47zfu2QsQpvc6k1yzTk+b9KzRj0wkGa8LSoGOXN6Zv4lRf/EIoZ80biDh9HOI+RNQ==
 
-"@expense-tracker/shared@file:shared":
-  version "0.0.0"
-  dependencies:
-    "@supabase/supabase-js" "^2.37.0"
-    zod "^3.22.2"
-
 "@flydotio/dockerfile@^0.4.1":
   version "0.4.10"
   resolved "https://registry.yarnpkg.com/@flydotio/dockerfile/-/dockerfile-0.4.10.tgz#30bfdbd8ee6664310cc97ee2738efc93732af0d7"
