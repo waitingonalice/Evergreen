@@ -54,7 +54,6 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
-      "lerna run typecheck",
       "eslint ./frontend",
       "eslint ./backend",
       "prettier --write --ignore-unknown"

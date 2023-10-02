@@ -4,9 +4,15 @@
   "author": "Wilson",
   "homepage": "https://github.com/waitingonalice/Expense-tracker#readme",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.cjs",
+  "types": "./dist/types/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/mjs/index.mjs",
+      "require": "./dist/cjs/index.cjs"
+    }
+  },
   "publishConfig": {
     "registry": "https://registry.yarnpkg.com"
   },
@@ -18,7 +24,7 @@
     "url": "https://github.com/waitingonalice/Expense-tracker/issues"
   },
   "scripts": {
-    "build": "rm -rf ./dist && yarn tsc",
+    "build": "rm -rf ./dist && yarn rollup -c",
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
@@ -26,11 +32,14 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "rollup": "^3.29.4",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-typescript2": "^0.36.0",
     "typescript": "^5.2.2"
   },
   "files": [
-    "src",
-    "dist",
-    "package.json"
+    "dist"
   ]
 }

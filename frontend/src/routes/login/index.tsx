@@ -1,13 +1,21 @@
-import { loginSchema } from "@expense-tracker/shared";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import { z } from "zod";
 import { Button, Checkbox, Input, Spinner, Text } from "~/components";
 import { clientRoutes } from "~/constants";
 import { useForm } from "~/utils";
 import { getCookie, setCookie } from "~/utils/cookie";
 import { MessageBox } from "./components/MessageBox";
 import { InputValuesType, useLogin } from "./loaders/login";
+
+export const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "Email Address is required." })
+    .email({ message: "Invalid email address" }),
+  password: z.string().min(1, { message: "Password is required." }),
+});
 
 interface RefreshToken {
   data: {

@@ -1,16 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { transactionSchema } from "@expense-tracker/shared";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { FormSelect, Input, Main, Text } from "~/components";
 import { clientRoutes } from "~/constants";
 
-// const createTransactionSchema = z.object({
-//   title: z.string().min(1).max(300),
-//   description: z.string().min(1).max(2000),
-//   amount: z.number().min(0.01).max(999999.99),
-// });
-
 function CreateTransaction() {
+  console.log(transactionSchema);
   const navigate = useNavigate();
   return (
     <Main>
