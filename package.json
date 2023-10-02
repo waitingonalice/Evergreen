@@ -19,9 +19,6 @@
     "lint:frontend": "eslint ./frontend --cache --cache-location ./node_modules/.cache/eslint",
     "lint:backend": "eslint ./backend --cache --cache-location ./node_modules/.cache/eslint",
     "typecheck": "lerna run typecheck",
-    "typecheck:frontend": "tsc --noEmit --skipLibCheck --project ./frontend/tsconfig.json",
-    "typecheck:backend": "tsc --noEmit --skipLibCheck --project ./backend/tsconfig.json",
-    "typecheck:shared": "tsc --noEmit --skipLibCheck --project ./shared/tsconfig.json",
     "prettier:write": "prettier . --write",
     "commit": "git-cz",
     "prepare": "husky install"
@@ -57,6 +54,7 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
+      "lerna run typecheck",
       "eslint ./frontend",
       "eslint ./backend",
       "prettier --write --ignore-unknown"
