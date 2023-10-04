@@ -1,8 +1,10 @@
+import { CountryEnum } from "@expense-tracker/shared";
 import { useState } from "react";
 import { z } from "zod";
 import { Alert, Button, FormSelect, Input, Spinner, Text } from "~/components";
-import { VALID_PASSWORD, clientRoutes, countryOptions } from "~/constants";
+import { VALID_PASSWORD, clientRoutes } from "~/constants";
 import { errorMap, useForm } from "~/utils";
+import { enumsToOptions } from "~/utils/options";
 import { RegistrationSuccess } from "./component/RegistrationSuccess";
 import { RegisterUserInputType, useRegisterUser } from "./loaders/registerUser";
 
@@ -115,7 +117,7 @@ const Register = () => {
           <FormSelect
             id="country"
             label={{ text: "Country", required: true }}
-            options={countryOptions}
+            options={enumsToOptions(CountryEnum)}
             placeholder="Select a country"
             validate={validate}
             value={fields.country ?? ""}

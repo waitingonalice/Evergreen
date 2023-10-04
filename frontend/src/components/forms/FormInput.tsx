@@ -5,12 +5,17 @@ import {
 } from "@heroicons/react/20/solid";
 import { Ref, forwardRef, useState } from "react";
 import clsx from "clsx";
-import { ErrorMessage, Label } from "~/components";
+import { ErrorMessage, Label, Text, TooltipProps } from "~/components";
 import { useForm } from "~/utils";
 
 interface InputProps {
   id: string;
-  label?: { required?: boolean; text: string };
+  label?: {
+    required?: boolean;
+    text: string;
+    withTooltip?: boolean;
+    tooltip?: TooltipProps;
+  };
   validate?: ReturnType<typeof useForm>["validate"];
   placeholder?: string;
   value: string;
@@ -21,6 +26,7 @@ interface InputProps {
   inputClassName?: string;
   prefixIcon?: React.ReactNode;
   size?: "small" | "default";
+  subText?: string;
 }
 
 // controlled form input component
@@ -39,6 +45,7 @@ const FormInput = forwardRef(
       inputClassName,
       prefixIcon,
       size = "default",
+      subText,
     } = props;
     const [error, setError] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -61,12 +68,15 @@ const FormInput = forwardRef(
     return (
       <div className={className}>
         {label && (
-          <span className="flex mb-1">
-            <Label name={id}>{label.text}</Label>
-            {label.required ? (
-              <span className="ml-1 text-lg text-red-500">*</span>
-            ) : null}
-          </span>
+          <Label
+            name={id}
+            required={label.required}
+            className="mb-1"
+            withTooltip={label.withTooltip}
+            tooltip={{ ...label.tooltip }}
+          >
+            {label.text}
+          </Label>
         )}
         <div className="relative rounded-md shadow-sm">
           {prefixIcon && (
@@ -120,6 +130,11 @@ const FormInput = forwardRef(
         <ErrorMessage id={id} error={error}>
           {error}
         </ErrorMessage>
+        {subText && (
+          <Text type="caption" className="text-gray-400 mt-1">
+            {subText}
+          </Text>
+        )}
       </div>
     );
   }

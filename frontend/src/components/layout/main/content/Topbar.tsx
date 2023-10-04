@@ -73,7 +73,7 @@ const Topbar = ({
         ]}
         title="Are you sure you want to sign out?"
       />
-      <div
+      <nav
         className={clsx(
           "sticky top-0 px-4 py-3 bg-important border-b border-primary-2 flex items-center z-30 gap-x-4 w-full justify-between",
           className
@@ -177,7 +177,7 @@ const Topbar = ({
             </Transition>
           </Menu>
         </div>
-      </div>
+      </nav>
     </>
   );
 };

@@ -6,9 +6,7 @@ const transition = "ease-out transition duration-200";
 export const SideBar = () => {
   const { navigation } = useNavigation();
   return (
-    <div className="fixed inset-y-0 left-0 z-20 border-r border-primary-2 block w-fit pl-4 pr-12 overflow-y-auto bg-important">
-      <div className="h-16" />
-
+    <aside className="fixed left-0 h-full border-r border-primary-2 pl-4 pr-12 overflow-y-auto bg-important z-20">
       <nav className="mt-8">
         <ul className="flex flex-col space-y-1">
           {navigation.map((item) => (
@@ -30,6 +28,6 @@ export const SideBar = () => {
           ))}
         </ul>
       </nav>
-    </div>
+    </aside>
   );
 };

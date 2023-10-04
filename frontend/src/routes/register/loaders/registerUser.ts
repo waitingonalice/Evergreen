@@ -1,5 +1,6 @@
+import { CountryEnum } from "@expense-tracker/shared";
 import { useMutation } from "react-query";
-import { CountryEnum, apiRoutes } from "~/constants";
+import { apiRoutes } from "~/constants";
 import { request } from "~/utils/fetch";
 
 export interface RegisterUserInputType {

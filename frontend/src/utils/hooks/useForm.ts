@@ -66,13 +66,14 @@ export const useForm = ({ zod, data }: UseFormType) => {
       );
       if (!duplicateRef && node) refs.current.push(node);
     },
-
     /**
-     * @param callback - the callback function to be executed after the form submission is handled.
-     * @param e - the event object
-     * @example onSubmit(() => console.log("Form submitted!"));
+     *
+     * @param customSchema - optional custom schema to be used for validation instead of the default schema provided.
+     *
+     * E.g. To evaluate data in the form of an array of objects
+     * @returns
      */
-    onSubmitValidate: () => {
+    onSubmitValidate: (customSchema?: any) => {
       if (refs.current.length > 0) {
         refs.current.forEach((element) => {
           if (!element) return;
@@ -86,7 +87,10 @@ export const useForm = ({ zod, data }: UseFormType) => {
         // clean up
         refs.current = [];
       }
-      const result = zod.safeParse(data);
+      const result = customSchema
+        ? customSchema.safeParse(data)
+        : zod.safeParse(data);
+
       return result.success;
     },
 
