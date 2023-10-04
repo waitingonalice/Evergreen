@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Layout, OnboardLayout } from "~/components";
+import { OnboardLayout } from "~/components";
 import { clientRoutes } from "~/constants";
 import {
   Balance,
@@ -44,20 +44,17 @@ const router = createBrowserRouter([
         ],
       },
       // Main app starts here
+
+      { path: clientRoutes.dashboard.index, element: <Dashboard /> },
+      { path: clientRoutes.balance.index, element: <Balance /> },
+      { path: clientRoutes.transactions.index, element: <Transaction /> },
       {
-        element: <Layout />,
-        children: [
-          { path: clientRoutes.dashboard.index, element: <Dashboard /> },
-          { path: clientRoutes.balance.index, element: <Balance /> },
-          { path: clientRoutes.transactions.index, element: <Transaction /> },
-          {
-            path: clientRoutes.transactions.create,
-            element: <CreateTransaction />,
-          },
-          { path: clientRoutes.billing.index, element: <Billing /> },
-          { path: clientRoutes.kanban.index, element: <Kanban /> },
-        ],
+        path: clientRoutes.transactions.create,
+        element: <CreateTransaction />,
       },
+      { path: clientRoutes.billing.index, element: <Billing /> },
+      { path: clientRoutes.kanban.index, element: <Kanban /> },
+
       // 404
       { element: <UnknownRoute />, path: "*" },
     ],

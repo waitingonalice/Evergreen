@@ -13,19 +13,10 @@
       "require": "./dist/cjs/index.cjs"
     }
   },
-  "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/waitingonalice/Expense-tracker.git"
-  },
-  "bugs": {
-    "url": "https://github.com/waitingonalice/Expense-tracker/issues"
-  },
   "scripts": {
     "build": "rm -rf ./dist && yarn rollup -c",
-    "typecheck": "tsc --noEmit --skipLibCheck"
+    "typecheck": "tsc --noEmit --skipLibCheck",
+    "watch": "yarn build --watch"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.37.0",
@@ -36,6 +27,7 @@
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.6.3",
+    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
     "typescript": "^5.2.2"
   },

@@ -11,7 +11,7 @@ interface QueryConfigType {
 class PgClient {
   private client: Pool;
   private lastQuery?: string;
-  private stats?: Record<string, number>;
+  private stats?: Record<string, number | string>;
 
   constructor() {
     const config = {
@@ -33,6 +33,7 @@ class PgClient {
       totalCount: 0,
       idleCount: 0,
       waitingCount: 0,
+      lastQuery: "",
     };
   }
 
@@ -41,6 +42,7 @@ class PgClient {
       totalCount: this.client.totalCount,
       idleCount: this.client.idleCount,
       waitingCount: this.client.waitingCount,
+      lastQuery: this.lastQuery || "",
     };
   }
 

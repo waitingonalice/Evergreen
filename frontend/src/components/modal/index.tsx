@@ -13,6 +13,7 @@ interface ModalProps {
   size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
   title?: React.ReactNode;
   buttons?: ButtonProps[];
+  contentClassName?: string;
 }
 
 export function Modal({
@@ -22,6 +23,7 @@ export function Modal({
   size = "md",
   title,
   buttons,
+  contentClassName,
 }: ModalProps) {
   const sizeMapper = {
     sm: "max-w-sm",
@@ -62,16 +64,19 @@ export function Modal({
               <Dialog.Panel
                 className={clsx(
                   "transform overflow-hidden rounded-md bg-white text-left align-middle shadow-xl transition-all",
-                  children && "divide-y",
                   sizeMapper[size]
                 )}
               >
                 <Text className="text-dark p-6" type="subhead-2-bold">
                   {title}
                 </Text>
-                {children && <div className="bg-gray-100 p-6">{children}</div>}
+                {children && (
+                  <div className={clsx(contentClassName, "px-6")}>
+                    {children}
+                  </div>
+                )}
                 {buttons && (
-                  <div className="flex gap-x-4 justify-end items-center px-6 py-4">
+                  <div className="flex gap-x-4 justify-end items-center p-6">
                     {buttons.map((button, index) => (
                       <Button key={index} {...button}>
                         {button.children}

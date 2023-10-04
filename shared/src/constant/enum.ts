@@ -249,12 +249,20 @@ export enum CountryEnum {
   ZW = "Zimbabwe",
 }
 
-export enum CategoryEnum {}
+export enum CategoryEnum {
+  HOUSING = "Housing",
+  TRANSPORTATION = "Transportation",
+  FOOD = "Food",
+  UTILITIES = "Utilities",
+  INSURANCE = "Insurance",
+  MEDICAL = "Medical And Healthcare",
+  SAVINGS = "Savings",
+  PERSONAL_SPENDING = "Personal Spending",
+  ENTERTAINMENT = "Entertainment",
+  MISCELLANEOUS = "Miscellaneous",
+}
 
-export const enumsToOptions = (objects: Record<string, string>) =>
-  Object.entries(objects).map(([key, value]) => ({
-    label: value,
-    value: key,
-  }));
-
-export const countryOptions = enumsToOptions(CountryEnum);
+export enum TransactionTypeEnum {
+  EXPENSE = "EXPENSE",
+  INCOME = "INCOME",
+}
