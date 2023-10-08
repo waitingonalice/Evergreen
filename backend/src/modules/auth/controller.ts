@@ -19,12 +19,14 @@ import {
   forgotPasswordRequestBody,
 } from "./types";
 import {
+  emailSchema,
   generateAuthToken,
   generateRefreshToken,
   passwordHash,
+  passwordSchema,
+  registrationSchema,
   sendEmailVerification,
-} from "./util";
-import { emailSchema, passwordSchema, registrationSchema } from "./validation";
+} from "./utils";
 
 export const handleForgotPassword = async (req: Request, res: Response) => {
   const { email }: forgotPasswordRequestBody = req.body;

@@ -11,7 +11,7 @@
     "resolve": "prisma migrate resolve --applied",
     "seed": "prisma db seed",
     "dev": "nodemon",
-    "build": "rm -rf ./build && yarn tsc && yarn tsc-alias -p tsconfig.json",
+    "build": "rm -rf ./build && yarn tsc --rootDir ./src && yarn tsc-alias -p tsconfig.json",
     "start": "node build/server.js",
     "run-container": "docker-compose up -d --build",
     "typecheck": "tsc --noEmit --skipLibCheck"

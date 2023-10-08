@@ -2,18 +2,15 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { ErrorEnum } from "~/constants/enum";
-
-const validate = (token: string) => {
-  if (!process.env.SESSION_SECRET)
-    throw new Error("SESSION_SECRET is not defined");
-  jwt.verify(token, process.env.SESSION_SECRET);
-};
+import { DecodedAuthTokenType } from "~/types/account";
+import { jwtDecode } from "~/utils";
 
 export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.headers.authorization;
     if (!token) throw new Error(ErrorEnum.UNAUTHORIZED);
-    validate(token);
+    const userData = jwtDecode<DecodedAuthTokenType>(token);
+    res.locals.accountId = userData.data.userId;
     return next();
   } catch (err) {
     console.error(err);

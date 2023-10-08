@@ -4,7 +4,7 @@ import jwtDecode from "jwt-decode";
 import { z } from "zod";
 import { Button, Checkbox, Input, Spinner, Text } from "~/components";
 import { clientRoutes } from "~/constants";
-import { useForm } from "~/utils";
+import { useForm, useKeypress } from "~/utils";
 import { getCookie, setCookie } from "~/utils/cookie";
 import { MessageBox } from "./components/MessageBox";
 import { InputValuesType, useLogin } from "./loaders/login";
@@ -84,6 +84,8 @@ const Login = () => {
 
     redirectOnRememberMe();
   }, []);
+
+  useKeypress("Enter", handleSubmit);
 
   return (
     <div className="flex flex-col w-full gap-y-4 max-w-md">

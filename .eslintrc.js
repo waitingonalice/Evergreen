@@ -26,7 +26,7 @@ module.exports = {
     "prefer-arrow-callback": ["error"],
     "linebreak-style": ["error", "unix"],
     "@typescript-eslint/no-unused-vars": ["error"],
-    "no-console": "warn",
+    "no-console": "off",
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
     "react/jsx-filename-extension": [
