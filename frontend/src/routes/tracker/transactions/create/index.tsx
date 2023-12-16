@@ -73,7 +73,11 @@ function CreateTransaction() {
   ) => {
     setFormData((prev) => {
       const deepClone = { ...prev[index] };
-      if (key !== "id") deepClone[key] = event.target.value;
+      if (key !== "id" && key !== "type") {
+        deepClone[key] = event.target.value;
+      } else if (key === "type") {
+        deepClone[key] = event.target.value as TransactionTypeEnum;
+      }
       const clone = [...prev];
       clone[index] = deepClone;
       return clone;
