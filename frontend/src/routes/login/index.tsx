@@ -1,29 +1,21 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Button, Checkbox, Input, Spinner, Text } from "~/components";
 import { clientRoutes } from "~/constants";
-import { useForm } from "~/utils";
-import { getCookie, setCookie } from "~/utils/cookie";
+import { useForm, useKeypress } from "~/utils";
+import { setCookie } from "~/utils/cookie";
 import { MessageBox } from "./components/MessageBox";
+import { useRememberMe } from "./hooks/useRememberMe";
 import { InputValuesType, useLogin } from "./loaders/login";
 
-interface RefreshToken {
-  data: {
-    id: number;
-    rememberMe: boolean;
-  };
-}
-
-const loginSchema = z.object({
+export const loginSchema = z.object({
   email: z
     .string()
     .min(1, { message: "Email Address is required." })
     .email({ message: "Invalid email address" }),
   password: z.string().min(1, { message: "Password is required." }),
 });
-const rememberMeForbiddenParams = ["?expired", "?logout"];
 
 const Login = () => {
   const [values, setValues] = useState<InputValuesType>({
@@ -36,8 +28,6 @@ const Login = () => {
     data: values,
   });
   const navigate = useNavigate();
-  const location = useLocation();
-
   const { mutate: login, isLoading, data: { result } = {}, error } = useLogin();
 
   const handleOnChange = (
@@ -47,9 +37,14 @@ const Login = () => {
 
   const handleSubmit = () => {
     const success = onSubmitValidate();
-    if (success) login(values);
+    if (success) {
+      login(values);
+      navigate(clientRoutes.auth.login, { replace: true });
+    }
   };
 
+  useKeypress("Enter", handleSubmit);
+  useRememberMe();
   useEffect(() => {
     if (result) {
       setCookie("authToken", result.tokens.auth);
@@ -61,26 +56,6 @@ const Login = () => {
       navigate(clientRoutes.dashboard.index);
     }
   }, [result]);
-
-  useEffect(() => {
-    const refreshToken = getCookie("refreshToken");
-    const authToken = getCookie("authToken");
-
-    const redirectOnRememberMe = () => {
-      if (!refreshToken || !authToken) return;
-      const decodedRefreshToken = jwtDecode<RefreshToken>(refreshToken);
-      // if remember me was selected and the user is not on the authenticated path, redirect to dashboard where the request handler in that page will validate the token
-      if (
-        authToken &&
-        decodedRefreshToken.data.rememberMe &&
-        !location.pathname.includes("tracker") &&
-        !rememberMeForbiddenParams.includes(location.search)
-      )
-        navigate(clientRoutes.dashboard.index);
-    };
-
-    redirectOnRememberMe();
-  }, []);
 
   return (
     <div className="flex flex-col w-full gap-y-4 max-w-md">
@@ -112,7 +87,7 @@ const Login = () => {
           id="rememberMe"
           label="Remember me"
           onChange={(value) => handleOnChange("rememberMe", value)}
-          value={values.rememberMe as boolean}
+          checked={values.rememberMe as boolean}
         />
         <Button className="w-fit" variant="primaryLink">
           <a href={clientRoutes.auth.forgotPassword}>Forgot password?</a>

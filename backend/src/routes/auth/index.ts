@@ -1,19 +1,31 @@
-import express from "express";
-import { routes } from "~/constants/routes";
-import forgotPasswordRoute from "./forgot-password";
-import loginRoute from "./login";
-import refreshTokenRoute from "./refreshToken";
-import registerRoute from "./register";
-import setPasswordRoute from "./set-password";
-import verifyRoute from "./verify";
+import { Router } from "express";
+import * as AuthController from "~/modules/auth/controller";
+import {
+  createAccountLimiter,
+  loginLimiter,
+  setPasswordLimiter,
+} from "~/modules/auth/middleware";
 
-const authenticationEndpoints = (app: ReturnType<typeof express>) => {
-  app.use(routes.auth, registerRoute);
-  app.use(routes.auth, verifyRoute);
-  app.use(routes.auth, loginRoute);
-  app.use(routes.auth, refreshTokenRoute);
-  app.use(routes.auth, forgotPasswordRoute);
-  app.use(routes.auth, setPasswordRoute);
-};
+const AuthRouter = Router();
 
-export default authenticationEndpoints;
+AuthRouter.post("/forgot-password", AuthController.handleForgotPassword);
+
+AuthRouter.post("/login", loginLimiter, AuthController.handleLogin);
+
+AuthRouter.get("/refresh-token", AuthController.handleRefreshToken);
+
+AuthRouter.post(
+  "/register",
+  createAccountLimiter,
+  AuthController.handleRegister
+);
+
+AuthRouter.post(
+  "/set-password/:token",
+  setPasswordLimiter,
+  AuthController.handleSetPassword
+);
+
+AuthRouter.get("/verify/:token", AuthController.handleVerify);
+
+export default AuthRouter;

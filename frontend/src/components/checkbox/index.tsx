@@ -2,19 +2,19 @@ import { ChangeEvent } from "react";
 import clsx from "clsx";
 import { Text } from "../text";
 
-interface CheckboxProps {
-  id: string;
+export interface CheckboxProps {
+  id?: string;
   label?: string;
-  value?: boolean;
+  checked?: boolean;
   indeterminate?: boolean;
-  onChange: (checked: boolean) => void;
+  onChange?: (checked: boolean) => void;
   disabled?: boolean;
   className?: string;
 }
 
 export const Checkbox = ({
   label,
-  value = false,
+  checked = false,
   onChange,
   indeterminate,
   disabled,
@@ -23,7 +23,7 @@ export const Checkbox = ({
 }: CheckboxProps) => {
   const handleChecked = (e: ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
-    onChange(e.currentTarget.checked);
+    onChange?.(e.currentTarget.checked);
   };
 
   return (
@@ -37,11 +37,11 @@ export const Checkbox = ({
           "w-4 h-4 border border-standard rounded-sm focus:ring-primary transition-all duration-100 appearance-none disabled:cursor-not-allowed",
           indeterminate &&
             "enabled:indeterminate:bg-primary disabled:indeterminate:bg-primary",
-          value &&
+          checked &&
             "enabled:checked:bg-primary disabled:checked:bg-primary checked:ring-transparent",
-          disabled && "disabled:opacity-50"
+          disabled && "disabled:opacity-50 bg-disabled"
         )}
-        checked={value}
+        checked={checked}
         // eslint-disable-next-line no-param-reassign
         ref={(el) => el && indeterminate && (el.indeterminate = indeterminate)}
       />

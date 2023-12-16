@@ -1,4 +1,5 @@
 import { UseQueryOptions, useQuery } from "react-query";
+import { clientRoutes } from "~/constants";
 import { refreshAuthToken } from "./auth";
 import { getCookie } from "./cookie";
 
@@ -28,13 +29,19 @@ export const request = async <Response extends ResponseType, Variables>({
     body: JSON.stringify(input),
     headers: {
       "Content-Type": type,
-      Authorization: getCookie("authToken") ? `${getCookie("authToken")}` : "",
+      Authorization: getCookie("authToken") || "",
     },
   });
   const res: Response = await response.json();
   if ("code" in res) {
+    if (res.code === "401000") {
+      return window.location.assign(`${clientRoutes.auth.login}?expired`);
+    }
+
     throw new Error(res.code);
-  } else if (!response.ok) throw new Error(`${response.status}`);
+  } else if (!response.ok) {
+    throw new Error(`${response.status}`);
+  }
   return res;
 };
 

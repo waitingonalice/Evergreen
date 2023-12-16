@@ -3,15 +3,18 @@ import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Layout, OnboardLayout } from "~/components";
+import { OnboardLayout } from "~/components";
 import { clientRoutes } from "~/constants";
 import {
+  CodeEditor,
   Dashboard,
   ForgotPassword,
+  Kanban,
   Login,
   Register,
   ResetPassword,
   Root,
+  UnknownRoute,
   Verify,
 } from "~/routes";
 import "../styles/animations.css";
@@ -37,13 +40,21 @@ const router = createBrowserRouter([
           { path: clientRoutes.auth.resetPassword, element: <ResetPassword /> },
         ],
       },
-      // Main content starts here
-      {
-        element: <Layout />,
-        children: [
-          { path: clientRoutes.dashboard.index, element: <Dashboard /> },
-        ],
-      },
+      // Main app starts here
+
+      { path: clientRoutes.dashboard.index, element: <Dashboard /> },
+      { path: clientRoutes.codeEditor.index, element: <CodeEditor /> },
+      // { path: clientRoutes.balance.index, element: <Balance /> },
+      // { path: clientRoutes.transactions.index, element: <Transaction /> },
+      // {
+      //   path: clientRoutes.transactions.create,
+      //   element: <CreateTransaction />,
+      // },
+      // { path: clientRoutes.billing.index, element: <Billing /> },
+      { path: clientRoutes.kanban.index, element: <Kanban /> },
+
+      // 404
+      { element: <UnknownRoute />, path: "*" },
     ],
   },
 ]);

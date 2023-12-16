@@ -8,13 +8,68 @@ datasource db {
 }
 
 model Account {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String   @db.VarChar(255)
-  firstName String
-  lastName  String
-  country   String
-  active    Boolean  @default(false)
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
+  email          String           @unique
+  password       String           @db.VarChar(255)
+  firstName      String
+  lastName       String
+  country        String
+  active         Boolean          @default(false)
+  updatedAt      DateTime?        @updatedAt
+  createdAt      DateTime         @default(now())
+  id             String           @id @default(uuid())
+  balanceHistory BalanceHistory[]
+  profile        Profile?
+  transactions   Transaction[]
+}
+
+model Profile {
+  id              Int       @id @default(autoincrement())
+  account_id      String    @unique
+  base_currency   Currency  @default(SGD)
+  profile_picture String?
+  updatedAt       DateTime? @updatedAt
+  Account         Account   @relation(fields: [account_id], references: [id])
+}
+
+model BalanceHistory {
+  id            Int      @id @default(autoincrement())
+  total         Decimal  @default(0) @db.Decimal(19, 4)
+  createdAt     DateTime @default(now())
+  account_id    String
+  currency      Currency @default(SGD)
+  total_expense Decimal  @default(0) @db.Decimal(19, 4)
+  total_income  Decimal  @default(0) @db.Decimal(19, 4)
+  account       Account  @relation(fields: [account_id], references: [id])
+}
+
+model Transaction {
+  id                      Int                  @id @default(autoincrement())
+  account_id              String
+  amount                  Decimal              @db.Decimal(19, 4)
+  category                String
+  createdAt               DateTime             @default(now())
+  description             String?              @db.VarChar(800)
+  title                   String               @db.VarChar(300)
+  updatedAt               DateTime?            @updatedAt
+  transaction_schedule_id Int?
+  type                    TransactionType
+  account                 Account              @relation(fields: [account_id], references: [id])
+  transactionSchedule     TransactionSchedule? @relation(fields: [transaction_schedule_id], references: [id])
+}
+
+model TransactionSchedule {
+  id          Int           @id @default(autoincrement())
+  frequency   String
+  next_run    Int
+  transaction Transaction[]
+}
+
+enum Currency {
+  SGD
+  USD
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
 }

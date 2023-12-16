@@ -1,4 +1,5 @@
 {
+  "private": "true",
   "name": "expense-tracker",
   "version": "1.0.0",
   "main": "index.js",
@@ -9,17 +10,20 @@
     "commitizen": "^4.2.5"
   },
   "scripts": {
-    "dev:backend": "cd ./backend && yarn dev",
-    "dev:frontend": "cd ./frontend && yarn dev",
-    "commit": "git-cz",
-    "prepare": "husky install",
+    "dev": "lerna run dev",
+    "dev:shared": "yarn workspace @expense-tracker/shared watch",
+    "build": "lerna run build",
+    "build:backend": "yarn workspace backend build",
+    "build:shared": "yarn workspace @expense-tracker/shared build",
+    "build:frontend": "yarn workspace frontend build",
     "lint": "run-p lint:*",
     "lint:frontend": "eslint ./frontend --cache --cache-location ./node_modules/.cache/eslint",
     "lint:backend": "eslint ./backend --cache --cache-location ./node_modules/.cache/eslint",
-    "typecheck": "run-p tsc:*",
-    "tsc:frontend": "tsc --noEmit --skipLibCheck --project ./frontend/tsconfig.json",
-    "tsc:backend": "tsc --noEmit --skipLibCheck --project ./backend/tsconfig.json",
-    "prettier:write": "prettier . --write"
+    "lint:shared": "eslint ./shared --cache --cache-location ./node_modules/.cache/eslint",
+    "typecheck": "lerna run typecheck",
+    "prettier:write": "prettier . --write",
+    "commit": "git-cz",
+    "prepare": "husky install"
   },
   "config": {
     "commitizen": {
@@ -37,6 +41,7 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.31.11",
     "husky": "^8.0.3",
+    "lerna": "^7.3.0",
     "lint-staged": "^13.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.1",
@@ -53,7 +58,13 @@
     "**/*.{ts,tsx}": [
       "eslint ./frontend",
       "eslint ./backend",
+      "eslint ./shared",
       "prettier --write --ignore-unknown"
     ]
-  }
+  },
+  "workspaces": [
+    "backend",
+    "frontend",
+    "shared"
+  ]
 }
