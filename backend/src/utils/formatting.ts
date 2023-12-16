@@ -1,12 +1,13 @@
 interface currencyHandlerType {
-  value: number;
+  value: number | string;
   encode?: boolean;
 }
 
 export const currencyHandler = ({ value, encode }: currencyHandlerType) => {
   const multiplier = 100;
-  if (encode) return value * multiplier;
-  return value / multiplier;
+  const toNumber = Number(value);
+  if (encode) return toNumber * multiplier;
+  return toNumber / multiplier;
 };
 
 interface formatCurrencyType {

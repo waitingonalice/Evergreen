@@ -19,11 +19,11 @@ TransactionRouter.get(
   TransactionController.handleGetTransactionById
 );
 
-// TransactionRouter.get(
-//   "/transactions",
-//   // verifyUser,
-//   TransactionController.handleGetTransactions
-// );
+TransactionRouter.get(
+  "/transactions",
+  verifyUser,
+  TransactionController.handleGetTransactions
+);
 
 TransactionRouter.get(
   "/transactions/search",
@@ -33,10 +33,12 @@ TransactionRouter.get(
 
 // TransactionRouter.put(
 //   "/transaction/:id",
+//   verifyUser,
 //   TransactionController.updateTransactionById
 // );
 
 // TransactionRouter.delete(
 //   "/transaction/:id",
+//   verifyUser,
 //   TransactionController.deleteTransactionById
 // );

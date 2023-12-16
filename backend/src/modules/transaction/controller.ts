@@ -1,10 +1,11 @@
-import { Decimal } from "@prisma/client/runtime/library";
+/* eslint-disable arrow-body-style */
+import { TransactionTypeEnum } from "@expense-tracker/shared";
 import { Request, Response } from "express";
 import { ErrorEnum } from "~/constants/enum";
-import { prisma } from "~/db";
+import { pg, prisma } from "~/db";
+import { insertBalanceMutation, latestBalanceQuery } from "~/models/balance";
 import * as TransactionModel from "~/models/transaction";
-import { currencyHandler } from "~/utils/formatting";
-import { CreateTransactionRequestBody } from "./types";
+import { BalanceHistory, CreateTransactionRequestBody } from "./types";
 
 /**
  * @param variables Represents the transaction object to be created in the transaction table
@@ -17,18 +18,69 @@ export const handleCreateTransactions = async (req: Request, res: Response) => {
   try {
     const { accountId } = res.locals;
     const { variables }: CreateTransactionRequestBody = req.body;
-    const transactionsWithId = variables.map((item) => ({
-      ...item,
-      account_id: accountId,
-      amount: currencyHandler({
-        value: Number(item.amount),
-        encode: true,
-      }),
-    }));
+    let totalExpense = 0;
+    let totalIncome = 0;
+
+    const transactionsWithId = variables.map((item) => {
+      const toNumberAmount = Number(item.amount);
+      if (item.type === TransactionTypeEnum.EXPENSE) {
+        totalExpense -= toNumberAmount;
+      } else {
+        totalIncome += toNumberAmount;
+      }
+      return {
+        ...item,
+        account_id: accountId,
+        amount: toNumberAmount,
+      };
+    });
+
     const transactions = await prisma.transaction.createMany({
       data: transactionsWithId,
     });
-    console.log(transactionsWithId);
+
+    // update balance history
+    await pg.transaction(async (client) => {
+      const latestBalance = await client.query<BalanceHistory>({
+        text: latestBalanceQuery,
+        values: [accountId],
+      });
+
+      if (latestBalance?.rows.length > 0) {
+        const {
+          total_income: currentIncome,
+          total_expense: currentExpense,
+          total: currentTotal,
+        } = latestBalance.rows[0];
+
+        const updateCurrentIncome = Number(currentIncome) + totalIncome;
+        const updateCurrentExpense = Number(currentExpense) + totalExpense;
+        const updateCurrentTotal =
+          Number(currentTotal) + totalIncome + totalExpense;
+
+        await client.query({
+          text: insertBalanceMutation,
+          values: [
+            accountId,
+            updateCurrentIncome,
+            updateCurrentExpense,
+            updateCurrentTotal,
+          ],
+        });
+      } else {
+        // to handle the case when account is new and has no balance history
+        await client.query({
+          text: insertBalanceMutation,
+          values: [
+            accountId,
+            totalIncome,
+            totalExpense,
+            totalIncome + totalExpense,
+          ],
+        });
+      }
+    });
+
     return res.status(200).json({
       result: {
         totalCount: transactions.count,
@@ -64,9 +116,7 @@ export const handleGetTransactionById = async (_: Request, res: Response) => {
     return res.status(200).json({
       result: {
         ...transaction,
-        amount: currencyHandler({
-          value: new Decimal(transaction?.amount || 0).toNumber(),
-        }),
+        amount: transaction?.amount,
       },
     });
   } catch (err) {
@@ -90,10 +140,9 @@ export const handleGetTransactionById = async (_: Request, res: Response) => {
  *
  * `{result:{ totalCount: 1, transactions: [{...}] }}`
  */
-// export const handleGetTransactions = async (req: Request, res: Response) => {
-
-//   return res.json({ result: req.query, header: req.headers });
-// };
+export const handleGetTransactions = async (req: Request, res: Response) => {
+  return res.json({ result: req.query, header: req.headers });
+};
 
 /**
  * @param search Represents the full text search query to be used to filter transactions. Will leverage on sql ILIKE operator to perform the search with prefix and suffix wildcards.
@@ -113,7 +162,7 @@ export const handleSearchTransactions = async (req: Request, res: Response) => {
     });
     const transactions = result?.map((item) => ({
       ...item,
-      amount: currencyHandler({ value: new Decimal(item.amount).toNumber() }),
+      amount: item.amount,
     }));
     return res.status(200).json({
       result: {
@@ -125,5 +174,6 @@ export const handleSearchTransactions = async (req: Request, res: Response) => {
     return res.json({ code: err });
   }
 };
+
 // export const updateTransactionById = async (req: Request, res: Response) => {};
 // export const deleteTransactionById = async (req: Request, res: Response) => {};

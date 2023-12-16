@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { useRef } from "react";
 import isNumber from "lodash/isNumber";
+import union from "lodash/union";
 import type { ZodEffects, ZodObject } from "zod";
 import { findKey } from "../formatting";
 
@@ -61,10 +62,7 @@ export const useForm = ({ zod, data }: UseFormType) => {
      * @example ref={(node) => addRefs(node)}
      */
     ref: <T>(node: T extends HTMLElement ? T : null) => {
-      const duplicateRef = [...refs.current].find(
-        (ref) => ref && node && ref.id === node.id
-      );
-      if (!duplicateRef && node) refs.current.push(node);
+      refs.current = union(refs.current, [node]);
     },
     /**
      *
