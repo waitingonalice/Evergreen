@@ -14,14 +14,13 @@
       "~/*": ["*"]
     },
     "resolveJsonModule": true,
-    "rootDir": "./src",
     "skipLibCheck": true,
     "strict": true,
     "target": "es5",
     "types": ["node"],
     "useDefineForClassFields": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "prisma"],
   "include": ["**/*.ts"],
   // "references" is not supported in nodejs, need to manually add here.
   "ts-node": {

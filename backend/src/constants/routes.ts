@@ -3,6 +3,7 @@ export const routes = {
   auth: "/auth",
   // protected routes
   api: {
-    index: "/api/v1",
+    v1: "/api/v1",
+    user: "/user",
   },
 };

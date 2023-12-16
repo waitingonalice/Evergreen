@@ -1,5 +1,5 @@
 export const api = import.meta.env.VITE_ENDPOINT_URL;
-const authRoute = (toPath: string) => `/track${toPath}`;
+const authRoute = (toPath: string) => `/app${toPath}`;
 
 export const clientRoutes = {
   root: "/",
@@ -28,6 +28,9 @@ export const clientRoutes = {
   },
   kanban: {
     index: authRoute("/kanban"),
+  },
+  codeEditor: {
+    index: authRoute("/code-editor"),
   },
 };
 

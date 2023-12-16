@@ -79,7 +79,6 @@ function CreateTransaction() {
       return clone;
     });
   };
-
   const handleAddTransaction = () => {
     if (formData.length < 9)
       setFormData((prev) => {

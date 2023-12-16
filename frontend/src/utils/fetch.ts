@@ -29,7 +29,7 @@ export const request = async <Response extends ResponseType, Variables>({
     body: JSON.stringify(input),
     headers: {
       "Content-Type": type,
-      Authorization: getCookie("authToken") ? `${getCookie("authToken")}` : "",
+      Authorization: getCookie("authToken") || "",
     },
   });
   const res: Response = await response.json();

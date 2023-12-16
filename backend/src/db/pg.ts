@@ -1,7 +1,4 @@
-/* eslint-disable no-console */
-
-/* eslint-disable lines-between-class-members */
-import { Pool, QueryResultRow } from "pg";
+import { Pool, PoolClient, QueryResultRow } from "pg";
 
 interface QueryConfigType {
   text: string;
@@ -10,18 +7,22 @@ interface QueryConfigType {
 }
 class PgClient {
   private client: Pool;
-  private lastQuery?: string;
+
   private stats?: Record<string, number | string>;
 
   constructor() {
     const config = {
       connectionString: process.env.DATABASE_URL,
       allowExitOnIdle: false,
-      connectionTimeoutMillis: 20000, // 20 seconds
-      idle_in_transaction_session_timeout: 20000, // 20 seconds
+      // connectionTimeoutMillis: 20000, // 20 seconds
+      // idle_in_transaction_session_timeout: 20000, // 20 seconds
     };
 
     this.client = new Pool(config);
+
+    this.client.on("connect", () => {
+      console.log("PostgreSQL connected");
+    });
 
     this.client.on("error", (err) => {
       console.error("Unexpected error on idle client", err);
@@ -37,18 +38,18 @@ class PgClient {
     };
   }
 
-  private setStats() {
+  private setStats(lastQuery?: string) {
     this.stats = {
       totalCount: this.client.totalCount,
       idleCount: this.client.idleCount,
       waitingCount: this.client.waitingCount,
-      lastQuery: this.lastQuery || "",
+      lastQuery: lastQuery || "",
     };
   }
 
   clientHealthCheck = async () => {
     try {
-      await this.client?.query("SELECT NOW()");
+      await this.client?.query(`SELECT * FROM "Account"`);
       this.setStats();
       console.log("stats", this.stats);
     } catch (err) {
@@ -59,24 +60,56 @@ class PgClient {
     }
   };
 
+  /**
+   * For simple queries that do not require a transaction
+   */
   query = async <T extends QueryResultRow>({
     text,
     values,
     name,
   }: QueryConfigType) => {
     try {
-      this.lastQuery = text;
-      const res = await this.client?.query<T>({
+      const start = Date.now();
+      const res = await this.client.query<T>({
         text,
         values,
         name,
       });
-      this.setStats();
+      const duration = Date.now() - start;
+      this.setStats(text);
+      console.log("executed query", { text, duration, rows: res.rowCount });
       return res;
     } catch (err) {
       console.error(err);
       return null;
     }
+  };
+
+  /**
+   * For queries that require a long running transaction
+   */
+  transaction = async <T>(
+    callback: (args: PoolClient) => Promise<T>
+  ): Promise<T | null> => {
+    const start = Date.now();
+    const client = await this.client.connect();
+    let res: T | null = null;
+    try {
+      await client.query("BEGIN");
+      const queryResponse = await callback(client);
+      await client.query("COMMIT");
+      res = queryResponse;
+    } catch (err) {
+      console.error(err);
+      await client.query("ROLLBACK");
+      throw err;
+    } finally {
+      client.release();
+      const duration = Date.now() - start;
+      this.setStats();
+      console.log("executed transaction", { duration });
+    }
+    return res;
   };
 }
 

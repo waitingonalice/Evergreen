@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Button, Checkbox, Input, Spinner, Text } from "~/components";
 import { clientRoutes } from "~/constants";
-import { useForm } from "~/utils";
-import { getCookie, setCookie } from "~/utils/cookie";
+import { useForm, useKeypress } from "~/utils";
+import { setCookie } from "~/utils/cookie";
 import { MessageBox } from "./components/MessageBox";
+import { useRememberMe } from "./hooks/useRememberMe";
 import { InputValuesType, useLogin } from "./loaders/login";
 
 export const loginSchema = z.object({
@@ -16,15 +16,6 @@ export const loginSchema = z.object({
     .email({ message: "Invalid email address" }),
   password: z.string().min(1, { message: "Password is required." }),
 });
-
-interface RefreshToken {
-  data: {
-    id: number;
-    rememberMe: boolean;
-  };
-}
-
-const rememberMeForbiddenParams = ["?expired", "?logout"];
 
 const Login = () => {
   const [values, setValues] = useState<InputValuesType>({
@@ -37,7 +28,6 @@ const Login = () => {
     data: values,
   });
   const navigate = useNavigate();
-  const location = useLocation();
   const { mutate: login, isLoading, data: { result } = {}, error } = useLogin();
 
   const handleOnChange = (
@@ -53,6 +43,8 @@ const Login = () => {
     }
   };
 
+  useKeypress("Enter", handleSubmit);
+  useRememberMe();
   useEffect(() => {
     if (result) {
       setCookie("authToken", result.tokens.auth);
@@ -64,26 +56,6 @@ const Login = () => {
       navigate(clientRoutes.dashboard.index);
     }
   }, [result]);
-
-  useEffect(() => {
-    const refreshToken = getCookie("refreshToken");
-    const authToken = getCookie("authToken");
-
-    const redirectOnRememberMe = () => {
-      if (!refreshToken || !authToken) return;
-      const decodedRefreshToken = jwtDecode<RefreshToken>(refreshToken);
-      // if remember me was selected and the user is not on the authenticated path, redirect to dashboard where the request handler in that page will validate the token
-      if (
-        authToken &&
-        decodedRefreshToken.data.rememberMe &&
-        !location.pathname.includes("track") &&
-        !rememberMeForbiddenParams.includes(location.search)
-      )
-        navigate(clientRoutes.dashboard.index);
-    };
-
-    redirectOnRememberMe();
-  }, []);
 
   return (
     <div className="flex flex-col w-full gap-y-4 max-w-md">
