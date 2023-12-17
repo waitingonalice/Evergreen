@@ -7,12 +7,9 @@ import { routes } from "./constants/routes";
 import AuthRouter from "./routes/auth";
 import { V1Router } from "./routes/v1/v1.router";
 import welcomeTemplate from "./template/welcome";
-import { fileDirectory } from "./utils/config";
 
 const initServer = () => {
-  dotenv.config({
-    path: `${fileDirectory(".env", __dirname, "Expense-tracker")}/.env`,
-  });
+  dotenv.config();
   if (!process.env.PORT) {
     process.exit(1);
   }

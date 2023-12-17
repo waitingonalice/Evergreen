@@ -1,5 +1,5 @@
-import { TransactionTypeEnum } from "constant/enum";
 import z from "zod";
+import { TransactionTypeEnum } from "../constant/enum";
 
 export const transactionSchema = z.object({
   title: z.string().min(1).max(300),

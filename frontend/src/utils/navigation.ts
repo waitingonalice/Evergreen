@@ -3,6 +3,7 @@ import {
   CalendarIcon,
   ChartPieIcon,
   ClipboardIcon,
+  ComputerDesktopIcon,
   CreditCardIcon,
   HomeIcon,
 } from "@heroicons/react/24/outline";
@@ -15,12 +16,12 @@ const routes = [
     icon: HomeIcon,
     current: false,
   },
-  // {
-  //   name: "Balances",
-  //   href: clientRoutes.balance.index,
-  //   icon: ChartPieIcon,
-  //   current: false,
-  // },
+  {
+    name: "Code Editor",
+    href: clientRoutes.codeEditor.index,
+    icon: ComputerDesktopIcon,
+    current: false,
+  },
   // {
   //   name: "Transactions",
   //   href: clientRoutes.transactions.index,
