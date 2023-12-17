@@ -21,7 +21,8 @@
     "typecheck": "lerna run typecheck",
     "prettier:write": "prettier . --write",
     "commit": "git-cz",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "start:backend": "yarn workspace backend start"
   },
   "config": {
     "commitizen": {

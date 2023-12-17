@@ -3,12 +3,13 @@ version: "3.8"
 services:
   server:
     build: 
-      context:  .
+      context: .
+      dockerfile: ./backend/Dockerfile
       args: 
         NODE_VERSION: 18.0.0
     image: wilsonsie/expense-tracker-server:latest
     env_file: 
-      - .env
+      - ./backend/.env
     ports: 
       - 3000:3000
     depends_on:
@@ -18,11 +19,10 @@ services:
     image: postgres:latest
     restart: always
     env_file: 
-      - .env.db
+      - ./backend/.env.db
     ports: 
       - 5432:5432
     volumes: 
       - db_data:/var/lib/postgresql/data
-
 volumes: 
   db_data:
