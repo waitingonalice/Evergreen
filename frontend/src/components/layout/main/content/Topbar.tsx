@@ -5,21 +5,17 @@ import {
   Cog8ToothIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
-import { MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/outline";
+import { UserIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import { Button, Input, Modal, Text } from "~/components";
+import { Button, Modal, Text } from "~/components";
 import { useAppContext } from "~/components/app-context";
 import { ButtonProps } from "~/components/button";
 import { clientRoutes } from "~/constants";
 
 interface TopbarProps {
-  search?: {
-    placeholder: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    value: string;
-  };
+  children?: React.ReactNode;
   buttons?: ButtonProps[];
   onBackClick?: () => void;
   className?: string;
@@ -29,9 +25,9 @@ interface TopbarProps {
 const Topbar = ({
   buttons,
   className,
-  search,
   onBackClick,
   title,
+  children,
 }: TopbarProps) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -79,34 +75,27 @@ const Topbar = ({
           className
         )}
       >
-        <span className="flex gap-x-4">
-          {onBackClick && (
-            <>
-              <Button variant="primaryLink" onClick={onBackClick}>
-                <XMarkIcon className="h-5 w-auto" />
-              </Button>
-              <div className="border-l border-gray-400 h-5" />
-            </>
+        <span className="flex items-center">
+          {(title || onBackClick) && (
+            <span className="flex gap-x-4">
+              {onBackClick && (
+                <>
+                  <Button variant="primaryLink" onClick={onBackClick}>
+                    <XMarkIcon className="h-5 w-auto" />
+                  </Button>
+                  <div className="border-l border-gray-400 h-5" />
+                </>
+              )}
+              {title && (
+                <Text type="body-bold" className="text-dark whitespace-nowrap">
+                  {title}
+                </Text>
+              )}
+            </span>
           )}
-          {title && (
-            <Text type="body-bold" className="text-dark whitespace-nowrap">
-              {title}
-            </Text>
-          )}
+          <div className="flex gap-x-2 ml-16">{children}</div>
         </span>
 
-        {search && (
-          <Input
-            prefixIcon={<MagnifyingGlassIcon className="h-5 text-gray-400" />}
-            className="w-96"
-            size="small"
-            inputClassName="hover:bg-gray-100"
-            id="search"
-            onChange={search.onChange}
-            value={search.value}
-            placeholder={search.placeholder}
-          />
-        )}
         <div className="flex items-center">
           {buttons?.map((item, index) => (
             <Button

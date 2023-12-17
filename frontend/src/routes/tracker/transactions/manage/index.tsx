@@ -1,11 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { Main, Text } from "~/components";
-import { TableSkeleton } from "~/components/table/Skeleton";
 import { clientRoutes } from "~/constants";
-import { column } from "./transaction-table/Column";
 import { TransactionTable } from "./transaction-table";
 
 function Payments() {
@@ -20,11 +15,11 @@ function Payments() {
             prefixIcon: <PlusIcon className="w-5 h-auto" />,
           },
         ]}
-        search={{
-          placeholder: "Enter transaction name or description",
-          onChange: () => {},
-          value: "",
-        }}
+        // search={{
+        //   placeholder: "Enter transaction name or description",
+        //   // onChange: () => {},
+        //   value: "",
+        // }}
       />
       <Main.Content>
         <Text type="subhead-1-bold" className="text-dark mb-4">

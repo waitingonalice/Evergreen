@@ -3,10 +3,15 @@ import clsx from "clsx";
 import { useForm } from "~/utils";
 import { ErrorMessage, Label } from "..";
 
+export interface Option {
+  label: string;
+  value: string;
+}
+
 interface SelectProps {
   id: string;
   label?: { required?: boolean; text: string };
-  options: { label: string; value: string }[];
+  options: Option[];
   validate?: ReturnType<typeof useForm>["validate"];
   disabled?: boolean;
   placeholder?: string;
@@ -18,7 +23,7 @@ interface SelectProps {
   multiple?: boolean;
 }
 
-const FormSelect = forwardRef(
+export const FormSelect = forwardRef(
   (
     {
       id,
@@ -100,5 +105,3 @@ const FormSelect = forwardRef(
 );
 
 FormSelect.displayName = "FormSelect";
-
-export default FormSelect;

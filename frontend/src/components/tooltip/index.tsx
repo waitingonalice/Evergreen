@@ -37,22 +37,18 @@ export const Tooltip = ({
     <Transition
       ref={tooltipRef}
       show={show}
-      enter="transition-opacity duration-150"
-      enterFrom="opacity-0"
-      enterTo="opacity-100"
-      leave="transition-opacity duration-150"
-      leaveFrom="opacity-100"
-      leaveTo="opacity-0"
-      className={clsx(
-        "absolute z-50 min-w-fit w-[240px]",
-        positionMapper[position],
-        className
-      )}
+      enter="transition ease-in duration-50"
+      enterFrom="transform opacity-0 scale-95"
+      enterTo="transform opacity-100 scale-100"
+      leave="transition ease-out duration-50"
+      leaveFrom="transform scale-100 opacity-100"
+      leaveTo="transform opacity-0 scale-95"
+      className={clsx("absolute z-50", positionMapper[position], className)}
     >
       <div
         role="tooltip"
         className={clsx(
-          "bg-gray-200 opacity-100 rounded-lg shadow-md py-2 px-4"
+          "bg-gray-200 opacity-100 rounded-lg shadow-md py-2 px-4 text-start "
         )}
       >
         {title && (
