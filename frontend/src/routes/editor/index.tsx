@@ -3,7 +3,7 @@ import Editor from "@monaco-editor/react";
 import { useNavigate } from "react-router-dom";
 import { Main } from "~/components";
 import { clientRoutes } from "~/constants";
-import { ThemeDropdown } from "./component/Theme";
+import { ThemeDropdown } from "./component/ThemeDropdown";
 import { useEditor } from "./hooks/useEditor";
 import { themeOptions } from "./utils/theme";
 
