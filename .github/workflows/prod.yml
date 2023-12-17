@@ -6,7 +6,7 @@ on:
 
 defaults:
   run:
-    working-directory: ./backend
+    working-directory: ./
 
 jobs:
   # Not needed for now as we are using flyctl
@@ -43,7 +43,7 @@ jobs:
     - name: Install dependencies
       run: yarn install --frozen-lockfile
     - name: Build application
-      run: yarn build:shared && yarn build:backend && yarn build:frontend
+      run: yarn build
     - name: Run migrations
       run: yarn prisma migrate deploy
       env:
