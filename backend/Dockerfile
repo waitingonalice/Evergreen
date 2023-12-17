@@ -45,7 +45,6 @@ RUN apt-get update -qq && \
 
 # Copy built application
 COPY --from=build /server/backend/package.json /server/backend/package.json
-COPY --from=build /server/backend/prisma /server/backend/prisma
 COPY --from=build /server/backend/build /server/backend/build
 COPY --from=build /server/shared/package.json /server/shared/package.json
 COPY --from=build /server/shared/dist /server/shared/dist
