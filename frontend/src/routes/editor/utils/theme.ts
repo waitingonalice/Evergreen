@@ -20,5 +20,4 @@ export const defineTheme = async (theme: keyof typeof monacoThemes) => {
     import(`./themes/${monacoThemes[theme]}.json`),
   ]);
   monaco.editor.defineTheme(theme, themeOption);
-  monaco.editor.setTheme(theme);
 };

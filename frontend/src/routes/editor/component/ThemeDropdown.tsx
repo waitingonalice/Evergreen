@@ -1,31 +1,24 @@
 import { SwatchIcon } from "@heroicons/react/20/solid";
-import { useRef, useState } from "react";
 import { Tooltip } from "~/components";
 import { Dropdown, DropdownProps } from "~/components/dropdown";
-import { useDebouncedCallback } from "~/utils";
+import { useHover } from "../hooks/useHover";
 
 type ThemeDropdownProps = Omit<DropdownProps, "button">;
 
 const ThemeButton = () => {
-  const [show, setShow] = useState(false);
-  const ref = useRef(null);
-  const handleHover = (movement: "in" | "out") => {
-    setShow(movement === "in");
-  };
-
-  const debounceHover = useDebouncedCallback(handleHover, 800);
+  const { show, onHover, ref } = useHover();
 
   return (
     <>
       <div ref={ref}>
         <SwatchIcon
-          className="w-6 h-auto text-primary"
-          onMouseEnter={() => debounceHover("in")}
-          onMouseLeave={() => debounceHover("out")}
+          className="w-5 h-auto text-primary"
+          onMouseEnter={() => onHover("in")}
+          onMouseLeave={() => onHover("out")}
         />
       </div>
       <Tooltip
-        description="Select theme"
+        description="Theme"
         show={show}
         targetElement={ref.current}
         position="bottom"

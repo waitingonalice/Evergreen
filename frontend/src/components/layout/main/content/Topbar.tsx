@@ -71,7 +71,7 @@ const Topbar = ({
       />
       <nav
         className={clsx(
-          "sticky top-0 px-4 py-3 bg-important border-b border-primary-2 flex items-center z-30 gap-x-4 w-full justify-between",
+          "sticky top-0 px-4 py-3 bg-white border-b border-primary-2 flex items-center z-30 gap-x-4 w-full justify-between",
           className
         )}
       >
@@ -93,7 +93,7 @@ const Topbar = ({
               )}
             </span>
           )}
-          <div className="flex gap-x-2 ml-16">{children}</div>
+          <div className="flex gap-x-4 ml-16">{children}</div>
         </span>
 
         <div className="flex items-center">

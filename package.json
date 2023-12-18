@@ -65,6 +65,7 @@
   "workspaces": [
     "backend",
     "frontend",
-    "shared"
+    "shared",
+    "code-editor"
   ]
 }

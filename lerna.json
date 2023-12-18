@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "npmClient": "yarn",
-  "packages": ["frontend", "backend", "shared"],
+  "packages": ["frontend", "backend", "shared", "code-editor"],
   "version": "0.0.0"
 }
