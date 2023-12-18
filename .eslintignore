@@ -16,3 +16,4 @@ prisma/migration_lock.toml
 *.d.ts
 *.mjs
 *.cjs
+code-editor/**/*

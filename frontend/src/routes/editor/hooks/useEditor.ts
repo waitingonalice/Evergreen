@@ -3,7 +3,6 @@ import { EditorProps, Monaco } from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
 import { getLocalStorage, setLocalStorage } from "~/utils/localStorage";
 import { defaultEditorThemes, defineTheme, monacoThemes } from "../utils/theme";
-import { executeCode } from "../utils/transpile";
 
 const defaultString = `// Welcome to Code Editor!
 console.log("Hi Mom")`;
@@ -44,8 +43,6 @@ export const useEditor = () => {
   };
 
   const onSelectTheme = async (value: string) => {
-    const code = await executeCode();
-    console.log(code);
     const updateOptions = (options: EditorProps) => {
       const newOptions = { ...options, theme: value };
       setLocalStorage("editorTheme", value);
