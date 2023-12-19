@@ -9,12 +9,14 @@
   "dependencies": {},
   "scripts": {
     "dev": "lerna run dev",
-    "dev:shared": "yarn workspace @expense-tracker/shared watch",
+    "dev:shared": "yarn workspace @expense-tracker/packages watch",
     "build": "lerna run build",
-    "build:shared": "yarn workspace @expense-tracker/shared build",
+    "build:shared": "yarn workspace @expense-tracker/packages build",
     "build:backend": "yarn workspace backend build",
     "build:frontend": "yarn workspace frontend build",
+    "build:code-editor": "yarn workspace code-editor build",
     "lint": "run-p lint:*",
+    "lint:code-editor": "cd code-editor && next lint",
     "lint:frontend": "eslint ./frontend --cache --cache-location ./node_modules/.cache/eslint",
     "lint:backend": "eslint ./backend --cache --cache-location ./node_modules/.cache/eslint",
     "lint:shared": "eslint ./shared --cache --cache-location ./node_modules/.cache/eslint",
@@ -56,9 +58,7 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx}": [
-      "eslint ./frontend",
-      "eslint ./backend",
-      "eslint ./shared",
+      "eslint ./**/*.{ts,tsx}",
       "prettier --write --ignore-unknown"
     ]
   },

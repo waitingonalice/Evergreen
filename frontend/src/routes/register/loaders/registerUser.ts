@@ -1,4 +1,4 @@
-import { CountryEnum } from "@expense-tracker/shared";
+import { CountryEnum } from "@expense-tracker/packages";
 import { useMutation } from "react-query";
 import { apiRoutes } from "~/constants";
 import { request } from "~/utils/fetch";

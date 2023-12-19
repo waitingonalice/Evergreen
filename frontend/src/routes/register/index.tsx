@@ -1,4 +1,4 @@
-import { CountryEnum } from "@expense-tracker/shared";
+import { CountryEnum } from "@expense-tracker/packages";
 import { useState } from "react";
 import { z } from "zod";
 import { Alert, Button, FormSelect, Input, Spinner, Text } from "~/components";

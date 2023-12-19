@@ -1,5 +1,5 @@
 {
-  "name": "@expense-tracker/shared",
+  "name": "@expense-tracker/packages",
   "version": "0.0.0",
   "author": "Wilson",
   "homepage": "https://github.com/waitingonalice/Expense-tracker#readme",
@@ -19,7 +19,6 @@
     "watch": "yarn build --watch"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.37.0",
     "zod": "^3.22.2"
   },
   "devDependencies": {

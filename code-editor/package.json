@@ -5,10 +5,11 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev -p 4000",
-    "build": "next build && next export"
+    "build": "next build && next export",
+    "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "@expense-tracker/shared": "*",
+    "@expense-tracker/packages": "*",
     "@swc/wasm-web": "^1.2.118",
     "base64-url": "^2.3.3",
     "next": "^12.0.7",
