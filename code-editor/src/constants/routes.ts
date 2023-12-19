@@ -29,6 +29,6 @@ export const clientRoutes = {
     index: authRoute("/kanban"),
   },
   codeEditor: {
-    index: authRoute("/code-editor"),
+    index: authRoute("/playground"),
   },
 };

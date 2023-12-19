@@ -9,8 +9,6 @@ export * from "./alert";
 export * from "./spinner";
 export * from "./checkbox";
 export * from "./text";
-export * from "./table";
-export * from "./card";
 export * from "./radio";
 export * from "./tooltip";
 export * from "./forms/FormSelect";

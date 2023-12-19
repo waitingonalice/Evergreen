@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { Text } from "~/components/text";
-import { navigation } from "~/utils/navigation";
+import { useNavigation } from "~/utils";
 
 const transition = "ease-out transition duration-200";
 export const SideBar = () => {
-  const { routes } = navigation();
+  const { routes } = useNavigation();
   return (
     <aside className="fixed left-0 h-full border-r border-primary-2 pl-4 pr-12 overflow-y-auto bg-white z-20">
       <nav className="mt-8">
