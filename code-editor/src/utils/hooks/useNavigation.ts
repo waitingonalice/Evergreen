@@ -21,12 +21,6 @@ const initRoute = [
     icon: ComputerDesktopIcon,
     current: false,
   },
-  {
-    name: "Kanban",
-    href: clientRoutes.kanban.index,
-    icon: ClipboardIcon,
-    current: false,
-  },
 ];
 
 export const useNavigation = () => {

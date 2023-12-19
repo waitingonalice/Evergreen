@@ -22,24 +22,6 @@ const routes = [
     icon: ComputerDesktopIcon,
     current: false,
   },
-  // {
-  //   name: "Transactions",
-  //   href: clientRoutes.transactions.index,
-  //   icon: CreditCardIcon,
-  //   current: false,
-  // },
-  // {
-  //   name: "Billings",
-  //   href: clientRoutes.billing.index,
-  //   icon: CalendarIcon,
-  //   current: false,
-  // },
-  {
-    name: "Kanban",
-    href: clientRoutes.kanban.index,
-    icon: ClipboardIcon,
-    current: false,
-  },
 ];
 
 export const navigation = () => {
