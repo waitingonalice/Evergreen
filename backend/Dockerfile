@@ -24,6 +24,8 @@ COPY ../../shared .
 # Copy application code
 COPY . .
 
+# Remove external packages and application code that are not needed for build.
+RUN rm -rf ./frontend ./code-editor
 RUN yarn install --production=false --pure-lockfile --non-interactive --cache-folder ./ycache; rm -rf ./ycache
 
 # Generate Prisma Client
