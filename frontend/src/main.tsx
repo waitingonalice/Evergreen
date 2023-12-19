@@ -6,7 +6,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { OnboardLayout } from "~/components";
 import { clientRoutes } from "~/constants";
 import {
-  CodeEditor,
   Dashboard,
   ForgotPassword,
   Kanban,
@@ -41,16 +40,8 @@ const router = createBrowserRouter([
         ],
       },
       // Main app starts here
-
       { path: clientRoutes.dashboard.index, element: <Dashboard /> },
-      { path: clientRoutes.codeEditor.index, element: <CodeEditor /> },
-      // { path: clientRoutes.balance.index, element: <Balance /> },
       // { path: clientRoutes.transactions.index, element: <Transaction /> },
-      // {
-      //   path: clientRoutes.transactions.create,
-      //   element: <CreateTransaction />,
-      // },
-      // { path: clientRoutes.billing.index, element: <Billing /> },
       { path: clientRoutes.kanban.index, element: <Kanban /> },
 
       // 404

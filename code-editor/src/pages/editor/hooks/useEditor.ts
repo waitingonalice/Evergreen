@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { EditorProps, Monaco } from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
-import { getLocalStorage, setLocalStorage } from "~/utils/localStorage";
+import { getLocalStorage, setLocalStorage } from "~/utils";
 import { defaultEditorThemes, defineTheme, monacoThemes } from "../utils/theme";
 
 const defaultString = `// Welcome to Code Editor!

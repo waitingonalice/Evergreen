@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Editor from "@monaco-editor/react";
-import { useNavigate } from "react-router-dom";
 import { Main } from "~/components";
 import { clientRoutes } from "~/constants";
 import { Language } from "./component/Language";
@@ -10,12 +9,11 @@ import { useEditor } from "./hooks/useEditor";
 import { themeOptions } from "./utils/theme";
 
 function CodeEditor() {
-  const navigate = useNavigate();
   const { editorOptions, input, onChange, onMount, onSelectTheme } =
     useEditor();
 
   const handleBackClick = () => {
-    navigate(clientRoutes.dashboard.index);
+    // navigate(clientRoutes.dashboard.index);
   };
 
   const handleSelectTheme = (val: string) => {

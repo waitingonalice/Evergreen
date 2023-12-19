@@ -19,7 +19,8 @@
     "watch": "yarn build --watch"
   },
   "dependencies": {
-    "zod": "^3.22.2"
+    "zod": "^3.22.2",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "rollup": "^3.29.4",

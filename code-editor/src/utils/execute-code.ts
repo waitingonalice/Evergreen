@@ -1,4 +1,4 @@
-let swc = null;
+let swc: typeof import("@swc/wasm-web") | null = null;
 
 export async function transformCode(codeString: string) {
   if (swc === null) {

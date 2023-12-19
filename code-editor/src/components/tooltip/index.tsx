@@ -1,5 +1,5 @@
 import { Transition } from "@headlessui/react";
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 import { Text } from "../text";
 
@@ -29,7 +29,7 @@ export const Tooltip = ({
     right: "right-0 top-1/2 transform translate-x-full -translate-y-1/2",
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     targetElement?.style.setProperty("position", "relative");
   });
 

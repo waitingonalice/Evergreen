@@ -9,4 +9,3 @@ export { default as UnknownRoute } from "./404";
 export { default as Transaction } from "./tracker/transactions/manage";
 export { default as CreateTransaction } from "./tracker/transactions/create";
 export { default as Kanban } from "./tracker/kanban";
-export { default as CodeEditor } from "./editor";

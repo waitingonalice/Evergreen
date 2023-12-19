@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { UserIcon } from "@heroicons/react/24/outline";
 import { Fragment, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { Button, Modal, Text } from "~/components";
 import { useAppContext } from "~/components/app-context";
@@ -30,12 +30,12 @@ const Topbar = ({
   children,
 }: TopbarProps) => {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { user } = useAppContext();
 
   const fullName = `${user?.firstName} ${user?.lastName}`;
   const handleSignout = () => {
-    navigate(`${clientRoutes.auth.login}?logout`);
+    // navigate(`${clientRoutes.auth.login}?logout`);
   };
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);

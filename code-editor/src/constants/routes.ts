@@ -1,4 +1,3 @@
-export const api = import.meta.env.VITE_ENDPOINT_URL;
 const authRoute = (toPath: string) => `/app${toPath}`;
 
 export const clientRoutes = {
@@ -30,17 +29,6 @@ export const clientRoutes = {
     index: authRoute("/kanban"),
   },
   codeEditor: {
-    index: "http://localhost:3001",
-  },
-};
-
-export const apiRoutes = {
-  auth: {
-    register: `${api}auth/register`,
-    verify: (token: string) => `${api}auth/verify/${token}`,
-    login: `${api}auth/login`,
-    refreshToken: `${api}auth/refresh-token`,
-    forgotPassword: `${api}auth/forgot-password`,
-    resetPassword: (token: string) => `${api}auth/set-password/${token}`,
+    index: authRoute("/code-editor"),
   },
 };

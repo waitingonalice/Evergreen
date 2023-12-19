@@ -1,4 +1,4 @@
-import { SideBar } from "../Sidebar";
+import { SideBar } from "./Sidebar";
 import Topbar from "./Topbar";
 
 interface ContentProps {

@@ -1,5 +1,5 @@
+import { generateOptions } from "@expense-tracker/shared";
 import { loader } from "@monaco-editor/react";
-import { generateOptions } from "~/utils/formatting";
 import themes from "./themes/themelist.json";
 
 export const defaultEditorThemes = {
