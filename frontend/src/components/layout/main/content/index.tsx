@@ -10,7 +10,7 @@ export const Main = ({ children }: ContentProps) => <main>{children}</main>;
 const Content = ({ children }: ContentProps) => (
   <div>
     <SideBar />
-    <section className="pl-60 pr-8 py-6 w-full">{children}</section>
+    <section className="pl-[196px] w-full">{children}</section>
   </div>
 );
 

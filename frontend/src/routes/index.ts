@@ -6,7 +6,3 @@ export { default as Verify } from "./verify";
 export { default as ForgotPassword } from "./forgot-password";
 export { default as ResetPassword } from "./set-password";
 export { default as UnknownRoute } from "./404";
-export { default as Transaction } from "./tracker/transactions/manage";
-export { default as CreateTransaction } from "./tracker/transactions/create";
-export { default as Kanban } from "./tracker/kanban";
-export { default as CodeEditor } from "./editor";

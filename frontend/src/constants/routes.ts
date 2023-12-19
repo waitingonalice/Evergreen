@@ -16,21 +16,9 @@ export const clientRoutes = {
   dashboard: {
     index: authRoute("/dashboard"),
   },
-  billing: {
-    index: authRoute("/billings"),
-  },
-  transactions: {
-    index: authRoute("/transactions"),
-    create: authRoute("/transactions/create"),
-  },
-  balance: {
-    index: authRoute("/balances"),
-  },
-  kanban: {
-    index: authRoute("/kanban"),
-  },
   codeEditor: {
-    index: authRoute("/code-editor"),
+    // TODO: update this
+    index: "http://localhost:3001/app/playground",
   },
 };
 

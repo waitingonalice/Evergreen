@@ -19,8 +19,8 @@
     "watch": "yarn build --watch"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.37.0",
-    "zod": "^3.22.2"
+    "zod": "^3.22.2",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "rollup": "^3.29.4",

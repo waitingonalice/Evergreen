@@ -6,7 +6,7 @@ const transition = "ease-out transition duration-200";
 export const SideBar = () => {
   const { routes } = navigation();
   return (
-    <aside className="fixed left-0 h-full border-r border-primary-2 pl-4 pr-12 overflow-y-auto bg-important z-20">
+    <aside className="fixed left-0 h-full border-r border-primary-2 pl-4 pr-12 overflow-y-auto bg-white z-20">
       <nav className="mt-8">
         <ul className="flex flex-col space-y-1">
           {routes.map((item) => (

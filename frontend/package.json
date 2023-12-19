@@ -15,7 +15,6 @@
     "@expense-tracker/shared": "*",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.13",
-    "@monaco-editor/react": "^4.6.0",
     "clsx": "^1.2.1",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^3.1.2",

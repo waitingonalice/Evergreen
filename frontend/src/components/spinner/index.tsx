@@ -1,3 +1,3 @@
-import "./spinner.css";
+import module from "./spinner.module.css";
 
-export const Spinner = () => <div className="spinner" />;
+export const Spinner = () => <div className={module.spinner} />;
