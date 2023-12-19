@@ -8,7 +8,6 @@ import { clientRoutes } from "~/constants";
 import {
   Dashboard,
   ForgotPassword,
-  Kanban,
   Login,
   Register,
   ResetPassword,
@@ -42,7 +41,6 @@ const router = createBrowserRouter([
       // Main app starts here
       { path: clientRoutes.dashboard.index, element: <Dashboard /> },
       // { path: clientRoutes.transactions.index, element: <Transaction /> },
-      { path: clientRoutes.kanban.index, element: <Kanban /> },
 
       // 404
       { element: <UnknownRoute />, path: "*" },
