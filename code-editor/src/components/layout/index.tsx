@@ -1,4 +1,3 @@
-import { SideBar } from "./Sidebar";
 import Topbar from "./Topbar";
 
 interface ContentProps {
@@ -9,8 +8,7 @@ export const Main = ({ children }: ContentProps) => <main>{children}</main>;
 
 const Content = ({ children }: ContentProps) => (
   <div>
-    <SideBar />
-    <section className="pl-[196px] w-full">{children}</section>
+    <section className="w-full">{children}</section>
   </div>
 );
 
