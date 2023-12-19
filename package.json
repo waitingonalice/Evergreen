@@ -9,9 +9,9 @@
   "dependencies": {},
   "scripts": {
     "dev": "lerna run dev",
-    "dev:shared": "yarn workspace @expense-tracker/packages watch",
+    "dev:shared": "yarn workspace @expense-tracker/shared watch",
     "build": "lerna run build",
-    "build:shared": "yarn workspace @expense-tracker/packages build",
+    "build:shared": "yarn workspace @expense-tracker/shared build",
     "build:backend": "yarn workspace backend build",
     "build:frontend": "yarn workspace frontend build",
     "build:code-editor": "yarn workspace code-editor build",

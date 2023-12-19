@@ -1,4 +1,4 @@
-import { arrayTransactionSchema } from "@expense-tracker/packages";
+import { arrayTransactionSchema } from "@expense-tracker/shared";
 import { z } from "zod";
 
 export type CreateTransactionRequestBody = {

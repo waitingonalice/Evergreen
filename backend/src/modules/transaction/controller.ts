@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-import { TransactionTypeEnum } from "@expense-tracker/packages";
+import { TransactionTypeEnum } from "@expense-tracker/shared";
 import { Request, Response } from "express";
 import { ErrorEnum } from "~/constants/enum";
 import { pg, prisma } from "~/db";

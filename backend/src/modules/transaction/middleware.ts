@@ -1,4 +1,4 @@
-import { arrayTransactionSchema } from "@expense-tracker/packages";
+import { arrayTransactionSchema } from "@expense-tracker/shared";
 import { NextFunction, Request, Response } from "express";
 import { CreateTransactionRequestBody } from "./types";
 import { idSchema } from "./utils";

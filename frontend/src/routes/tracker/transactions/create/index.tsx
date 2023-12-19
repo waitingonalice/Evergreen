@@ -3,7 +3,7 @@ import {
   TransactionTypeEnum,
   arrayTransactionSchema,
   transactionSchema,
-} from "@expense-tracker/packages";
+} from "@expense-tracker/shared";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";

@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "@expense-tracker/packages": "*",
+    "@expense-tracker/shared": "*",
     "@swc/wasm-web": "^1.2.118",
     "base64-url": "^2.3.3",
     "next": "^12.0.7",
