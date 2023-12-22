@@ -1,6 +1,6 @@
 let swc: typeof import("@swc/wasm-web") | null = null;
 
-export async function transformCode(codeString: string) {
+export async function transpile(codeString: string) {
   if (swc === null) {
     const module = await import("@swc/wasm-web");
     await module.default();
@@ -10,11 +10,15 @@ export async function transformCode(codeString: string) {
     jsc: {
       parser: {
         syntax: "typescript",
-        tsx: true,
+      },
+      minify: {
+        format: {
+          comments: false,
+        },
       },
     },
     module: {
-      type: "commonjs",
+      type: "es6",
     },
   }).code;
 }

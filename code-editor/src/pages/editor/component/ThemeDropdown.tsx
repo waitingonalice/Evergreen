@@ -12,7 +12,7 @@ const ThemeButton = () => {
     <>
       <div ref={ref}>
         <SwatchIcon
-          className="w-5 h-auto text-primary"
+          className="w-5 h-auto text-subtext hover:text-important transition duration-300"
           onMouseEnter={() => onHover("in")}
           onMouseLeave={() => onHover("out")}
         />
@@ -22,7 +22,7 @@ const ThemeButton = () => {
         show={show}
         targetElement={ref.current}
         position="bottom"
-        className="w-fit whitespace-nowrap"
+        className="w-fit whitespace-nowrap pt-1"
       />
     </>
   );

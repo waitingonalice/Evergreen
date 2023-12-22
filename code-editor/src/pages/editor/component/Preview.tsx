@@ -1,18 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import clsx from "clsx";
+/* eslint-disable react/no-array-index-key */
 
-const testPreview = `const first = (abc:string) => {
-  return abc;
-}`;
+/* eslint-disable default-param-last */
+import clsx from "clsx";
 
 interface PreviewProps {
   className?: string;
-  children?: React.ReactNode;
+  message: string;
 }
-export const Preview = ({ className, children }: PreviewProps) => (
-  <pre
-    className={clsx("border w-1/2 min-h-[50vh] p-4 overflow-y-auto", className)}
-  >
-    <code>{testPreview}</code>
+
+export const Preview = ({ className, message }: PreviewProps) => (
+  <pre className={clsx(className)}>
+    <code>{message}</code>
   </pre>
 );

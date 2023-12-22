@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { Outlet } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import { jwt } from "~/utils";
 import { getCookie } from "~/utils/cookie";
 
 interface AppContextProps {
@@ -28,8 +28,8 @@ export const App = () => {
 
   useEffect(() => {
     if (authToken) {
-      const decodedAuthToken = jwtDecode<AuthToken>(authToken);
-      setUser(decodedAuthToken.data);
+      const decodedAuthToken = jwt<AuthToken>(authToken);
+      setUser(decodedAuthToken?.data);
     }
   }, []);
 

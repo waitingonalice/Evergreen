@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
 import { clientRoutes } from "~/constants";
+import { jwt } from "~/utils";
 import { getCookie } from "~/utils/cookie";
 
 const rememberMeForbiddenParams = ["?expired", "?logout"];
@@ -22,11 +22,11 @@ export const useRememberMe = () => {
 
     const redirectOnRememberMe = () => {
       if (!refreshToken || !authToken) return;
-      const decodedRefreshToken = jwtDecode<RefreshToken>(refreshToken);
+      const decodedRefreshToken = jwt<RefreshToken>(refreshToken);
       // if remember me was selected and the user is not on the authenticated path, redirect to dashboard where the request handler in that page will validate the token
       if (
         authToken &&
-        decodedRefreshToken.data.rememberMe &&
+        decodedRefreshToken?.data.rememberMe &&
         !location.pathname.includes("app") &&
         !rememberMeForbiddenParams.includes(location.search)
       )

@@ -23,8 +23,8 @@ export const Tooltip = ({
 }: TooltipProps) => {
   const tooltipRef = useRef(null);
   const positionMapper = {
-    top: "top-0 transform -translate-y-full -translate-x-1/2",
-    bottom: "bottom-0 transform translate-y-full -translate-x-1/2",
+    top: "top-0 transform -translate-y-full -translate-x-1/2 ml-2",
+    bottom: "bottom-0 transform translate-y-full -translate-x-1/2 ml-2",
     left: "left-0 top-1/2 transform -translate-x-full -translate-y-1/2",
     right: "right-0 top-1/2 transform translate-x-full -translate-y-1/2",
   };

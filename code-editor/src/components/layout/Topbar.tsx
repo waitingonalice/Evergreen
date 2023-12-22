@@ -71,7 +71,7 @@ const Topbar = ({
       />
       <nav
         className={clsx(
-          "sticky top-0 px-4 py-3 bg-white border-b border-primary-2 flex items-center z-30 gap-x-4 w-full justify-between",
+          "sticky top-0 px-4 py-3 border-b bg-dark border-primary-2 flex items-center z-30 gap-x-4 w-full justify-between",
           className
         )}
       >
@@ -83,11 +83,14 @@ const Topbar = ({
                   <Button variant="primaryLink" onClick={onBackClick}>
                     <XMarkIcon className="h-5 w-auto" />
                   </Button>
-                  <div className="border-l border-gray-400 h-5" />
+                  <div className="border-l border-gray-400 h-6" />
                 </>
               )}
               {title && (
-                <Text type="body-bold" className="text-dark whitespace-nowrap">
+                <Text
+                  type="subhead-2-bold"
+                  className="text-subtext whitespace-nowrap"
+                >
                   {title}
                 </Text>
               )}
@@ -112,7 +115,7 @@ const Topbar = ({
           <Menu as="div" className="relative">
             <Menu.Button className="items-center flex transition duration-100 ease-out rounded-full focus:outline-none focus:ring-2 focus:ring-primary-2">
               {/* TODO: integrate profile avatar */}
-              <Cog8ToothIcon className="h-5 w-auto text-primary" />
+              <Cog8ToothIcon className="h-5 w-auto text-primary-2" />
             </Menu.Button>
             <Transition
               as={Fragment}

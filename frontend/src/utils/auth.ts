@@ -13,6 +13,16 @@ interface RefreshAuthTokenArgType {
   refreshToken: string;
 }
 
+export const jwt = <T>(...args: Parameters<typeof jwtDecode>) => {
+  try {
+    const result = jwtDecode<T>(...args);
+    return result;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
 export const refreshAuthToken = async (tokens: RefreshAuthTokenArgType) => {
   try {
     const { authToken, refreshToken } = tokens;
