@@ -9,8 +9,8 @@ module.exports = {
     extend: {
       animation: {},
       colors: {
-        primary: "#047857", // emerald-700
-        "primary-2": "#059669",
+        primary: "#0f766e", // teal-700
+        "primary-2": "#0d9488", // teal-600
         secondary: "#065f46", // emerald-800
         tertiary: "#064e3b", // emerald-900
         "primary-dark": "#1f2937",

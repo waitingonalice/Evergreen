@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { clientRoutes } from "~/constants";
-import { jwt } from "~/utils";
-import { getCookie } from "~/utils/cookie";
+import { getCookie, jwt } from "~/utils";
 
 const rememberMeForbiddenParams = ["?expired", "?logout"];
 

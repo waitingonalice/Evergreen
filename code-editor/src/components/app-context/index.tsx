@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { jwt } from "~/utils";
-import { getCookie } from "~/utils/cookie";
+import { getCookie, jwt } from "~/utils";
 
 interface AppContextProps {
   user?: {

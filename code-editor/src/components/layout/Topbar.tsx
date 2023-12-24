@@ -71,7 +71,7 @@ const Topbar = ({
       />
       <nav
         className={clsx(
-          "sticky top-0 px-4 py-3 border-b bg-dark border-primary-2 flex items-center z-30 gap-x-4 w-full justify-between",
+          "sticky top-0 px-4 py-3 border-b bg-dark border-gray-400 flex items-center z-30 gap-x-4 w-full justify-between",
           className
         )}
       >
@@ -81,7 +81,7 @@ const Topbar = ({
               {onBackClick && (
                 <>
                   <Button variant="primaryLink" onClick={onBackClick}>
-                    <XMarkIcon className="h-5 w-auto" />
+                    <XMarkIcon className="h-5 w-auto text-primary-2" />
                   </Button>
                   <div className="border-l border-gray-400 h-6" />
                 </>
@@ -126,14 +126,14 @@ const Topbar = ({
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute right-0 z-10 mt-2 min-w-[200px] w-fit rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute right-0 z-10 mt-2 min-w-[200px] w-fit rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
                 {navigation.map(({ href, name, onClick }) => (
                   <Menu.Item key={name}>
                     {href ? (
                       <a
                         href={href}
                         className={clsx(
-                          "px-4 py-2 hover:bg-gray-100 text-primary flex gap-x-2"
+                          "rounded-md min-w-[200px] flex p-2 truncate items-center gap-x-2 hover:text-important hover:bg-primary text-primary"
                         )}
                       >
                         <UserIcon className="h-5 w-auto" />
@@ -143,14 +143,14 @@ const Topbar = ({
                       <>
                         <div
                           className={clsx(
-                            "px-4 py-2 flex gap-x-2 cursor-pointer hover:bg-gray-100 text-primary"
+                            "rounded-md min-w-[200px] flex p-2 truncate items-center gap-x-2 hover:text-important hover:bg-primary text-primary"
                           )}
                           role="button"
                           tabIndex={0}
                           aria-hidden="true"
                           onClick={onClick}
                         >
-                          <ArrowRightOnRectangleIcon className="h-5 w-auto text-primary" />
+                          <ArrowRightOnRectangleIcon className="h-5 w-auto" />
                           <Text type="body-bold">Sign out</Text>
                         </div>
                         {user && (

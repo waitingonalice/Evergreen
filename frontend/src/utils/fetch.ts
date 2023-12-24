@@ -1,7 +1,6 @@
 import { UseQueryOptions, useQuery } from "react-query";
 import { clientRoutes } from "~/constants";
-import { refreshAuthToken } from "./auth";
-import { getCookie } from "./cookie";
+import { getCookie, refreshAuthToken } from "./auth";
 
 type SuccessfulResponse = Record<"result", unknown>;
 type ErrorResponse = Record<"code", string>;

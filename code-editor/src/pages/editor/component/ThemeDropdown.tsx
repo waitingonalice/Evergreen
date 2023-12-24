@@ -29,5 +29,5 @@ const ThemeButton = () => {
 };
 
 export const ThemeDropdown = (props: ThemeDropdownProps) => (
-  <Dropdown {...props} button={<ThemeButton />} withCheckmark />
+  <Dropdown {...props} button={<ThemeButton />} />
 );

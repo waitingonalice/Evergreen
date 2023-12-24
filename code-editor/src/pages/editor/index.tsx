@@ -1,10 +1,9 @@
-/* eslint-disable react/no-array-index-key */
+/* eslint-disable @typescript-eslint/no-empty-function */
 import Editor from "@monaco-editor/react";
-import clsx from "clsx";
 import { Main } from "~/components";
+import { ConsolePanel } from "./component/ConsolePanel";
 // import { clientRoutes } from "~/constants";
 import { Language } from "./component/Language";
-import { Preview } from "./component/Preview";
 import { ThemeDropdown } from "./component/ThemeDropdown";
 import { useEditor } from "./hooks/useEditor";
 import { themeOptions } from "./utils/theme";
@@ -13,19 +12,17 @@ function CodeEditor() {
   const {
     editorOptions,
     messages,
-    onChange: handleOnChange,
-    onMount: handleOnMount,
-    onSelectTheme,
+    status,
+    handleOnChange,
+    handleOnMount,
+    handleSelectTheme,
   } = useEditor();
 
   const handleBackClick = () => {
     // navigate(clientRoutes.dashboard.index);
   };
 
-  const handleSelectTheme = (val: string) => {
-    onSelectTheme(val);
-  };
-
+  const handleTogglePreserveLogs = () => {};
   return (
     <Main>
       <Main.Header title="Code Editor" onBackClick={handleBackClick}>
@@ -36,30 +33,26 @@ function CodeEditor() {
         />
         <Language />
       </Main.Header>
-      <Main.Content className="min-h-screen">
-        <div className="border border-gray-500">
-          <Editor
-            {...editorOptions}
-            onChange={handleOnChange}
-            onMount={handleOnMount}
+      <Main.Content>
+        <Editor
+          {...editorOptions}
+          onChange={handleOnChange}
+          onMount={handleOnMount}
+        />
+        <div className="flex">
+          <ConsolePanel
+            messages={messages}
+            status={status}
+            onTogglePreserveLogs={handleTogglePreserveLogs}
+            preserveLogs
           />
-        </div>
-        <div
-          className="flex overflow-y-auto h-[60vh] flex-col text-primary w-1/2 border border-gray-600"
-          id="console"
-        >
-          {messages.map((message, index, arr) => (
-            <div
-              key={index}
-              className={clsx(
-                "flex items-center p-2",
-                arr.length > 1 && "border border-gray-600"
-              )}
-            >
-              <span className="mr-2 whitespace-nowrap">{index + 1}: </span>
-              <Preview message={message} className="truncate" />
-            </div>
-          ))}
+          {/* Judge panel */}
+          <ConsolePanel
+            messages={messages}
+            status={status}
+            onTogglePreserveLogs={handleTogglePreserveLogs}
+            preserveLogs
+          />
         </div>
       </Main.Content>
     </Main>

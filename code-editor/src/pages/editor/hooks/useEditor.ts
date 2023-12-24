@@ -10,12 +10,12 @@ import { transpile } from "~/utils/transpile";
 import { ConsoleMethod, interceptConsole } from "../utils/interceptor";
 import { defaultEditorThemes, defineTheme, monacoThemes } from "../utils/theme";
 
-const defaultString = `// Welcome to Code Editor!`;
+export type Status = "error" | "success";
 
 const initialOptions: EditorProps = {
-  height: "40vh",
+  height: "36vh",
   defaultLanguage: "typescript",
-  defaultValue: defaultString,
+  defaultValue: `// Welcome to Code Editor!`,
   options: {
     wrappingIndent: "indent",
     wrappingStrategy: "advanced",
@@ -32,6 +32,7 @@ const initialOptions: EditorProps = {
 let initMount = true;
 // temporary storage to capture console statements
 let consoleResults: string[] = [];
+let status: Status = "success";
 
 /** Flow of execution
  * 1. user types code
@@ -47,39 +48,46 @@ export const useEditor = () => {
   const editorRef = useRef<Monaco>(null);
   const [executedCode, setExecutedCode] = useState<string[]>([]);
 
+  const handleClearConsole = () => {
+    setExecutedCode([]);
+    consoleResults = [];
+  };
   const debounceExecute = useDebouncedCallback(async (value: string) => {
     try {
       const code = await transpile(value);
       new Function(code)();
       setExecutedCode(consoleResults);
+      status = "success";
       consoleResults = [];
     } catch (err) {
       console.error(err);
       if (err instanceof Error) {
+        status = "error";
+        consoleResults = [];
         setExecutedCode([err.message]);
       }
     }
   }, 300);
 
-  const onMount = (editor: Monaco) => {
+  const handleOnMount = (editor: Monaco) => {
     editorRef.current = editor;
     editorRef.current.focus();
   };
 
-  const onChange = (newValue?: string) => {
+  const handleOnChange = (newValue?: string) => {
     debounceExecute(newValue || "");
   };
 
-  const onIntercept = (result: string, type: ConsoleMethod) => {
+  const handleIntercept = (result: string, type: ConsoleMethod) => {
     if (type === "clear") {
-      setExecutedCode([]);
+      handleClearConsole();
       return;
     }
     if (!result) return;
     consoleResults.push(result);
   };
 
-  const onSelectTheme = async (value: string) => {
+  const handleSelectTheme = async (value: string) => {
     const updateOptions = (options: EditorProps) => {
       const newOptions = { ...options, theme: value };
       setLocalStorage("editorTheme", value);
@@ -96,8 +104,8 @@ export const useEditor = () => {
   useEffect(() => {
     if (initMount) {
       const theme = getLocalStorage<string>("editorTheme");
-      if (theme) onSelectTheme(theme ?? "light");
-      interceptConsole(onIntercept);
+      if (theme) handleSelectTheme(theme ?? "light");
+      interceptConsole(handleIntercept);
     }
     return () => {
       initMount = false;
@@ -107,9 +115,10 @@ export const useEditor = () => {
   return {
     editorOptions,
     editorRef,
-    onChange,
-    onMount,
-    onSelectTheme,
+    handleOnChange,
+    handleOnMount,
+    handleSelectTheme,
     messages: executedCode,
+    status,
   };
 };

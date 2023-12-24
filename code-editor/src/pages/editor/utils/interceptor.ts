@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 type ConsoleInputType<T> = T[];
 export type ConsoleMethod = "log" | "warn" | "info" | "clear";
 
@@ -28,14 +27,7 @@ export const interceptConsole = (
   };
 
   const tempLog = console.log;
-  const tempWarn = console.warn;
   const tempInfo = console.info;
-  const tempError = console.error;
-
-  console.warn = (...args) => {
-    tempWarn(...args);
-    add(args, "warn");
-  };
 
   console.log = (...args) => {
     tempLog(...args);
@@ -52,9 +44,5 @@ export const interceptConsole = (
       "Console was cleared programmatically. This is not a bug in your code."
     );
     add(args, "clear");
-  };
-
-  console.error = (...args: Parameters<typeof console.error>) => {
-    tempError(...args);
   };
 };

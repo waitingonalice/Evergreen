@@ -1,6 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
+import clsx from "clsx";
 import { Option } from "~/components/forms/FormSelect";
 import { Text } from "../text";
 
@@ -11,15 +12,17 @@ export interface DropdownProps {
   button: React.ReactNode;
   options: ExtendedOption[];
   onSelect?: (value: string) => void;
-  selectedValue: string;
-  withCheckmark?: boolean;
+  selectedValue?: string;
+  menuClassName?: string;
+  theme?: "light" | "dark";
 }
 export const Dropdown = ({
   button,
   options,
   onSelect,
   selectedValue,
-  withCheckmark,
+  menuClassName,
+  theme = "light",
 }: DropdownProps) => {
   const handleSelect = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -48,21 +51,27 @@ export const Dropdown = ({
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute z-10 mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-80 overflow-y-auto">
+        <Menu.Items
+          className={clsx(
+            "absolute z-10 mt-2 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-80 overflow-y-auto p-1",
+            menuClassName,
+            theme === "light" ? "bg-important" : "bg-dark"
+          )}
+        >
           {options?.map(({ label, value, renderLabel }) => (
             <Menu.Item key={value}>
               <button
                 type="button"
-                className="hover:bg-gray-100 min-w-[200px] flex justify-between p-2 truncate items-center gap-x-2"
+                className="rounded-md min-w-[200px] flex justify-between p-2 truncate items-center gap-x-2 hover:text-important hover:bg-primary text-primary"
                 onClick={(e) => handleSelect(e, value)}
               >
                 {renderLabel ? (
                   renderLabel(label)
                 ) : (
-                  <Text type="body">{label}</Text>
+                  <Text type="body-bold">{label}</Text>
                 )}
-                {withCheckmark && value === selectedValue && (
-                  <CheckIcon className="h-4 w-4 text-primary" />
+                {selectedValue && value === selectedValue && (
+                  <CheckIcon className="h-4 w-4" />
                 )}
               </button>
             </Menu.Item>
