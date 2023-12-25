@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 import { Text } from "../text";
 
-/* eslint-disable arrow-body-style */
 export interface TooltipProps {
   title?: string;
   description?: string;
@@ -25,8 +24,8 @@ export const Tooltip = ({
   const positionMapper = {
     top: "top-0 transform -translate-y-full -translate-x-1/2 ml-2",
     bottom: "bottom-0 transform translate-y-full -translate-x-1/2 ml-2",
-    left: "left-0 top-1/2 transform -translate-x-full -translate-y-1/2",
-    right: "right-0 top-1/2 transform translate-x-full -translate-y-1/2",
+    left: "-left-2 top-1/2 transform -translate-x-full -translate-y-1/2",
+    right: "-right-2 top-1/2 transform translate-x-full -translate-y-1/2",
   };
 
   useEffect(() => {
@@ -48,11 +47,11 @@ export const Tooltip = ({
       <div
         role="tooltip"
         className={clsx(
-          "bg-gray-200 opacity-100 rounded-lg shadow-md py-2 px-4 text-start "
+          "bg-gray-200 opacity-100 rounded-lg shadow-md py-2 px-4 text-start gap-x-2"
         )}
       >
         {title && (
-          <Text type="body-bold" className="mb-2 text-dark">
+          <Text type="body-bold" className="text-dark">
             {title}
           </Text>
         )}

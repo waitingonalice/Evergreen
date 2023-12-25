@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import Editor from "@monaco-editor/react";
+import { useRouter } from "next/router";
 import { Main } from "~/components";
-import { ConsolePanel } from "./component/ConsolePanel";
-// import { clientRoutes } from "~/constants";
+import { clientRoutes } from "~/constants";
+import { AddCollection } from "./component/AddToCollection";
+import { ConsolePanel, ConsoleType } from "./component/ConsolePanel";
 import { Language } from "./component/Language";
 import { ThemeDropdown } from "./component/ThemeDropdown";
 import { useEditor } from "./hooks/useEditor";
@@ -13,26 +15,48 @@ function CodeEditor() {
     editorOptions,
     messages,
     status,
+    preserveLogs,
     handleOnChange,
     handleOnMount,
     handleSelectTheme,
+    handleClearConsole,
+    handlePreserveLog,
   } = useEditor();
+  const { push } = useRouter();
+
+  const handleAddToCollection = () => {};
 
   const handleBackClick = () => {
-    // navigate(clientRoutes.dashboard.index);
+    push(clientRoutes.dashboard.index);
   };
 
-  const handleTogglePreserveLogs = () => {};
+  const handleSelectedConsoleOption = (val: ConsoleType) => {
+    if (val === "clear" && messages.length > 0) {
+      handleClearConsole();
+    }
+    if (val === "preserve") {
+      handlePreserveLog();
+    }
+  };
+
   return (
     <Main>
-      <Main.Header title="Code Editor" onBackClick={handleBackClick}>
-        <ThemeDropdown
-          options={themeOptions}
-          onSelect={handleSelectTheme}
-          selectedValue={editorOptions.theme || ""}
-        />
-        <Language />
-      </Main.Header>
+      <Main.Header
+        title="Code Editor"
+        onBackClick={handleBackClick}
+        leftChildren={
+          <>
+            <ThemeDropdown
+              options={themeOptions}
+              onSelect={handleSelectTheme}
+              selectedValue={editorOptions.theme || ""}
+            />
+            <Language />
+          </>
+        }
+        rightChildren={<AddCollection onAdd={handleAddToCollection} disabled />}
+      />
+
       <Main.Content>
         <Editor
           {...editorOptions}
@@ -41,17 +65,17 @@ function CodeEditor() {
         />
         <div className="flex">
           <ConsolePanel
-            messages={messages}
+            result={messages}
             status={status}
-            onTogglePreserveLogs={handleTogglePreserveLogs}
-            preserveLogs
+            onSelectOption={handleSelectedConsoleOption}
+            preserveLogs={preserveLogs}
           />
           {/* Judge panel */}
           <ConsolePanel
-            messages={messages}
+            result={messages}
             status={status}
-            onTogglePreserveLogs={handleTogglePreserveLogs}
-            preserveLogs
+            onSelectOption={handleSelectedConsoleOption}
+            preserveLogs={preserveLogs}
           />
         </div>
       </Main.Content>

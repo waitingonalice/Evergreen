@@ -1,17 +1,14 @@
 import { Ref, forwardRef, useState } from "react";
 import clsx from "clsx";
-import { useForm } from "~/utils";
+import { Option, useForm } from "~/utils";
 import { ErrorMessage, Label } from "..";
 
-export interface Option {
-  label: string;
-  value: string;
-}
+type ReducedOption = Pick<Option, "label" | "value">;
 
 interface SelectProps {
   id: string;
   label?: { required?: boolean; text: string };
-  options: Option[];
+  options: ReducedOption[];
   validate?: ReturnType<typeof useForm>["validate"];
   disabled?: boolean;
   placeholder?: string;

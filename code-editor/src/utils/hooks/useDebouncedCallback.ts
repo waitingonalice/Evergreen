@@ -5,5 +5,6 @@ const DEFAULT_CALLBACK_DELAY = 500;
 
 export const useDebouncedCallback = <T>(
   callback: (args: T) => void,
-  delay?: number
-) => useCallback(debounce(callback, delay ?? DEFAULT_CALLBACK_DELAY), []);
+  delay?: number,
+  deps: any[] = []
+) => useCallback(debounce(callback, delay ?? DEFAULT_CALLBACK_DELAY), deps);

@@ -1,24 +1,25 @@
 /* eslint-disable no-new-func */
-import { EditorProps, Monaco } from "@monaco-editor/react";
+import { EditorProps } from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
 import {
   getLocalStorage,
+  removeLocalStorage,
   setLocalStorage,
   useDebouncedCallback,
+  useKeybind,
 } from "~/utils";
 import { transpile } from "~/utils/transpile";
 import { ConsoleMethod, interceptConsole } from "../utils/interceptor";
 import { defaultEditorThemes, defineTheme, monacoThemes } from "../utils/theme";
 
 export type Status = "error" | "success";
+export type Result = { message: string; toggled: boolean };
 
 const initialOptions: EditorProps = {
-  height: "36vh",
+  height: "50vh",
   defaultLanguage: "typescript",
   defaultValue: `// Welcome to Code Editor!`,
   options: {
-    wrappingIndent: "indent",
-    wrappingStrategy: "advanced",
     fontSize: 16,
     tabSize: 2,
     minimap: {
@@ -31,8 +32,10 @@ const initialOptions: EditorProps = {
 
 let initMount = true;
 // temporary storage to capture console statements
-let consoleResults: string[] = [];
+let consoleResults: Result[] = [];
 let status: Status = "success";
+let babelParser: typeof import("prettier/parser-babel") | null = null;
+let prettier: typeof import("prettier/standalone") | null = null;
 
 /** Flow of execution
  * 1. user types code
@@ -43,48 +46,26 @@ let status: Status = "success";
  * 6. reset captured results to not duplicate them on the next eval.
  * */
 export const useEditor = () => {
+  const editorRef = useRef<any>(null);
   const [editorOptions, setEditorOptions] =
     useState<EditorProps>(initialOptions);
-  const editorRef = useRef<Monaco>(null);
-  const [executedCode, setExecutedCode] = useState<string[]>([]);
+  const [executedCode, setExecutedCode] = useState<Result[]>([]);
+  const [preserveLogs, setPreserveLogs] = useState<boolean>(false);
 
   const handleClearConsole = () => {
-    setExecutedCode([]);
     consoleResults = [];
+    setExecutedCode(consoleResults);
   };
-  const debounceExecute = useDebouncedCallback(async (value: string) => {
-    try {
-      const code = await transpile(value);
-      new Function(code)();
-      setExecutedCode(consoleResults);
-      status = "success";
-      consoleResults = [];
-    } catch (err) {
-      console.error(err);
-      if (err instanceof Error) {
-        status = "error";
-        consoleResults = [];
-        setExecutedCode([err.message]);
+
+  const handlePreserveLog = () => {
+    setPreserveLogs((prev) => {
+      setLocalStorage("logStatus", String(!prev));
+      if (!prev === false) {
+        removeLocalStorage("preserveLogs");
+        removeLocalStorage("logStatus");
       }
-    }
-  }, 300);
-
-  const handleOnMount = (editor: Monaco) => {
-    editorRef.current = editor;
-    editorRef.current.focus();
-  };
-
-  const handleOnChange = (newValue?: string) => {
-    debounceExecute(newValue || "");
-  };
-
-  const handleIntercept = (result: string, type: ConsoleMethod) => {
-    if (type === "clear") {
-      handleClearConsole();
-      return;
-    }
-    if (!result) return;
-    consoleResults.push(result);
+      return !prev;
+    });
   };
 
   const handleSelectTheme = async (value: string) => {
@@ -101,10 +82,61 @@ export const useEditor = () => {
     }
   };
 
+  const debounceExecute = useDebouncedCallback(
+    async (value: string) => {
+      try {
+        const code = await transpile(value);
+        new Function(code)();
+        setExecutedCode(consoleResults);
+        status = "success";
+        consoleResults = [];
+        if (preserveLogs) setLocalStorage("preserveLogs", value);
+      } catch (err) {
+        console.error(err);
+        if (err instanceof Error) {
+          status = "error";
+          consoleResults = [];
+          setExecutedCode([{ message: err.message, toggled: false }]);
+        }
+      }
+    },
+    300,
+    [preserveLogs]
+  );
+
+  const handleOnChange = (newValue?: string) => {
+    debounceExecute(newValue || "");
+  };
+
+  const handleIntercept = (result: string, type: ConsoleMethod) => {
+    if (type === "clear") {
+      handleClearConsole();
+      return;
+    }
+    if (!result) return;
+    consoleResults.push({ message: result, toggled: false });
+  };
+
+  const handleOnMountEditor = (editor: any) => {
+    editorRef.current = editor;
+    editorRef.current.focus();
+  };
+
+  const handleMountLocalStorage = () => {
+    const code = getLocalStorage<string>("preserveLogs");
+    const logStatus = getLocalStorage<string>("logStatus");
+    const theme = getLocalStorage<string>("editorTheme");
+    setPreserveLogs(Boolean(logStatus));
+    if (code) {
+      setEditorOptions((prev) => ({ ...prev, defaultValue: code }));
+      handleOnChange(code);
+    }
+    if (theme) handleSelectTheme(theme ?? "light");
+  };
+
   useEffect(() => {
     if (initMount) {
-      const theme = getLocalStorage<string>("editorTheme");
-      if (theme) handleSelectTheme(theme ?? "light");
+      handleMountLocalStorage();
       interceptConsole(handleIntercept);
     }
     return () => {
@@ -112,13 +144,34 @@ export const useEditor = () => {
     };
   }, []);
 
+  useKeybind(["MetaLeft", "KeyS"], (e) => {
+    const handleFormatCode = async () => {
+      e.preventDefault();
+      const unformattedCode = editorRef.current?.getValue();
+      if (!babelParser || !prettier) {
+        babelParser = await import("prettier/parser-babel");
+        prettier = await import("prettier/standalone");
+      }
+      const formattedCode = prettier?.format(unformattedCode, {
+        parser: "babel",
+        ...(babelParser && { plugins: [babelParser] }),
+        printWidth: 80,
+      });
+      editorRef.current?.setValue(formattedCode);
+    };
+    handleFormatCode();
+  });
+
   return {
     editorOptions,
     editorRef,
-    handleOnChange,
-    handleOnMount,
-    handleSelectTheme,
     messages: executedCode,
     status,
+    preserveLogs,
+    handleOnChange,
+    handleOnMount: handleOnMountEditor,
+    handleSelectTheme,
+    handleClearConsole,
+    handlePreserveLog,
   };
 };

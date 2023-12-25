@@ -2,31 +2,28 @@ import { Menu, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 import clsx from "clsx";
-import { Option } from "~/components/forms/FormSelect";
+import { Option } from "~/utils/types";
 import { Text } from "../text";
 
-interface ExtendedOption extends Option {
-  renderLabel?: (label: string) => React.ReactNode;
-}
-export interface DropdownProps {
+export interface DropdownProps<T> {
   button: React.ReactNode;
-  options: ExtendedOption[];
-  onSelect?: (value: string) => void;
+  options: Option[];
+  onSelect?: (value: T) => void;
   selectedValue?: string;
   menuClassName?: string;
   theme?: "light" | "dark";
 }
-export const Dropdown = ({
+export const Dropdown = <T,>({
   button,
   options,
   onSelect,
   selectedValue,
   menuClassName,
   theme = "light",
-}: DropdownProps) => {
+}: DropdownProps<T>) => {
   const handleSelect = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    value: string
+    value: T
   ) => {
     e.stopPropagation();
     if (onSelect) onSelect(value);
@@ -63,7 +60,7 @@ export const Dropdown = ({
               <button
                 type="button"
                 className="rounded-md min-w-[200px] flex justify-between p-2 truncate items-center gap-x-2 hover:text-important hover:bg-primary text-primary"
-                onClick={(e) => handleSelect(e, value)}
+                onClick={(e) => handleSelect(e, value as T)}
               >
                 {renderLabel ? (
                   renderLabel(label)

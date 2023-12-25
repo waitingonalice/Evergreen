@@ -31,9 +31,6 @@ const FormButton = ({
   prefixIcon,
   suffixIcon,
 }: ButtonProps) => {
-  // Primary to be used on white background
-  // Secondary to be used on green background
-
   const baseStyle =
     "whitespace-nowrap transition-all duration-100 disabled:cursor-not-allowed disabled:opacity-30 text-[14px] font-medium tracking-[0.0125em] flex justify-center items-center gap-x-1";
 

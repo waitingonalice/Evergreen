@@ -4,6 +4,5 @@ export const routes = {
   // protected routes
   api: {
     v1: "/api/v1",
-    user: "/user",
   },
 };

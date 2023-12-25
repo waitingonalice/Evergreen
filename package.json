@@ -6,7 +6,9 @@
   "repository": "git@github.com:waitingonalice/Expense-tracker.git",
   "author": "Wilson <fcsie55@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "prettier": "^2.8.1"
+  },
   "scripts": {
     "dev": "lerna run dev",
     "dev:shared": "yarn workspace @expense-tracker/shared watch",
@@ -42,7 +44,6 @@
     "lerna": "^7.3.0",
     "lint-staged": "^13.1.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.1",
     "prettier-plugin-sort-json": "^1.0.0",
     "prettier-plugin-tailwindcss": "^0.2.1",
     "tsc-files": "^1.1.3"

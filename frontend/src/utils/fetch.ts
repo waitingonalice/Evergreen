@@ -1,4 +1,3 @@
-import { UseQueryOptions, useQuery } from "react-query";
 import { clientRoutes } from "~/constants";
 import { getCookie, refreshAuthToken } from "./auth";
 
@@ -43,11 +42,3 @@ export const request = async <Response extends ResponseType, Variables>({
   }
   return res;
 };
-
-export const useFetch = (args: UseQueryOptions) =>
-  useQuery({
-    ...args,
-    retry: "retry" in args ? args.retry : false,
-    refetchOnWindowFocus:
-      "refetchOnWindowFocus" in args ? args.refetchOnWindowFocus : false,
-  });

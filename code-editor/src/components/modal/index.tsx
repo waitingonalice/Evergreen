@@ -2,6 +2,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import clsx from "clsx";
+import { inter } from "~/utils";
 import { ButtonProps } from "../button";
 import { Text } from "../text";
 import { Button } from "..";
@@ -64,7 +65,8 @@ export function Modal({
               <Dialog.Panel
                 className={clsx(
                   "transform overflow-hidden rounded-md bg-white text-left align-middle shadow-xl transition-all",
-                  sizeMapper[size]
+                  sizeMapper[size],
+                  inter.className
                 )}
               >
                 <Text className="text-dark p-6" type="subhead-2-bold">

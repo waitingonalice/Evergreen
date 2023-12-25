@@ -3,7 +3,7 @@ import { Tooltip } from "~/components";
 import { Dropdown, DropdownProps } from "~/components/dropdown";
 import { useHover } from "../hooks/useHover";
 
-type ThemeDropdownProps = Omit<DropdownProps, "button">;
+type ThemeDropdownProps<T extends string> = Omit<DropdownProps<T>, "button">;
 
 const ThemeButton = () => {
   const { show, onHover, ref } = useHover();
@@ -28,6 +28,6 @@ const ThemeButton = () => {
   );
 };
 
-export const ThemeDropdown = (props: ThemeDropdownProps) => (
-  <Dropdown {...props} button={<ThemeButton />} />
-);
+export const ThemeDropdown = <T extends string>(
+  props: ThemeDropdownProps<T>
+) => <Dropdown {...props} button={<ThemeButton />} />;

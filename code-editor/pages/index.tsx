@@ -1,7 +1,3 @@
-import React from "react";
+import CodeEditor from "~/pages/editor";
 
-function index() {
-  return <div>index</div>;
-}
-
-export default index;
+export default CodeEditor;

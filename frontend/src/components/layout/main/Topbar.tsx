@@ -11,23 +11,22 @@ import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { Button, Modal, Text } from "~/components";
 import { useAppContext } from "~/components/app-context";
-import { ButtonProps } from "~/components/button";
 import { clientRoutes } from "~/constants";
 
 interface TopbarProps {
-  children?: React.ReactNode;
-  buttons?: ButtonProps[];
   onBackClick?: () => void;
   className?: string;
   title?: string;
+  leftChildren?: React.ReactNode;
+  rightChildren?: React.ReactNode;
 }
 
 const Topbar = ({
-  buttons,
   className,
   onBackClick,
   title,
-  children,
+  leftChildren,
+  rightChildren,
 }: TopbarProps) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -96,26 +95,13 @@ const Topbar = ({
               )}
             </span>
           )}
-          <div className="flex gap-x-4 ml-16">{children}</div>
+          <div className="flex gap-x-4 ml-16">{leftChildren}</div>
         </span>
-
-        <div className="flex items-center">
-          {buttons?.map((item, index) => (
-            <Button
-              size={item.size ?? "small"}
-              {...item}
-              variant={item.variant ?? "primary"}
-              key={index}
-              onClick={item.onClick}
-              className={clsx("mr-4", item.className)}
-            >
-              {item.children}
-            </Button>
-          ))}
-          <Menu as="div" className="relative">
-            <Menu.Button className="items-center flex transition duration-100 ease-out rounded-full focus:outline-none focus:ring-2 focus:ring-primary-2">
-              {/* TODO: integrate profile avatar */}
-              <Cog8ToothIcon className="h-5 w-auto text-primary-2" />
+        <div className="relative items-center flex transition duration-100 ease-out gap-x-4">
+          {rightChildren}
+          <Menu as="div">
+            <Menu.Button className="rounded-full focus:outline-none focus:ring-2 focus:ring-primary-2 flex items-center">
+              <Cog8ToothIcon className="h-5 w-auto text-primary" />
             </Menu.Button>
             <Transition
               as={Fragment}
@@ -126,7 +112,7 @@ const Topbar = ({
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute right-0 z-10 mt-2 min-w-[200px] w-fit rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
+              <Menu.Items className="absolute right-0 mt-2 z-10 min-w-[200px] w-fit rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
                 {navigation.map(({ href, name, onClick }) => (
                   <Menu.Item key={name}>
                     {href ? (

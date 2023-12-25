@@ -1,23 +1,20 @@
-const authRoute = (toPath: string) => `/app${toPath}`;
+const appRoute = (toPath: string) =>
+  `${process.env.NEXT_PUBLIC_URL}/app${toPath}`;
+
 const api = process.env.NEXT_PUBLIC_ENDPOINT_URL;
 
 export const clientRoutes = {
-  root: "/",
   auth: {
-    login: "/login",
+    login: `${process.env.NEXT_PUBLIC_URL}/login`,
   },
-  profile: { index: authRoute("/profile") },
+  profile: { index: appRoute("/profile") },
   dashboard: {
-    index: authRoute("/dashboard"),
-  },
-  codeEditor: {
-    index: authRoute("/playground"),
+    index: appRoute("/dashboard"),
   },
 };
 
 export const apiRoutes = {
   auth: {
-    login: `${api}auth/login`,
     refreshToken: `${api}auth/refresh-token`,
   },
 };

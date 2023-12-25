@@ -5,7 +5,6 @@ import { App as Providers } from "~/components/app-context";
 import "../styles/app.css";
 
 const inter = Inter({ subsets: ["latin"] });
-
 const App = ({ Component, pageProps }: AppContext & AppProps) => (
   <Providers>
     <main className={clsx(inter.className)}>

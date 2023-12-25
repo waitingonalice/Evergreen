@@ -1,9 +1,19 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /* eslint-disable react/no-array-index-key */
-import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
+import {
+  ChevronRightIcon,
+  ChevronUpDownIcon,
+  EllipsisHorizontalIcon,
+} from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { Switch, Text } from "~/components";
 import { Dropdown } from "~/components/dropdown";
-import { Status } from "../hooks/useEditor";
+import { Result, Status } from "../hooks/useEditor";
+
+export type ConsoleType = "clear" | "preserve";
 
 interface PreviewProps {
   className?: string;
@@ -11,15 +21,15 @@ interface PreviewProps {
 }
 
 export const Preview = ({ className, message }: PreviewProps) => (
-  <pre className={clsx(className)}>
+  <pre className={clsx(className, "text-sm")}>
     <code>{message}</code>
   </pre>
 );
 
 interface ConsolePanelProps {
-  messages: string[];
+  result: Result[];
   status: Status;
-  onTogglePreserveLogs: () => void;
+  onSelectOption: (val: ConsoleType) => void;
   preserveLogs: boolean;
 }
 
@@ -28,20 +38,24 @@ const statusColorMap: Record<Status, string> = {
   success: "text-teal-500",
 };
 
-export const consoleOptions = {
+export const consoleOptions: Record<ConsoleType, string> = {
   clear: "Clear console",
   preserve: "Preserve logs",
 };
 
 export const ConsolePanel = ({
-  messages,
+  result,
   status,
-  onTogglePreserveLogs,
+  onSelectOption,
   preserveLogs,
 }: ConsolePanelProps) => {
-  const handleToggle = () => {
-    onTogglePreserveLogs();
+  const handleSelectOption = (val: ConsoleType) => {
+    onSelectOption(val);
   };
+  const handleToggleSwitch = () => {
+    handleSelectOption("preserve");
+  };
+  const handleToggleView = (index: number) => {};
 
   const options = Object.entries(consoleOptions).map(([key, value]) => ({
     label: value,
@@ -50,7 +64,11 @@ export const ConsolePanel = ({
       renderLabel: (label: string) => (
         <div className="flex justify-between w-full items-center">
           <Text type="body-bold">{label}</Text>
-          <Switch size="sm" toggled={preserveLogs} onToggle={handleToggle} />
+          <Switch
+            size="sm"
+            toggled={preserveLogs}
+            onToggle={handleToggleSwitch}
+          />
         </div>
       ),
     }),
@@ -58,12 +76,10 @@ export const ConsolePanel = ({
   return (
     <div
       className={clsx(
-        "flex overflow-y-auto h-[60vh] flex-col w-1/2 border border-gray-600"
+        "flex overflow-y-auto h-[calc(50vh-55px)] flex-col w-1/2 border border-gray-600"
       )}
-      id="console"
     >
-      {/* add preview console */}
-      <div className="relative p-2 flex justify-end border-b border-gray-600">
+      <div className="relative p-2 gap-x-2 flex justify-end items-center border-b border-gray-600">
         <Dropdown
           button={
             <EllipsisHorizontalIcon
@@ -73,19 +89,28 @@ export const ConsolePanel = ({
           }
           options={options}
           menuClassName="top-4 right-0"
+          onSelect={handleSelectOption}
         />
       </div>
-      {messages.map((message, index, arr) => (
+      {result.map(({ message, toggled }, index, arr) => (
         <div
           key={index}
           className={clsx(
-            "flex items-center p-2",
+            "flex p-2",
             arr.length > 1 && "border border-gray-600",
             statusColorMap[status]
           )}
         >
-          <span className="mr-2 whitespace-nowrap">{index + 1}: </span>
-          <Preview message={message} className="truncate" />
+          <Text className="mr-1 whitespace-nowrap" type="body-bold">
+            {index + 1}:
+          </Text>
+          <ChevronRightIcon
+            className="h-5 w-auto mr-2 outline-none"
+            role="button"
+            tabIndex={0}
+            onClick={() => handleToggleView(index)}
+          />
+          <Preview message={message} />
         </div>
       ))}
     </div>

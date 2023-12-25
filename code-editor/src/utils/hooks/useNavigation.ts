@@ -15,12 +15,6 @@ const initRoute = [
     icon: HomeIcon,
     current: false,
   },
-  {
-    name: "Code Editor",
-    href: clientRoutes.codeEditor.index,
-    icon: ComputerDesktopIcon,
-    current: false,
-  },
 ];
 
 export const useNavigation = () => {
