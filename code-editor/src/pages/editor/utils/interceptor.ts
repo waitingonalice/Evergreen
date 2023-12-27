@@ -1,29 +1,18 @@
-type ConsoleInputType<T> = T[];
+type ConsoleInputType = any[];
 export type ConsoleMethod = "log" | "warn" | "info" | "clear";
 
-type JointTypes = [ConsoleInputType<string | number>, ConsoleMethod];
+type JointTypes = [ConsoleInputType, ConsoleMethod];
 
 export const interceptConsole = (
-  callback: (result: string, type: ConsoleMethod) => void
+  callback: (result: ConsoleInputType, type: ConsoleMethod) => void
 ) => {
   const add = (...args: JointTypes) => {
     const [consoleArguments, type] = args;
-    const inputs: typeof consoleArguments = [];
-    consoleArguments.forEach((arg) => {
-      if (typeof arg === "object") {
-        inputs.push(JSON.stringify(arg));
-      } else {
-        inputs.push(arg);
-      }
-    });
-    // Join the arguments that are passed into the same console.log as a singular string, so we can display it as a single message.
-    const result = inputs.join(" ");
     if (type === "clear") {
-      callback("", type);
+      callback([], type);
       return;
     }
-    if (!result) return;
-    callback(result, type);
+    callback(consoleArguments, type);
   };
 
   const tempLog = console.log;
@@ -40,9 +29,7 @@ export const interceptConsole = (
   };
 
   console.clear = (...args) => {
-    tempInfo(
-      "Console was cleared programmatically. This is not a bug in your code."
-    );
+    tempInfo("Console was cleared programmatically.");
     add(args, "clear");
   };
 };

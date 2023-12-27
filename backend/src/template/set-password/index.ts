@@ -449,7 +449,7 @@ export const setPasswordTemplate = (
                                             font-size: 16px;
                                             line-height: 27.2px;
                                           "
-                                          >Expense Tracker Team</span
+                                          >Evergreen Team</span
                                         ></strong
                                       ></span
                                     >
@@ -652,7 +652,7 @@ export const setPasswordTemplate = (
                                         line-height: 29.4px;
                                       "
                                     >
-                                      Expense Tracker&copy; | Singapore</span
+                                      Evergreen&copy; | Singapore</span
                                     >
                                   </p>
                                 </div>

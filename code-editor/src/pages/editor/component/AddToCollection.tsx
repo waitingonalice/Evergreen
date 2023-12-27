@@ -1,11 +1,16 @@
-import { Button, Tooltip } from "~/components";
+import { Button, Spinner, Tooltip } from "~/components";
 import { useHover } from "../hooks/useHover";
 
 interface UnsavedChangesProps {
   onAdd: () => void;
-  disabled: boolean;
+  disabled?: boolean;
+  loading?: boolean;
 }
-export const AddCollection = ({ onAdd, disabled }: UnsavedChangesProps) => {
+export const AddCollection = ({
+  onAdd,
+  disabled,
+  loading,
+}: UnsavedChangesProps) => {
   const { show, onHover, ref } = useHover();
 
   return (
@@ -20,7 +25,7 @@ export const AddCollection = ({ onAdd, disabled }: UnsavedChangesProps) => {
         onClick={onAdd}
         disabled={disabled}
       >
-        Add to collection
+        {loading ? <Spinner /> : "Add to collection"}
       </Button>
       <Tooltip
         description="Press Ctrl + S to add to collection"

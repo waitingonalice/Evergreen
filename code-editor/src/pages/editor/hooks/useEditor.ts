@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /* eslint-disable no-new-func */
 import { EditorProps } from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
@@ -13,7 +17,11 @@ import { ConsoleMethod, interceptConsole } from "../utils/interceptor";
 import { defaultEditorThemes, defineTheme, monacoThemes } from "../utils/theme";
 
 export type Status = "error" | "success";
-export type Result = { message: string; toggled: boolean };
+export type Result = {
+  args: unknown;
+  formattedMessage: string;
+  toggled: boolean;
+};
 
 const initialOptions: EditorProps = {
   height: "50vh",
@@ -51,10 +59,15 @@ export const useEditor = () => {
     useState<EditorProps>(initialOptions);
   const [executedCode, setExecutedCode] = useState<Result[]>([]);
   const [preserveLogs, setPreserveLogs] = useState<boolean>(false);
+  const [input, setInput] = useState<string>("");
 
   const handleClearConsole = () => {
     consoleResults = [];
     setExecutedCode(consoleResults);
+  };
+
+  const handleClearInput = () => {
+    setInput("");
   };
 
   const handlePreserveLog = () => {
@@ -96,7 +109,13 @@ export const useEditor = () => {
         if (err instanceof Error) {
           status = "error";
           consoleResults = [];
-          setExecutedCode([{ message: err.message, toggled: false }]);
+          setExecutedCode([
+            {
+              args: err.message,
+              formattedMessage: err.message,
+              toggled: false,
+            },
+          ]);
         }
       }
     },
@@ -105,17 +124,37 @@ export const useEditor = () => {
   );
 
   const handleOnChange = (newValue?: string) => {
+    setInput(newValue || "");
     debounceExecute(newValue || "");
   };
 
-  const handleIntercept = (result: string, type: ConsoleMethod) => {
+  const handleIntercept = (consoleArgs: unknown[], type: ConsoleMethod) => {
     if (type === "clear") {
       handleClearConsole();
       return;
     }
-    if (!result) return;
-    consoleResults.push({ message: result, toggled: false });
+    if (!consoleArgs || consoleArgs.length === 0) return;
+    const input: Array<unknown> = [];
+
+    consoleArgs.forEach((arg) => {
+      if (typeof arg === "object") {
+        input.push(JSON.stringify(arg));
+      } else {
+        input.push(arg);
+      }
+    });
+
+    // Join the arguments that are passed into the same console.log as a singular string, so we can display it as a single message.
+    // TODO: Upgrade this to support showing prototypes of objects.
+    const jointInputs = input.join(" ");
+    consoleResults.push({
+      args: consoleArgs,
+      formattedMessage: jointInputs,
+      toggled: false,
+    });
   };
+
+  const handleToggleExpand = (index: number) => {};
 
   const handleOnMountEditor = (editor: any) => {
     editorRef.current = editor;
@@ -166,12 +205,15 @@ export const useEditor = () => {
     editorOptions,
     editorRef,
     messages: executedCode,
+    input,
     status,
     preserveLogs,
+    handleClearInput,
     handleOnChange,
     handleOnMount: handleOnMountEditor,
     handleSelectTheme,
     handleClearConsole,
     handlePreserveLog,
+    handleToggleExpand,
   };
 };

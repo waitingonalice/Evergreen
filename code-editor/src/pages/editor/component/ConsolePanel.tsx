@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 /* eslint-disable react/no-array-index-key */
 import {
-  ChevronRightIcon,
-  ChevronUpDownIcon,
+  // ChevronRightIcon,
+  // ChevronUpDownIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
 import clsx from "clsx";
@@ -15,21 +13,11 @@ import { Result, Status } from "../hooks/useEditor";
 
 export type ConsoleType = "clear" | "preserve";
 
-interface PreviewProps {
-  className?: string;
-  message: string;
-}
-
-export const Preview = ({ className, message }: PreviewProps) => (
-  <pre className={clsx(className, "text-sm")}>
-    <code>{message}</code>
-  </pre>
-);
-
 interface ConsolePanelProps {
   result: Result[];
   status: Status;
   onSelectOption: (val: ConsoleType) => void;
+  onToggleView: (index: number) => void;
   preserveLogs: boolean;
 }
 
@@ -47,6 +35,7 @@ export const ConsolePanel = ({
   result,
   status,
   onSelectOption,
+  onToggleView,
   preserveLogs,
 }: ConsolePanelProps) => {
   const handleSelectOption = (val: ConsoleType) => {
@@ -55,7 +44,9 @@ export const ConsolePanel = ({
   const handleToggleSwitch = () => {
     handleSelectOption("preserve");
   };
-  const handleToggleView = (index: number) => {};
+  const handleToggleView = (index: number) => {
+    onToggleView(index);
+  };
 
   const options = Object.entries(consoleOptions).map(([key, value]) => ({
     label: value,
@@ -92,7 +83,7 @@ export const ConsolePanel = ({
           onSelect={handleSelectOption}
         />
       </div>
-      {result.map(({ message, toggled }, index, arr) => (
+      {result.map(({ formattedMessage }, index, arr) => (
         <div
           key={index}
           className={clsx(
@@ -104,13 +95,15 @@ export const ConsolePanel = ({
           <Text className="mr-1 whitespace-nowrap" type="body-bold">
             {index + 1}:
           </Text>
-          <ChevronRightIcon
+          {/* <ChevronRightIcon
             className="h-5 w-auto mr-2 outline-none"
             role="button"
             tabIndex={0}
             onClick={() => handleToggleView(index)}
-          />
-          <Preview message={message} />
+          /> */}
+          <pre className={clsx("text-sm")}>
+            <code>{formattedMessage}</code>
+          </pre>
         </div>
       ))}
     </div>

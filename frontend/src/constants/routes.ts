@@ -22,11 +22,11 @@ export const clientRoutes = {
 
 export const apiRoutes = {
   auth: {
-    register: `${api}auth/register`,
-    verify: (token: string) => `${api}auth/verify/${token}`,
-    login: `${api}auth/login`,
-    refreshToken: `${api}auth/refresh-token`,
-    forgotPassword: `${api}auth/forgot-password`,
-    resetPassword: (token: string) => `${api}auth/set-password/${token}`,
+    register: `${api}/auth/register`,
+    verify: (token: string) => `${api}/auth/verify/${token}`,
+    login: `${api}/auth/login`,
+    refreshToken: `${api}/auth/refresh-token`,
+    forgotPassword: `${api}/auth/forgot-password`,
+    resetPassword: (token: string) => `${api}/auth/set-password/${token}`,
   },
 };

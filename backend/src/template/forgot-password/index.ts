@@ -289,7 +289,7 @@ export const forgotPasswordTemplate = (name: string, url: string) => `
                                         line-height: 28.8px;
                                       "
                                       >You have recently requested to reset your
-                                      password for your Expense Tracker account.
+                                      password for your Evergreen account.
                                       <br />
                                       To proceed, please click on the
                                       verification button below.
@@ -466,7 +466,7 @@ export const forgotPasswordTemplate = (name: string, url: string) => `
                                             font-size: 16px;
                                             line-height: 27.2px;
                                           "
-                                          >Expense Tracker Team</span
+                                          >Evergreen Team</span
                                         ></strong
                                       ></span
                                     >
@@ -669,7 +669,7 @@ export const forgotPasswordTemplate = (name: string, url: string) => `
                                         line-height: 29.4px;
                                       "
                                     >
-                                      Expense Tracker&copy; | Singapore</span
+                                      Evergreen&copy; | Singapore</span
                                     >
                                   </p>
                                 </div>
