@@ -12,7 +12,7 @@ const ThemeButton = () => {
     <>
       <div ref={ref}>
         <SwatchIcon
-          className="w-5 h-auto text-subtext hover:text-important transition duration-300"
+          className="w-5 h-auto text-secondary-4 hover:text-secondary-1 transition duration-300"
           onMouseEnter={() => onHover("in")}
           onMouseLeave={() => onHover("out")}
         />

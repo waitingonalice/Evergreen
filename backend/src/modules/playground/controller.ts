@@ -4,7 +4,6 @@ import { CreateCollectionBody } from "./types";
 
 export const handleCreateCollection = async (req: Request, res: Response) => {
   const { accountId } = res.locals;
-  console.log(accountId);
   const { input }: CreateCollectionBody = req.body;
   try {
     const collection = await prisma.playground.create({

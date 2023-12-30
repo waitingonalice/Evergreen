@@ -1,5 +1,8 @@
+import {
+  Checkbox,
+  CheckboxProps,
+} from "@waitingonalice/design-system/components/checkbox";
 import clsx from "clsx";
-import { Checkbox, CheckboxProps } from "~/components/checkbox";
 import { TableProps } from "..";
 
 interface TBodyProps extends TableProps {

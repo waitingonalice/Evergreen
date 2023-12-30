@@ -1,7 +1,8 @@
 import { CountryEnum } from "@expense-tracker/shared";
+import { Button, Text } from "@waitingonalice/design-system";
 import { useState } from "react";
 import { z } from "zod";
-import { Alert, Button, FormSelect, Input, Spinner, Text } from "~/components";
+import { Alert, FormSelect, Input, Spinner } from "~/components";
 import { VALID_PASSWORD, clientRoutes } from "~/constants";
 import { errorMap, useForm } from "~/utils";
 import { enumsToOptions } from "~/utils/options";
@@ -63,7 +64,10 @@ const Register = () => {
         <RegistrationSuccess />
       ) : (
         <div className="flex flex-col gap-y-4">
-          <Text type="subhead-1" className="text-primary box mb-4 font-bold">
+          <Text
+            type="subhead-1"
+            className="text-primary-main box mb-4 font-bold"
+          >
             Sign Up
           </Text>
           <Input

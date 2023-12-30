@@ -1,7 +1,8 @@
+import { Button, Checkbox, Text } from "@waitingonalice/design-system";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { Button, Checkbox, Input, Spinner, Text } from "~/components";
+import { Input, Spinner } from "~/components";
 import { clientRoutes } from "~/constants";
 import { setCookie, useForm, useKeypress } from "~/utils";
 import { MessageBox } from "./components/MessageBox";
@@ -59,7 +60,7 @@ const Login = () => {
   return (
     <div className="flex flex-col w-full gap-y-4 max-w-md">
       <MessageBox error={error} />
-      <Text type="subhead-1" className="text-primary mb-4">
+      <Text type="subhead-1" className="text-primary-main mb-4">
         Login
       </Text>
       <Input

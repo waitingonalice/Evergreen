@@ -21,9 +21,9 @@ export const Switch = ({
         checked={toggled}
         onChange={onToggle}
         className={clsx(
-          toggled ? "bg-primary-2" : "bg-gray-300",
+          toggled ? "bg-primary-dark" : "bg-gray-300",
           size === "sm" ? "w-10 h-5" : "w-11 h-6",
-          "relative inline-flex items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-2 focus:ring-offset-2"
+          "relative inline-flex items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-offset-2"
         )}
       >
         <span

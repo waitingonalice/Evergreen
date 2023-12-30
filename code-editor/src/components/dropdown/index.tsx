@@ -1,9 +1,9 @@
 import { Menu, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
+import { Text } from "@waitingonalice/design-system/components/text";
 import { Fragment } from "react";
 import clsx from "clsx";
 import { Option } from "~/utils/types";
-import { Text } from "../text";
 
 export interface DropdownProps<T extends string> {
   button: React.ReactNode;
@@ -32,7 +32,7 @@ export const Dropdown = <T extends string>({
     <Menu as="div" className="relative">
       <Menu.Button className="items-center flex transition duration-100 ease-out">
         {typeof button === "string" ? (
-          <Text type="body-bold" className="text-dark">
+          <Text type="body-bold" className="text-secondary-5">
             {button}
           </Text>
         ) : (
@@ -52,14 +52,14 @@ export const Dropdown = <T extends string>({
           className={clsx(
             "absolute z-10 mt-2 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-80 overflow-y-auto p-1",
             menuClassName,
-            theme === "light" ? "bg-important" : "bg-dark"
+            theme === "light" ? "bg-secondary-1" : "bg-secondary-5"
           )}
         >
           {options?.map(({ label, value, renderLabel }) => (
             <Menu.Item key={value}>
               <button
                 type="button"
-                className="rounded-md min-w-[200px] flex justify-between p-2 truncate items-center gap-x-2 hover:text-important hover:bg-primary text-primary"
+                className="rounded-md min-w-[200px] flex justify-between p-2 truncate items-center gap-x-2 hover:text-secondary-1 hover:bg-primary-main text-primary-main"
                 onClick={(e) => handleSelect(e, value as T)}
               >
                 {renderLabel ? (

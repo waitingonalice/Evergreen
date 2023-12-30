@@ -1,4 +1,3 @@
-export { default as Button } from "./button";
 export { default as Input } from "./forms/FormInput";
 export { default as Label } from "./forms/FormLabel";
 export { default as ErrorMessage } from "./forms/FormError";
@@ -8,7 +7,6 @@ export * from "./modal";
 export * from "./layout/main";
 export * from "./alert";
 export * from "./spinner";
-export * from "./checkbox";
 export * from "./text";
 export * from "./table";
 export * from "./card";

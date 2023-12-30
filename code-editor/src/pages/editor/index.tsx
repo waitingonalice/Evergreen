@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import Editor from "@monaco-editor/react";
+import {
+  Toaster,
+  useToast,
+} from "@waitingonalice/design-system/components/toast";
 import { useRouter } from "next/router";
 import { Main } from "~/components";
 import { clientRoutes } from "~/constants";
+import { useKeybind } from "~/utils";
 import { AddCollection } from "./component/AddToCollection";
 import { ConsolePanel, ConsoleType } from "./component/ConsolePanel";
 import { Language } from "./component/Language";
@@ -27,12 +32,21 @@ function CodeEditor() {
     handleToggleExpand,
   } = useEditor();
   const { push } = useRouter();
+  const { renderToast } = useToast();
+
   const [addToCollection, options] = useAddToCollection({
-    onSuccess: () => handleClearInput(),
+    onSuccess: () => {
+      handleClearInput();
+      renderToast({
+        title: "Successfully added to collection",
+        variant: "success",
+      });
+    },
     onError: () => {},
   });
 
   const handleAddToCollection = async () => {
+    if (input.length === 0 || options.isLoading) return;
     await addToCollection(input);
   };
 
@@ -49,6 +63,7 @@ function CodeEditor() {
     }
   };
 
+  useKeybind(["ControlLeft", "KeyS"], handleAddToCollection);
   return (
     <Main>
       <Main.Header
@@ -67,13 +82,14 @@ function CodeEditor() {
         rightChildren={
           <AddCollection
             onAdd={handleAddToCollection}
-            disabled={input.length === 0}
+            disabled={input.length === 0 || options.isLoading}
             loading={options.isLoading}
           />
         }
       />
 
       <Main.Content>
+        <Toaster />
         <Editor
           {...editorOptions}
           onChange={handleOnChange}

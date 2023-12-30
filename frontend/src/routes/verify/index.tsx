@@ -1,6 +1,7 @@
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
+import { Button, Text } from "@waitingonalice/design-system";
 import { useSearchParams } from "react-router-dom";
-import { Button, Spinner, Text } from "~/components";
+import { Spinner } from "~/components";
 import { clientRoutes } from "~/constants";
 import { errorMap } from "~/utils";
 import { useVerifyUser } from "./loaders/verify";
@@ -17,7 +18,7 @@ const Verify = () => {
         <>
           {errorMap(error) ? (
             <>
-              <XCircleIcon className="text-errorTertiary h-20 w-20" />
+              <XCircleIcon className="text-error-main h-20 w-20" />
               <Text type="subhead-2">{errorMap(error)}</Text>
               <Button variant="primaryLink">
                 <a href={clientRoutes.auth.login}>Back to login page</a>
@@ -25,7 +26,7 @@ const Verify = () => {
             </>
           ) : (
             <>
-              <CheckCircleIcon className="text-primary h-20 w-20" />
+              <CheckCircleIcon className="text-primary-main h-20 w-20" />
               <Text type="subhead-2">
                 Account has been successfully verified.
               </Text>

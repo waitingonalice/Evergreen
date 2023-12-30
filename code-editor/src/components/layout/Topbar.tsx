@@ -6,10 +6,12 @@ import {
   XMarkIcon,
 } from "@heroicons/react/20/solid";
 import { UserIcon } from "@heroicons/react/24/outline";
+import { Button } from "@waitingonalice/design-system/components/button";
+import { Text } from "@waitingonalice/design-system/components/text";
 import { Fragment, useState } from "react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import { Button, Modal, Text } from "~/components";
+import { Modal } from "~/components";
 import { useAppContext } from "~/components/app-context";
 import { clientRoutes } from "~/constants";
 
@@ -70,7 +72,7 @@ const Topbar = ({
       />
       <nav
         className={clsx(
-          "sticky top-0 px-4 py-3 border-b bg-dark border-gray-400 flex items-center z-30 gap-x-4 w-full justify-between"
+          "sticky top-0 px-4 py-3 border-b bg-secondary-5 border-gray-400 flex items-center z-30 gap-x-4 w-full justify-between"
         )}
       >
         <span className="flex items-center">
@@ -79,7 +81,7 @@ const Topbar = ({
               {onBackClick && (
                 <>
                   <Button variant="primaryLink" onClick={onBackClick}>
-                    <XMarkIcon className="h-5 w-auto text-primary-2" />
+                    <XMarkIcon className="h-5 w-auto text-primary-main" />
                   </Button>
                   <div className="border-l border-gray-400 h-6" />
                 </>
@@ -87,7 +89,7 @@ const Topbar = ({
               {title && (
                 <Text
                   type="subhead-2-bold"
-                  className="text-subtext whitespace-nowrap"
+                  className="text-secondary-4 whitespace-nowrap"
                 >
                   {title}
                 </Text>
@@ -102,8 +104,8 @@ const Topbar = ({
         <div className="relative items-center flex transition duration-100 ease-out gap-x-4">
           {rightChildren}
           <Menu as="div">
-            <Menu.Button className="rounded-full focus:outline-none focus:ring-2 focus:ring-primary-2 flex items-center">
-              <Cog8ToothIcon className="h-5 w-auto text-primary" />
+            <Menu.Button className="rounded-full focus:outline-none focus:ring-2 focus:ring-primary-dark flex items-center">
+              <Cog8ToothIcon className="h-5 w-auto text-primary-main" />
             </Menu.Button>
             <Transition
               as={Fragment}
@@ -121,7 +123,7 @@ const Topbar = ({
                       <a
                         href={href}
                         className={clsx(
-                          "rounded-md min-w-[200px] flex p-2 truncate items-center gap-x-2 hover:text-important hover:bg-primary text-primary"
+                          "rounded-md min-w-[200px] flex p-2 truncate items-center gap-x-2 hover:text-secondary-1 hover:bg-primary-main text-primary-main"
                         )}
                       >
                         <UserIcon className="h-5 w-auto" />
@@ -131,7 +133,7 @@ const Topbar = ({
                       <>
                         <div
                           className={clsx(
-                            "rounded-md min-w-[200px] flex p-2 truncate items-center gap-x-2 hover:text-important hover:bg-primary text-primary"
+                            "rounded-md min-w-[200px] flex p-2 truncate items-center gap-x-2 hover:text-secondary-1 hover:bg-primary-main text-primary-main"
                           )}
                           role="button"
                           tabIndex={0}
@@ -142,7 +144,7 @@ const Topbar = ({
                           <Text type="body-bold">Sign out</Text>
                         </div>
                         {user && (
-                          <div className="mx-4 my-2 text-dark">
+                          <div className="mx-4 my-2 text-secondary-5">
                             <Text type="body" className="pt-2 border-t">
                               {fullName.toUpperCase()}
                             </Text>

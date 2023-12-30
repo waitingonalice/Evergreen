@@ -1,7 +1,7 @@
 import { Transition } from "@headlessui/react";
+import { Text } from "@waitingonalice/design-system/components/text";
 import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
-import { Text } from "../text";
 
 export interface TooltipProps {
   title?: string;
@@ -51,11 +51,11 @@ export const Tooltip = ({
         )}
       >
         {title && (
-          <Text type="body-bold" className="text-dark">
+          <Text type="body-bold" className="text-secondary-5">
             {title}
           </Text>
         )}
-        <Text type="caption" className="text-dark">
+        <Text type="caption" className="text-secondary-5">
           {description}
         </Text>
       </div>

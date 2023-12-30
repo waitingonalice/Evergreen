@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
+    "@waitingonalice/design-system": "^1.1.22",
     "@expense-tracker/shared": "*",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.13",
@@ -21,8 +22,7 @@
     "next": "^13.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-query": "^3.39.3",
-    "typescript": "^4.9.3"
+    "react-query": "^3.39.3"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
@@ -31,6 +31,7 @@
     "autoprefixer": "^10.4.13",
     "cssnano": "^5.1.14",
     "postcss": "^8.4.20",
-    "tailwindcss": "^3.2.4"
+    "tailwindcss": "^3.2.4",
+    "typescript": "^4.9.3"
   }
 }

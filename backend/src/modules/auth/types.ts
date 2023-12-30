@@ -13,8 +13,10 @@ export type RefreshTokenRequestBody = {
 };
 
 export interface DecodedToken {
-  id: string;
-  rememberMe: boolean;
+  data: {
+    id: string;
+    rememberMe: boolean;
+  };
 }
 
 export interface RegisterType {

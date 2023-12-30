@@ -1,11 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 import { Dialog, Transition } from "@headlessui/react";
+import {
+  Button,
+  ButtonProps,
+} from "@waitingonalice/design-system/components/button";
+import { Text } from "@waitingonalice/design-system/components/text";
 import { Fragment } from "react";
 import clsx from "clsx";
 import { inter } from "~/utils";
-import { ButtonProps } from "../button";
-import { Text } from "../text";
-import { Button } from "..";
 
 interface ModalProps {
   open: boolean;
@@ -69,7 +71,7 @@ export function Modal({
                   inter.className
                 )}
               >
-                <Text className="text-dark p-6" type="subhead-2-bold">
+                <Text className="text-secondary-5 p-6" type="subhead-2-bold">
                   {title}
                 </Text>
                 {children && (

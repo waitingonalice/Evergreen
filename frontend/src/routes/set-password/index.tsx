@@ -1,6 +1,7 @@
+import { Button, Text } from "@waitingonalice/design-system";
 import { useState } from "react";
 import { z } from "zod";
-import { Alert, Button, Input, Spinner, Text } from "~/components";
+import { Alert, Input, Spinner } from "~/components";
 import { VALID_PASSWORD } from "~/constants";
 import { errorMap, useForm } from "~/utils";
 import { UpdateSuccess } from "./components/UpdateSuccess";
@@ -67,7 +68,10 @@ const ResetPassword = () => {
         <UpdateSuccess />
       ) : (
         <section className="flex flex-col gap-y-4">
-          <Text type="subhead-1" className="text-primary box mb-4 font-bold">
+          <Text
+            type="subhead-1"
+            className="text-primary-main box mb-4 font-bold"
+          >
             Sign Up
           </Text>
           <Input

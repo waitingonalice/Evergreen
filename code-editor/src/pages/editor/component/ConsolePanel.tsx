@@ -6,8 +6,9 @@ import {
   // ChevronUpDownIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
+import { Text } from "@waitingonalice/design-system/components/text";
 import clsx from "clsx";
-import { Switch, Text } from "~/components";
+import { Switch } from "~/components";
 import { Dropdown } from "~/components/dropdown";
 import { Result, Status } from "../hooks/useEditor";
 
@@ -22,7 +23,7 @@ interface ConsolePanelProps {
 }
 
 const statusColorMap: Record<Status, string> = {
-  error: "text-errorMain",
+  error: "text-error-main",
   success: "text-teal-500",
 };
 
@@ -74,7 +75,7 @@ export const ConsolePanel = ({
         <Dropdown
           button={
             <EllipsisHorizontalIcon
-              className="outline-none text-subtext w-5 h-auto transition duration-300 hover:text-important"
+              className="outline-none text-secondary-4 w-5 h-auto transition duration-300 hover:text-secondary-1"
               role="button"
             />
           }
@@ -92,9 +93,6 @@ export const ConsolePanel = ({
             statusColorMap[status]
           )}
         >
-          <Text className="mr-1 whitespace-nowrap" type="body-bold">
-            {index + 1}:
-          </Text>
           {/* <ChevronRightIcon
             className="h-5 w-auto mr-2 outline-none"
             role="button"

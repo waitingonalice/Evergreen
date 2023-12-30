@@ -24,10 +24,10 @@ const FormLabel = ({
   const [hover, setHover] = useState(false);
   return (
     <span className={clsx("flex gap-x-1", className)}>
-      <label htmlFor={name} className="text-dark block">
+      <label htmlFor={name} className="text-secondary-5 block">
         <Text type="button">{children}</Text>
       </label>
-      {required ? <span className="text-red-500">*</span> : null}
+      {required ? <span className="text-error-main">*</span> : null}
 
       {withTooltip && (
         <div
@@ -35,7 +35,7 @@ const FormLabel = ({
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
         >
-          <InformationCircleIcon className="h-5 w-auto text-primary" />
+          <InformationCircleIcon className="h-5 w-auto text-primary-main" />
           <Tooltip show={hover} {...tooltip} targetElement={ref.current} />
         </div>
       )}

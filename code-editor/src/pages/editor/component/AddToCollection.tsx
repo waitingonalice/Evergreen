@@ -1,4 +1,5 @@
-import { Button, Spinner, Tooltip } from "~/components";
+import { Button } from "@waitingonalice/design-system/components/button";
+import { Spinner, Tooltip } from "~/components";
 import { useHover } from "../hooks/useHover";
 
 interface UnsavedChangesProps {

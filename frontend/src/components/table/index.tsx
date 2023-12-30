@@ -1,8 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import { PlusCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
+import { Button, ButtonProps } from "@waitingonalice/design-system";
 import React from "react";
 import clsx from "clsx";
-import Button, { ButtonProps } from "../button";
 import { Text } from "../text";
 import { CheckboxTh, Header, Thead } from "./head";
 import { Body, Cell, CheckboxCell, Row } from "./row";
@@ -49,14 +49,14 @@ const TableFilterButton = (props: TableFilterProps) => {
         selected && selected.length > 0
           ? "border-gray-400 "
           : "border-dotted border-gray-500",
-        "flex items-center gap-x-1 border w-fit px-2 py-0.5 rounded-3xl hover:bg-gray-200 active:ring-2 ring-primary-2 ring-offset-1 transition-all duration-100"
+        "flex items-center gap-x-1 border w-fit px-2 py-0.5 rounded-3xl hover:bg-gray-200 active:ring-2 ring-primary-dark ring-offset-1 transition-all duration-100"
       )}
       type="button"
       onClick={handleOnButtonClick}
       onKeyDown={handleKeyDown}
     >
       <Icon
-        className="w-4 h-auto text-gray-500 cursor-pointer active:text-dark"
+        className="w-4 h-auto text-gray-500 cursor-pointer active:text-secondary-5"
         onClick={handleOnIconClick}
       />
       <Text className="text-gray-500" type="caption-bold">
@@ -67,7 +67,7 @@ const TableFilterButton = (props: TableFilterProps) => {
       )}
       {selected &&
         selected.map((value, index) => (
-          <Text key={value} type="caption-bold" className="text-primary">
+          <Text key={value} type="caption-bold" className="text-primary-main">
             {value.concat(index === selected.length - 1 ? "" : ", ")}
           </Text>
         ))}
