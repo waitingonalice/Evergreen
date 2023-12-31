@@ -1,16 +1,76 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 /* eslint-disable react/no-array-index-key */
 import {
-  // ChevronRightIcon,
-  // ChevronUpDownIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
 import { Text } from "@waitingonalice/design-system/components/text";
+import { forwardRef, useState } from "react";
 import clsx from "clsx";
 import { Switch } from "~/components";
 import { Dropdown } from "~/components/dropdown";
 import { Result, Status } from "../hooks/useEditor";
+
+interface PreviewProps {
+  children: React.ReactNode;
+  className?: string;
+}
+const Preview = forwardRef(
+  ({ children, className }: PreviewProps, ref: React.Ref<HTMLPreElement>) => (
+    <pre ref={ref} className={clsx("text-sm", className)}>
+      <code>{children}</code>
+    </pre>
+  )
+);
+Preview.displayName = "Preview";
+interface CodePreviewerProps {
+  arg: unknown;
+}
+
+const CodePreviewer = ({ arg }: CodePreviewerProps) => {
+  const [toggle, setToggle] = useState(false);
+  const Icon = toggle ? ChevronDownIcon : ChevronRightIcon;
+
+  const handleExpand = () => {
+    setToggle((prev) => !prev);
+  };
+
+  if (typeof arg === "object" || arg instanceof Set || arg instanceof Map) {
+    return (
+      <div
+        className={clsx(
+          "flex gap-x-1",
+          !toggle ? "items-center flex-row" : "flex-col"
+        )}
+      >
+        <div className="flex">
+          <Icon
+            role="button"
+            tabIndex={0}
+            className="h-5 w-5 outline-none"
+            onClick={handleExpand}
+          />
+
+          <Preview className="text-teal-500">
+            {Array.isArray(arg) ? `Array (${arg.length})` : "Object"}
+          </Preview>
+        </div>
+
+        {toggle && (
+          <Preview className={clsx(toggle && "w-28")}>
+            {JSON.stringify(arg, null, 2)}
+          </Preview>
+        )}
+      </div>
+    );
+  }
+
+  if (typeof arg === "number" || typeof arg === "bigint") {
+    return <Preview className="text-purple-600">{String(arg)}</Preview>;
+  }
+
+  return <Preview>{String(arg)}</Preview>;
+};
 
 export type ConsoleType = "clear" | "preserve";
 
@@ -18,13 +78,12 @@ interface ConsolePanelProps {
   result: Result[];
   status: Status;
   onSelectOption: (val: ConsoleType) => void;
-  onToggleView: (index: number) => void;
   preserveLogs: boolean;
 }
 
 const statusColorMap: Record<Status, string> = {
   error: "text-error-main",
-  success: "text-teal-500",
+  success: "text-gray-400",
 };
 
 export const consoleOptions: Record<ConsoleType, string> = {
@@ -36,7 +95,6 @@ export const ConsolePanel = ({
   result,
   status,
   onSelectOption,
-  onToggleView,
   preserveLogs,
 }: ConsolePanelProps) => {
   const handleSelectOption = (val: ConsoleType) => {
@@ -44,9 +102,6 @@ export const ConsolePanel = ({
   };
   const handleToggleSwitch = () => {
     handleSelectOption("preserve");
-  };
-  const handleToggleView = (index: number) => {
-    onToggleView(index);
   };
 
   const options = Object.entries(consoleOptions).map(([key, value]) => ({
@@ -68,10 +123,10 @@ export const ConsolePanel = ({
   return (
     <div
       className={clsx(
-        "flex overflow-y-auto h-[calc(50vh-55px)] flex-col w-1/2 border border-gray-600"
+        "flex overflow-y-auto h-full flex-col border border-secondary-4"
       )}
     >
-      <div className="relative p-2 gap-x-2 flex justify-end items-center border-b border-gray-600">
+      <div className="relative p-2 gap-x-2 flex justify-end items-center border-b border-secondar-4">
         <Dropdown
           button={
             <EllipsisHorizontalIcon
@@ -84,24 +139,18 @@ export const ConsolePanel = ({
           onSelect={handleSelectOption}
         />
       </div>
-      {result.map(({ formattedMessage }, index, arr) => (
+      {result.map(({ args }, index, arr) => (
         <div
           key={index}
           className={clsx(
-            "flex p-2",
-            arr.length > 1 && "border border-gray-600",
+            "flex p-2 gap-x-2",
+            arr.length > 1 && "border-b border-secondary-4",
             statusColorMap[status]
           )}
         >
-          {/* <ChevronRightIcon
-            className="h-5 w-auto mr-2 outline-none"
-            role="button"
-            tabIndex={0}
-            onClick={() => handleToggleView(index)}
-          /> */}
-          <pre className={clsx("text-sm")}>
-            <code>{formattedMessage}</code>
-          </pre>
+          {args.map((arg, i) => (
+            <CodePreviewer key={i} arg={arg} />
+          ))}
         </div>
       ))}
     </div>

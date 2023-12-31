@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 /* eslint-disable no-new-func */
 import { EditorProps } from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
@@ -18,13 +14,11 @@ import { defaultEditorThemes, defineTheme, monacoThemes } from "../utils/theme";
 
 export type Status = "error" | "success";
 export type Result = {
-  args: unknown;
-  formattedMessage: string;
-  toggled: boolean;
+  args: unknown[];
 };
 
 const initialOptions: EditorProps = {
-  height: "50vh",
+  height: "49vh",
   defaultLanguage: "typescript",
   defaultValue: `// Welcome to Code Editor!`,
   options: {
@@ -111,9 +105,7 @@ export const useEditor = () => {
           consoleResults = [];
           setExecutedCode([
             {
-              args: err.message,
-              formattedMessage: err.message,
-              toggled: false,
+              args: [err.message],
             },
           ]);
         }
@@ -134,27 +126,12 @@ export const useEditor = () => {
       return;
     }
     if (!consoleArgs || consoleArgs.length === 0) return;
-    const input: Array<unknown> = [];
 
-    consoleArgs.forEach((arg) => {
-      if (typeof arg === "object") {
-        input.push(JSON.stringify(arg));
-      } else {
-        input.push(arg);
-      }
-    });
-
-    // Join the arguments that are passed into the same console.log as a singular string, so we can display it as a single message.
     // TODO: Upgrade this to support showing prototypes of objects.
-    const jointInputs = input.join(" ");
     consoleResults.push({
       args: consoleArgs,
-      formattedMessage: jointInputs,
-      toggled: false,
     });
   };
-
-  const handleToggleExpand = (index: number) => {};
 
   const handleOnMountEditor = (editor: any) => {
     editorRef.current = editor;
@@ -214,6 +191,5 @@ export const useEditor = () => {
     handleSelectTheme,
     handleClearConsole,
     handlePreserveLog,
-    handleToggleExpand,
   };
 };

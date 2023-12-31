@@ -1,9 +1,11 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import Editor from "@monaco-editor/react";
 import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
   Toaster,
   useToast,
-} from "@waitingonalice/design-system/components/toast";
+} from "@waitingonalice/design-system";
 import { useRouter } from "next/router";
 import { Main } from "~/components";
 import { clientRoutes } from "~/constants";
@@ -29,7 +31,6 @@ function CodeEditor() {
     handleSelectTheme,
     handleClearConsole,
     handlePreserveLog,
-    handleToggleExpand,
   } = useEditor();
   const { push } = useRouter();
   const { renderToast } = useToast();
@@ -38,11 +39,18 @@ function CodeEditor() {
     onSuccess: () => {
       handleClearInput();
       renderToast({
-        title: "Successfully added to collection",
+        title: "Successfully saved!",
+        description: "Code snippet was added to collection.",
         variant: "success",
       });
     },
-    onError: () => {},
+    onError: () => {
+      renderToast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    },
   });
 
   const handleAddToCollection = async () => {
@@ -90,28 +98,41 @@ function CodeEditor() {
 
       <Main.Content>
         <Toaster />
-        <Editor
-          {...editorOptions}
-          onChange={handleOnChange}
-          onMount={handleOnMount}
-        />
-        <div className="flex">
-          <ConsolePanel
-            result={messages}
-            status={status}
-            onSelectOption={handleSelectedConsoleOption}
-            preserveLogs={preserveLogs}
-            onToggleView={handleToggleExpand}
-          />
-          {/* Judge panel */}
-          <ConsolePanel
-            result={messages}
-            status={status}
-            onSelectOption={handleSelectedConsoleOption}
-            preserveLogs={preserveLogs}
-            onToggleView={handleToggleExpand}
-          />
-        </div>
+        <ResizablePanelGroup
+          direction="vertical"
+          className="min-h-[calc(100vh-54px)]"
+        >
+          <ResizablePanel defaultSize={50}>
+            <Editor
+              {...editorOptions}
+              onChange={handleOnChange}
+              onMount={handleOnMount}
+            />
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={50}>
+            <ResizablePanelGroup direction="horizontal">
+              <ResizablePanel defaultSize={50}>
+                <ConsolePanel
+                  result={messages}
+                  status={status}
+                  onSelectOption={handleSelectedConsoleOption}
+                  preserveLogs={preserveLogs}
+                />
+              </ResizablePanel>
+              <ResizableHandle />
+              <ResizablePanel defaultSize={50}>
+                {/* Judge panel */}
+                <ConsolePanel
+                  result={messages}
+                  status={status}
+                  onSelectOption={handleSelectedConsoleOption}
+                  preserveLogs={preserveLogs}
+                />
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          </ResizablePanel>
+        </ResizablePanelGroup>
       </Main.Content>
     </Main>
   );
