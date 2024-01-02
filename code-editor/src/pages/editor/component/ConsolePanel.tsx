@@ -22,51 +22,111 @@ const Preview = forwardRef(
     </pre>
   )
 );
+
 Preview.displayName = "Preview";
+
+interface ReferenceTypeWrapperProps {
+  children: React.ReactNode;
+  onClickExpand: (
+    e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
+  ) => void;
+  expand?: boolean;
+}
+const ReferenceTypeWrapper = ({
+  children,
+  onClickExpand,
+  expand,
+}: ReferenceTypeWrapperProps) => (
+  <div
+    role="button"
+    tabIndex={0}
+    onClick={onClickExpand}
+    onKeyDown={onClickExpand}
+    className={clsx(
+      "flex gap-x-2 outline-none",
+      !expand ? "flex-row items-center" : `flex-col`
+    )}
+  >
+    {children}
+  </div>
+);
+
 interface CodePreviewerProps {
   arg: unknown;
+  depth: number;
 }
 
-const CodePreviewer = ({ arg }: CodePreviewerProps) => {
+const CodePreviewer = ({ arg, depth }: CodePreviewerProps) => {
   const [toggle, setToggle] = useState(false);
   const Icon = toggle ? ChevronDownIcon : ChevronRightIcon;
+  const renderIcon = <Icon className="h-5 w-5 outline-none" />;
+  let appendDepth = depth;
 
-  const handleExpand = () => {
+  const handleExpand = (
+    e: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
+  ) => {
+    e.stopPropagation();
     setToggle((prev) => !prev);
   };
 
-  if (typeof arg === "object" || arg instanceof Set || arg instanceof Map) {
+  if (Array.isArray(arg) || arg instanceof Set) {
+    appendDepth += 1;
+    const isSet = arg instanceof Set;
+    const toArray = isSet ? Array.from(arg) : arg;
     return (
-      <div
-        className={clsx(
-          "flex gap-x-1",
-          !toggle ? "items-center flex-row" : "flex-col"
-        )}
-      >
+      <ReferenceTypeWrapper expand={toggle} onClickExpand={handleExpand}>
         <div className="flex">
-          <Icon
-            role="button"
-            tabIndex={0}
-            className="h-5 w-5 outline-none"
-            onClick={handleExpand}
-          />
-
-          <Preview className="text-teal-500">
-            {Array.isArray(arg) ? `Array (${arg.length})` : "Object"}
-          </Preview>
+          {renderIcon}
+          <Preview className="text-teal-500">{`${arg.constructor.name}(${toArray.length})`}</Preview>
         </div>
 
-        {toggle && (
-          <Preview className={clsx(toggle && "w-28")}>
-            {JSON.stringify(arg, null, 2)}
-          </Preview>
-        )}
-      </div>
+        {toArray.map((item, i) => (
+          <span key={i} className={clsx(toggle ? "flex" : "hidden")}>
+            {toggle && <Preview className="ml-5 font-semibold">{i}: </Preview>}
+            <CodePreviewer arg={item} depth={appendDepth} />
+          </span>
+        ))}
+      </ReferenceTypeWrapper>
     );
   }
 
-  if (typeof arg === "number" || typeof arg === "bigint") {
-    return <Preview className="text-purple-600">{String(arg)}</Preview>;
+  if (typeof arg === "object" && arg !== null) {
+    appendDepth += 1;
+    const isMap = arg instanceof Map;
+    const toObject = isMap ? Object.fromEntries(arg) : arg;
+    return (
+      <ReferenceTypeWrapper expand={toggle} onClickExpand={handleExpand}>
+        <div className="flex">
+          {renderIcon}
+          <Preview className="text-teal-500">{arg.constructor.name}</Preview>
+        </div>
+
+        {Object.entries(toObject).map(([key, value]) => (
+          <span key={key} className={clsx(toggle ? "flex" : "hidden")}>
+            {toggle && (
+              <Preview className="ml-5 font-semibold">{`${key}: `}</Preview>
+            )}
+            <CodePreviewer arg={value} depth={appendDepth} />
+          </span>
+        ))}
+      </ReferenceTypeWrapper>
+    );
+  }
+
+  if (
+    typeof arg === "number" ||
+    typeof arg === "bigint" ||
+    typeof arg === "boolean"
+  ) {
+    return <Preview className={clsx("text-purple-500")}>{String(arg)}</Preview>;
+  }
+
+  if (typeof arg === "symbol" || typeof arg === "undefined" || arg === null) {
+    return (
+      <Preview className={clsx("text-secondary-2 opacity-50")}>
+        {String(arg)}
+      </Preview>
+    );
   }
 
   return <Preview>{String(arg)}</Preview>;
@@ -83,7 +143,7 @@ interface ConsolePanelProps {
 
 const statusColorMap: Record<Status, string> = {
   error: "text-error-main",
-  success: "text-gray-400",
+  success: "text-secondary-2",
 };
 
 export const consoleOptions: Record<ConsoleType, string> = {
@@ -149,7 +209,7 @@ export const ConsolePanel = ({
           )}
         >
           {args.map((arg, i) => (
-            <CodePreviewer key={i} arg={arg} />
+            <CodePreviewer depth={0} key={i} arg={arg} />
           ))}
         </div>
       ))}
