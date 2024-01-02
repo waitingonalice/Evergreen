@@ -83,7 +83,7 @@ export const generateAuthToken = (user: UserType, secret: string) => {
       },
     },
     secret,
-    { expiresIn: "15min" }
+    { expiresIn: "1h" }
   );
   return auth;
 };

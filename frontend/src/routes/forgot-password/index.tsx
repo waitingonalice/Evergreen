@@ -1,7 +1,8 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import { Button, Text } from "@waitingonalice/design-system";
 import { useState } from "react";
 import { z } from "zod";
-import { Button, Input, Spinner, Text } from "~/components";
+import { Input, Spinner } from "~/components";
 import { clientRoutes } from "~/constants";
 import { logout, useForm } from "~/utils";
 import { useForgotPassword } from "./loaders/forgotPassword";
@@ -36,7 +37,7 @@ const ForgotPassword = () => {
       <>
         {data?.result || error ? (
           <div className="flex flex-col gap-y-4 items-center">
-            <CheckCircleIcon className="w-20 h-20 text-primary mt-8" />
+            <CheckCircleIcon className="w-20 h-20 text--main mt-8" />
             <Text type="subhead-2" className="text-center">
               A link to reset your password has been sent to your email address.
             </Text>
@@ -46,10 +47,10 @@ const ForgotPassword = () => {
           </div>
         ) : (
           <div className="flex flex-col gap-y-4">
-            <Text type="subhead-1" className="text-primary">
+            <Text type="subhead-1" className="text-primary-main">
               Forgot Password
             </Text>
-            <Text className="text-dark my-4" type="body-bold">
+            <Text className="text-secondary-5 my-4" type="body-bold">
               Enter your email for verification
             </Text>
             <Input

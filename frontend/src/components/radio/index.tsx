@@ -38,9 +38,9 @@ export const Radio = ({
           value={value}
           onChange={handleOnChange}
           className={clsx(
-            "w-4 h-4 border-gray-400 focus:ring-primary-2 focus:ring-2 bg-white transition-all duration-100",
+            "w-4 h-4 border-gray-400 focus:ring-primary-dark focus:ring-2 bg-white transition-all duration-100",
             disabled && "cursor-not-allowed bg-disabled",
-            checked && "text-primary"
+            checked && "text-primary-main"
           )}
         />
 

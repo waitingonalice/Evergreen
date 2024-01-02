@@ -13,3 +13,7 @@ export const setLocalStorage = (key: string, value: object | string) => {
     localStorage.setItem(key, value);
   }
 };
+
+export const removeLocalStorage = (key: string) => {
+  localStorage.removeItem(key);
+};

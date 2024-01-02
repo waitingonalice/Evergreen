@@ -1,10 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 import { Dialog, Transition } from "@headlessui/react";
+import {
+  Button,
+  ButtonProps,
+} from "@waitingonalice/design-system/components/button";
+import { Text } from "@waitingonalice/design-system/components/text";
 import { Fragment } from "react";
 import clsx from "clsx";
-import { ButtonProps } from "../button";
-import { Text } from "../text";
-import { Button } from "..";
+import { inter } from "~/utils";
 
 interface ModalProps {
   open: boolean;
@@ -64,10 +67,11 @@ export function Modal({
               <Dialog.Panel
                 className={clsx(
                   "transform overflow-hidden rounded-md bg-white text-left align-middle shadow-xl transition-all",
-                  sizeMapper[size]
+                  sizeMapper[size],
+                  inter.className
                 )}
               >
-                <Text className="text-dark p-6" type="subhead-2-bold">
+                <Text className="text-secondary-5 p-6" type="subhead-2-bold">
                   {title}
                 </Text>
                 {children && (

@@ -6,28 +6,29 @@ import {
   XMarkIcon,
 } from "@heroicons/react/20/solid";
 import { UserIcon } from "@heroicons/react/24/outline";
+import { Button } from "@waitingonalice/design-system/components/button";
+import { Text } from "@waitingonalice/design-system/components/text";
 import { Fragment, useState } from "react";
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import { Button, Modal, Text } from "~/components";
+import { Modal } from "~/components";
 import { useAppContext } from "~/components/app-context";
-import { ButtonProps } from "~/components/button";
 import { clientRoutes } from "~/constants";
 
 interface TopbarProps {
-  children?: React.ReactNode;
-  buttons?: ButtonProps[];
+  leftChildren?: React.ReactNode;
+  rightChildren?: React.ReactNode;
   onBackClick?: () => void;
   className?: string;
   title?: string;
 }
 
 const Topbar = ({
-  buttons,
   className,
   onBackClick,
   title,
-  children,
+  leftChildren,
+  rightChildren,
 }: TopbarProps) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -71,8 +72,7 @@ const Topbar = ({
       />
       <nav
         className={clsx(
-          "sticky top-0 px-4 py-3 bg-white border-b border-primary-2 flex items-center z-30 gap-x-4 w-full justify-between",
-          className
+          "sticky top-0 px-4 py-3 border-b bg-secondary-5 border-gray-400 flex items-center z-30 gap-x-4 w-full justify-between"
         )}
       >
         <span className="flex items-center">
@@ -81,38 +81,31 @@ const Topbar = ({
               {onBackClick && (
                 <>
                   <Button variant="primaryLink" onClick={onBackClick}>
-                    <XMarkIcon className="h-5 w-auto" />
+                    <XMarkIcon className="h-5 w-auto text-primary-main" />
                   </Button>
-                  <div className="border-l border-gray-400 h-5" />
+                  <div className="border-l border-gray-400 h-6" />
                 </>
               )}
               {title && (
-                <Text type="body-bold" className="text-dark whitespace-nowrap">
+                <Text
+                  type="subhead-2-bold"
+                  className="text-secondary-4 whitespace-nowrap"
+                >
                   {title}
                 </Text>
               )}
             </span>
           )}
-          <div className="flex gap-x-4 ml-16">{children}</div>
+          <div className={clsx("flex gap-x-4 ml-16 items-center", className)}>
+            {leftChildren}
+          </div>
         </span>
 
-        <div className="flex items-center">
-          {buttons?.map((item, index) => (
-            <Button
-              size={item.size ?? "small"}
-              {...item}
-              variant={item.variant ?? "primary"}
-              key={index}
-              onClick={item.onClick}
-              className={clsx("mr-4", item.className)}
-            >
-              {item.children}
-            </Button>
-          ))}
-          <Menu as="div" className="relative">
-            <Menu.Button className="items-center flex transition duration-100 ease-out rounded-full focus:outline-none focus:ring-2 focus:ring-primary-2">
-              {/* TODO: integrate profile avatar */}
-              <Cog8ToothIcon className="h-5 w-auto text-primary" />
+        <div className="relative items-center flex transition duration-100 ease-out gap-x-4">
+          {rightChildren}
+          <Menu as="div">
+            <Menu.Button className="rounded-full focus:outline-none focus:ring-2 focus:ring-primary-dark flex items-center">
+              <Cog8ToothIcon className="h-5 w-auto text-primary-main" />
             </Menu.Button>
             <Transition
               as={Fragment}
@@ -123,14 +116,14 @@ const Topbar = ({
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute right-0 z-10 mt-2 min-w-[200px] w-fit rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute right-0 mt-2 z-10 min-w-[200px] w-fit rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
                 {navigation.map(({ href, name, onClick }) => (
                   <Menu.Item key={name}>
                     {href ? (
                       <a
                         href={href}
                         className={clsx(
-                          "px-4 py-2 hover:bg-gray-100 text-primary flex gap-x-2"
+                          "rounded-md min-w-[200px] flex p-2 truncate items-center gap-x-2 hover:text-secondary-1 hover:bg-primary-main text-primary-main"
                         )}
                       >
                         <UserIcon className="h-5 w-auto" />
@@ -140,18 +133,18 @@ const Topbar = ({
                       <>
                         <div
                           className={clsx(
-                            "px-4 py-2 flex gap-x-2 cursor-pointer hover:bg-gray-100 text-primary"
+                            "rounded-md min-w-[200px] flex p-2 truncate items-center gap-x-2 hover:text-secondary-1 hover:bg-primary-main text-primary-main"
                           )}
                           role="button"
                           tabIndex={0}
                           aria-hidden="true"
                           onClick={onClick}
                         >
-                          <ArrowRightOnRectangleIcon className="h-5 w-auto text-primary" />
+                          <ArrowRightOnRectangleIcon className="h-5 w-auto" />
                           <Text type="body-bold">Sign out</Text>
                         </div>
                         {user && (
-                          <div className="mx-4 my-2 text-dark">
+                          <div className="mx-4 my-2 text-secondary-5">
                             <Text type="body" className="pt-2 border-t">
                               {fullName.toUpperCase()}
                             </Text>

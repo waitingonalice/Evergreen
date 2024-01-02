@@ -52,11 +52,11 @@ export const Tooltip = ({
         )}
       >
         {title && (
-          <Text type="body-bold" className="mb-2 text-dark">
+          <Text type="body-bold" className="mb-2 text-secondary-5">
             {title}
           </Text>
         )}
-        <Text type="caption" className="text-dark">
+        <Text type="caption" className="text-secondary-5">
           {description}
         </Text>
       </div>

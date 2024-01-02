@@ -120,17 +120,14 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
   try {
     if (!process.env.SESSION_SECRET) throw new Error("SESSION_SECRET not set");
     const decoded = jwt.verify(input.refreshToken, process.env.SESSION_SECRET);
-    const { id } = decoded as DecodedToken;
-
-    const user = await prisma.account.findUnique({ where: { id } });
+    const { data } = decoded as DecodedToken;
+    const user = await prisma.account.findUnique({ where: { id: data.id } });
     if (!user) throw new Error(ErrorEnum.INVALID_REFRESH_TOKEN);
 
     const auth = generateAuthToken(user, process.env.SESSION_SECRET);
-    return res.status(200).json({ result: { auth } });
+    res.status(200).json({ result: { auth } });
   } catch (err) {
-    if (err instanceof Error)
-      return res.status(401).json({ code: err.message });
-    return res.status(500).json({ code: ErrorEnum.INTERNAL_SERVER_ERROR });
+    if (err instanceof Error) res.status(500).json({ code: err.message });
   }
 };
 

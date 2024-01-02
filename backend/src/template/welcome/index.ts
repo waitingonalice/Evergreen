@@ -453,7 +453,7 @@ const welcomeTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transition
                   href="https://example.com"
                   class="f-fallback email-masthead_name"
                 >
-                  Expense Tracker
+                  Evergreen
                 </a>
               </td>
             </tr>
@@ -482,7 +482,6 @@ const welcomeTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transition
                           This is a hobby project that I've been working on for
                           a while now to brush up on certain technologies and to
                           also create an application that I'll be keen on using.
-                          Beyond this page lies a world of expense tracking.
                         </p>
 
                         <p>

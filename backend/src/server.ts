@@ -15,13 +15,21 @@ const initServer = () => {
   }
   const PORT: number = parseInt(process.env.PORT, 10);
   const app = express();
-  app.use(cors());
-  app.use(express.json());
-  app.use(helmet());
-  app.get("/", (_: Request, res: Response) => res.send(welcomeTemplate));
 
-  app.use(routes.auth, AuthRouter);
-  app.use(routes.api.v1, V1Router);
+  const mountMiddleware = () => {
+    app.use(cors());
+    app.use(express.json());
+    app.use(helmet());
+  };
+
+  const mountRoutes = () => {
+    app.get("/", (_: Request, res: Response) => res.send(welcomeTemplate));
+    app.use(routes.auth, AuthRouter);
+    app.use(routes.api.v1, V1Router);
+  };
+
+  mountMiddleware();
+  mountRoutes();
 
   app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);

@@ -94,8 +94,8 @@ const FormInput = forwardRef(
               size === "small" ? "py-1" : "py-2",
               "block w-full rounded-md border-0 text-sm tracking-wide placeholder-gray-300 ring-1 transition-all duration-100 focus:ring-2 focus:ring-offset-1",
               error
-                ? "focus:ring-errorMain ring-errorMain text-errorMain"
-                : "focus:ring-primary-2 text-dark ring-gray-400",
+                ? "focus:ring-error-main ring-error-main text-error-main"
+                : "focus:ring-primary-dark text-secondary-5 ring-gray-400",
               (isPassword || error) && "pr-10",
               prefixIcon && "pl-10"
             )}
@@ -111,7 +111,7 @@ const FormInput = forwardRef(
               )}
             >
               <ExclamationCircleIcon
-                className="text-errorMain h-5 w-5"
+                className="text-error-main h-5 w-5"
                 aria-hidden="true"
               />
             </div>

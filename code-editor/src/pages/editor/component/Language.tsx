@@ -8,7 +8,7 @@ export const Language = () => {
     <>
       <div ref={ref}>
         <CodeBracketIcon
-          className="w-5 h-auto text-primary"
+          className="w-5 h-auto text-secondary-4 hover:text-secondary-1 transition duration-300"
           onMouseEnter={() => onHover("in")}
           onMouseLeave={() => onHover("out")}
         />
@@ -17,6 +17,7 @@ export const Language = () => {
           targetElement={ref.current}
           position="bottom"
           description="Typescript"
+          className="pt-1"
         />
       </div>
     </>

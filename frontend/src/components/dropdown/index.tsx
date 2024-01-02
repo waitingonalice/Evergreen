@@ -1,29 +1,29 @@
 import { Menu, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
-import { Option } from "~/components/forms/FormSelect";
+import clsx from "clsx";
+import { Option } from "~/utils/types";
 import { Text } from "../text";
 
-interface ExtendedOption extends Option {
-  renderLabel?: (label: string) => React.ReactNode;
-}
-export interface DropdownProps {
+export interface DropdownProps<T> {
   button: React.ReactNode;
-  options: ExtendedOption[];
-  onSelect?: (value: string) => void;
-  selectedValue: string;
-  withCheckmark?: boolean;
+  options: Option[];
+  onSelect?: (value: T) => void;
+  selectedValue?: string;
+  menuClassName?: string;
+  theme?: "light" | "dark";
 }
-export const Dropdown = ({
+export const Dropdown = <T,>({
   button,
   options,
   onSelect,
   selectedValue,
-  withCheckmark,
-}: DropdownProps) => {
+  menuClassName,
+  theme = "light",
+}: DropdownProps<T>) => {
   const handleSelect = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    value: string
+    value: T
   ) => {
     e.stopPropagation();
     if (onSelect) onSelect(value);
@@ -32,7 +32,7 @@ export const Dropdown = ({
     <Menu as="div" className="relative">
       <Menu.Button className="items-center flex transition duration-100 ease-out">
         {typeof button === "string" ? (
-          <Text type="body-bold" className="text-dark">
+          <Text type="body-bold" className="text-secondary-5">
             {button}
           </Text>
         ) : (
@@ -48,21 +48,27 @@ export const Dropdown = ({
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute z-10 mt-2 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-80 overflow-y-auto">
+        <Menu.Items
+          className={clsx(
+            "absolute z-10 mt-2 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-80 overflow-y-auto p-1",
+            menuClassName,
+            theme === "light" ? "bg-secondary-1" : "bg-secondary-5"
+          )}
+        >
           {options?.map(({ label, value, renderLabel }) => (
             <Menu.Item key={value}>
               <button
                 type="button"
-                className="hover:bg-gray-100 min-w-[200px] flex justify-between p-2 truncate items-center gap-x-2"
-                onClick={(e) => handleSelect(e, value)}
+                className="rounded-md min-w-[200px] flex justify-between p-2 truncate items-center gap-x-2 hover:text-secondary-1 hover:bg-primary-main text-primary-main"
+                onClick={(e) => handleSelect(e, value as T)}
               >
                 {renderLabel ? (
                   renderLabel(label)
                 ) : (
-                  <Text type="body">{label}</Text>
+                  <Text type="body-bold">{label}</Text>
                 )}
-                {withCheckmark && value === selectedValue && (
-                  <CheckIcon className="h-4 w-4 text-primary" />
+                {selectedValue && value === selectedValue && (
+                  <CheckIcon className="h-4 w-4" />
                 )}
               </button>
             </Menu.Item>

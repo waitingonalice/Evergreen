@@ -248,21 +248,3 @@ export enum CountryEnum {
   ZM = "Zambia",
   ZW = "Zimbabwe",
 }
-
-export enum CategoryEnum {
-  HOUSING = "Housing",
-  TRANSPORTATION = "Transportation",
-  FOOD = "Food",
-  UTILITIES = "Utilities",
-  INSURANCE = "Insurance",
-  MEDICAL = "Medical And Healthcare",
-  SAVINGS = "Savings",
-  PERSONAL_SPENDING = "Personal Spending",
-  ENTERTAINMENT = "Entertainment",
-  MISCELLANEOUS = "Miscellaneous",
-}
-
-export enum TransactionTypeEnum {
-  EXPENSE = "EXPENSE",
-  INCOME = "INCOME",
-}

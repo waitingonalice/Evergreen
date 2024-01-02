@@ -1,10 +1,10 @@
+import { Button, Checkbox, Text } from "@waitingonalice/design-system";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { Button, Checkbox, Input, Spinner, Text } from "~/components";
+import { Input, Spinner } from "~/components";
 import { clientRoutes } from "~/constants";
-import { useForm, useKeypress } from "~/utils";
-import { setCookie } from "~/utils/cookie";
+import { setCookie, useForm, useKeypress } from "~/utils";
 import { MessageBox } from "./components/MessageBox";
 import { useRememberMe } from "./hooks/useRememberMe";
 import { InputValuesType, useLogin } from "./loaders/login";
@@ -51,7 +51,7 @@ const Login = () => {
       setCookie(
         "refreshToken",
         result.tokens.refresh,
-        ...(values.rememberMe ? [{ expires: 30 }] : [])
+        ...(values.rememberMe ? [{ expires: 30 }] : []) // if rememberMe is true, set cookie expiry to 30 days
       );
       navigate(clientRoutes.dashboard.index);
     }
@@ -60,7 +60,7 @@ const Login = () => {
   return (
     <div className="flex flex-col w-full gap-y-4 max-w-md">
       <MessageBox error={error} />
-      <Text type="subhead-1" className="text-primary mb-4">
+      <Text type="subhead-1" className="text-primary-main mb-4">
         Login
       </Text>
       <Input

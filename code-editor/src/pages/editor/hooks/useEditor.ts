@@ -1,19 +1,27 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { EditorProps, Monaco } from "@monaco-editor/react";
+/* eslint-disable no-new-func */
+import { EditorProps } from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
-import { getLocalStorage, setLocalStorage } from "~/utils";
+import {
+  getLocalStorage,
+  removeLocalStorage,
+  setLocalStorage,
+  useDebouncedCallback,
+  useKeybind,
+} from "~/utils";
+import { transpile } from "~/utils/transpile";
+import { ConsoleMethod, interceptConsole } from "../utils/interceptor";
 import { defaultEditorThemes, defineTheme, monacoThemes } from "../utils/theme";
 
-const defaultString = `// Welcome to Code Editor!
-console.log("Hi Mom")`;
+export type Status = "error" | "success";
+export type Result = {
+  args: unknown[];
+};
 
 const initialOptions: EditorProps = {
-  height: "50vh",
+  height: "49vh",
   defaultLanguage: "typescript",
-  defaultValue: defaultString,
+  defaultValue: `// Welcome to Code Editor!`,
   options: {
-    wrappingIndent: "indent",
-    wrappingStrategy: "advanced",
     fontSize: 16,
     tabSize: 2,
     minimap: {
@@ -25,24 +33,49 @@ const initialOptions: EditorProps = {
 };
 
 let initMount = true;
+// temporary storage to capture console statements
+let consoleResults: Result[] = [];
+let status: Status = "success";
+let babelParser: typeof import("prettier/parser-babel") | null = null;
+let prettier: typeof import("prettier/standalone") | null = null;
 
+/** Flow of execution
+ * 1. user types code
+ * 2. transpile
+ * 3. run eval
+ * 4. while executing eval, capture console statements
+ * 5. after end of eval, set display
+ * 6. reset captured results to not duplicate them on the next eval.
+ * */
 export const useEditor = () => {
+  const editorRef = useRef<any>(null);
   const [editorOptions, setEditorOptions] =
     useState<EditorProps>(initialOptions);
-  const editorRef = useRef<Monaco>(null);
-  const [input, setInput] = useState<string | undefined>(
-    editorOptions.defaultValue
-  );
+  const [executedCode, setExecutedCode] = useState<Result[]>([]);
+  const [preserveLogs, setPreserveLogs] = useState<boolean>(false);
+  const [input, setInput] = useState<string>("");
 
-  const onChange = (newValue?: string) => {
-    setInput(newValue);
-  };
-  const onMount = (editor: Monaco) => {
-    editorRef.current = editor;
-    editorRef.current.focus();
+  const handleClearConsole = () => {
+    consoleResults = [];
+    setExecutedCode(consoleResults);
   };
 
-  const onSelectTheme = async (value: string) => {
+  const handleClearInput = () => {
+    setInput("");
+  };
+
+  const handlePreserveLog = () => {
+    setPreserveLogs((prev) => {
+      setLocalStorage("logStatus", String(!prev));
+      if (!prev === false) {
+        removeLocalStorage("preserveLogs");
+        removeLocalStorage("logStatus");
+      }
+      return !prev;
+    });
+  };
+
+  const handleSelectTheme = async (value: string) => {
     const updateOptions = (options: EditorProps) => {
       const newOptions = { ...options, theme: value };
       setLocalStorage("editorTheme", value);
@@ -56,23 +89,107 @@ export const useEditor = () => {
     }
   };
 
+  const debounceExecute = useDebouncedCallback(
+    async (value: string) => {
+      try {
+        const code = await transpile(value);
+        new Function(code)();
+        setExecutedCode(consoleResults);
+        status = "success";
+        consoleResults = [];
+        if (preserveLogs) setLocalStorage("preserveLogs", value);
+      } catch (err) {
+        console.error(err);
+        if (err instanceof Error) {
+          status = "error";
+          consoleResults = [];
+          setExecutedCode([
+            {
+              args: [err.message],
+            },
+          ]);
+        }
+      }
+    },
+    300,
+    [preserveLogs]
+  );
+
+  const handleOnChange = (newValue?: string) => {
+    setInput(newValue || "");
+    debounceExecute(newValue || "");
+  };
+
+  const handleIntercept = (consoleArgs: unknown[], type: ConsoleMethod) => {
+    if (type === "clear") {
+      handleClearConsole();
+      return;
+    }
+    if (!consoleArgs || consoleArgs.length === 0) return;
+
+    // TODO: Upgrade this to support showing prototypes of objects.
+    consoleResults.push({
+      args: consoleArgs,
+    });
+  };
+
+  const handleOnMountEditor = (editor: any) => {
+    editorRef.current = editor;
+    editorRef.current.focus();
+  };
+
+  const handleMountLocalStorage = () => {
+    const code = getLocalStorage<string>("preserveLogs");
+    const logStatus = getLocalStorage<string>("logStatus");
+    const theme = getLocalStorage<string>("editorTheme");
+    setPreserveLogs(Boolean(logStatus));
+    if (code) {
+      setEditorOptions((prev) => ({ ...prev, defaultValue: code }));
+      handleOnChange(code);
+    }
+    if (theme) handleSelectTheme(theme ?? "light");
+  };
+
   useEffect(() => {
     if (initMount) {
-      const theme = getLocalStorage<string>("editorTheme");
-      if (theme) onSelectTheme(theme ?? "light");
+      handleMountLocalStorage();
+      interceptConsole(handleIntercept);
     }
-
     return () => {
       initMount = false;
     };
   }, []);
 
+  useKeybind(["MetaLeft", "KeyS"], (e) => {
+    const handleFormatCode = async () => {
+      e.preventDefault();
+      const unformattedCode = editorRef.current?.getValue();
+      if (!babelParser || !prettier) {
+        babelParser = await import("prettier/parser-babel");
+        prettier = await import("prettier/standalone");
+      }
+      const formattedCode = prettier?.format(unformattedCode, {
+        parser: "babel",
+        ...(babelParser && { plugins: [babelParser] }),
+        printWidth: 80,
+      });
+      editorRef.current?.setValue(formattedCode);
+    };
+    handleFormatCode();
+  });
+
   return {
     editorOptions,
     editorRef,
+    messages: executedCode,
     input,
-    onChange,
-    onMount,
-    onSelectTheme,
+    status,
+    preserveLogs,
+    handleClearInput,
+    handleOnChange,
+    handleOnMount: handleOnMountEditor,
+    handleSelectTheme,
+    handleClearConsole,
+    handlePreserveLog,
   };
 };

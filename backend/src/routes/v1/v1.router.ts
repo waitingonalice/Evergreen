@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { routes } from "~/constants/routes";
-import { TransactionRouter } from "./transaction";
+import { PlaygroundRouter } from "./playground";
 
 export const V1Router = Router();
 
-V1Router.use(routes.api.user, TransactionRouter);
+V1Router.use(PlaygroundRouter);

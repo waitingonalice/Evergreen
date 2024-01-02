@@ -1,5 +1,5 @@
 export const api = import.meta.env.VITE_ENDPOINT_URL;
-const authRoute = (toPath: string) => `/app${toPath}`;
+const appRoute = (toPath: string) => `/app${toPath}`;
 
 export const clientRoutes = {
   root: "/",
@@ -11,24 +11,22 @@ export const clientRoutes = {
     resetPassword: "/set-password",
   },
 
-  profile: { index: authRoute("/profile") },
-
+  profile: { index: appRoute("/profile") },
   dashboard: {
-    index: authRoute("/dashboard"),
+    index: appRoute("/dashboard"),
   },
   codeEditor: {
-    // TODO: update this
-    index: "http://localhost:3001/app/playground",
+    index: import.meta.env.VITE_PLAYGROUND_URL,
   },
 };
 
 export const apiRoutes = {
   auth: {
-    register: `${api}auth/register`,
-    verify: (token: string) => `${api}auth/verify/${token}`,
-    login: `${api}auth/login`,
-    refreshToken: `${api}auth/refresh-token`,
-    forgotPassword: `${api}auth/forgot-password`,
-    resetPassword: (token: string) => `${api}auth/set-password/${token}`,
+    register: `${api}/auth/register`,
+    verify: (token: string) => `${api}/auth/verify/${token}`,
+    login: `${api}/auth/login`,
+    refreshToken: `${api}/auth/refresh-token`,
+    forgotPassword: `${api}/auth/forgot-password`,
+    resetPassword: (token: string) => `${api}/auth/set-password/${token}`,
   },
 };

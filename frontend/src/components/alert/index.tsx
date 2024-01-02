@@ -21,16 +21,16 @@ const icon = (type: AlertProps["type"]) => {
   switch (type) {
     case "error":
       return (
-        <ExclamationCircleIcon className={clsx("text-errorMain", baseClass)} />
+        <ExclamationCircleIcon className={clsx("text-error-dark", baseClass)} />
       );
     case "success":
       return (
-        <CheckCircleIcon className={clsx("text-successSecondary", baseClass)} />
+        <CheckCircleIcon className={clsx("text-success-dark", baseClass)} />
       );
     case "warning":
       return (
         <ExclamationCircleIcon
-          className={clsx("text-warningSecondary", baseClass)}
+          className={clsx("text-warning-dark", baseClass)}
         />
       );
     default:
@@ -51,9 +51,9 @@ export const Alert = ({
   };
 
   const alertBgType = {
-    error: "bg-errorLight text-errorMain",
-    success: "bg-successMain text-successTertiary",
-    warning: "bg-warningMain text-warningTertiary",
+    error: "bg-error-light text-error-dark",
+    success: "bg-success-light text-success-dark",
+    warning: "bg-warning-light text-warning-dark",
   };
 
   return (
@@ -87,7 +87,7 @@ export const Alert = ({
           <XMarkIcon
             role="button"
             tabIndex={0}
-            className="w-5 ml-4 text-standard"
+            className="w-5 ml-4 text-secondary-4"
             onClick={handleOnClose}
           />
         )}
