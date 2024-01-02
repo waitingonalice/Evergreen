@@ -230,10 +230,17 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.22.5"
 
-"@babel/runtime@^7.12.5", "@babel/runtime@^7.13.10", "@babel/runtime@^7.23.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2":
+"@babel/runtime@^7.12.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2":
   version "7.23.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.6.tgz#c05e610dc228855dc92ef1b53d07389ed8ab521d"
   integrity sha512-zHd0eUrf5GZoOWVCXp6koAKQTfZV07eit6bGPmJgnZdnSAvvZee6zniW2XMF7Cmc4ISOOnPy3QaSiIJGJkVEDQ==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
+"@babel/runtime@^7.13.10", "@babel/runtime@^7.23.5":
+  version "7.23.7"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.7.tgz#dd7c88deeb218a0f8bd34d5db1aa242e0f203193"
+  integrity sha512-w06OXVOFso7LcbzMiDGt+3X7Rh7Ho8MmgPoWU3rarH+8upf+wSU/grlGbWzQyr3DkdN6ZeuMFjpdwW0Q+HxobA==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -1793,10 +1800,10 @@
     magic-string "^0.27.0"
     react-refresh "^0.14.0"
 
-"@waitingonalice/design-system@^1.1.22":
-  version "1.1.22"
-  resolved "https://registry.yarnpkg.com/@waitingonalice/design-system/-/design-system-1.1.22.tgz#7f5205398ed48fa227fdb62db5aa5f55fa12f4b9"
-  integrity sha512-e+QhSHSvxNAYB6DOx+zDfAROfa+1LFramp+cPW0De+/0Lz/sk1KweHQ17e65TnlEvcVCJMsQSH/bKyPTQDe7Pw==
+"@waitingonalice/design-system@1.1.24":
+  version "1.1.24"
+  resolved "https://registry.yarnpkg.com/@waitingonalice/design-system/-/design-system-1.1.24.tgz#3aa0996266fa38b6cf041042835e153149e0812e"
+  integrity sha512-X+mLTSzebCxN2uaoIc4LyPYlWYTn88FW32ZbMkzV23x7Fem3eyarfpaAlieZcgmVkJVwMvZAZzG2JVg1Dwnaxg==
   dependencies:
     "@radix-ui/react-toast" "^1.1.5"
     class-variance-authority "^0.7.0"
@@ -7594,9 +7601,9 @@ react-refresh@^0.14.0:
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
 react-resizable-panels@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/react-resizable-panels/-/react-resizable-panels-1.0.5.tgz#f6274758eb5f05a3fb85a077ac55f937a4dc8d80"
-  integrity sha512-OP0whNQCko+f4BgoptGaeIc7StBRyeMeJ+8r/7rXACBDf9W5EcMWuM32hfqPDMenS2HFy/eZVi/r8XqK+ZIEag==
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-resizable-panels/-/react-resizable-panels-1.0.7.tgz#f48b4dd42f143bde01a0441580578806fadc16eb"
+  integrity sha512-CluJkHQheeNqIJly2FYDfri3ME+2h2nCXpf0Y+hTO1K1eVtNxXFA5hVp5cUD6NS70iiufswOmnku9QZiLr1hYg==
 
 react-router-dom@^6.6.1:
   version "6.21.0"

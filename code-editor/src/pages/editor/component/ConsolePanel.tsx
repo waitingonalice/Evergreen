@@ -121,7 +121,7 @@ const CodePreviewer = ({ arg, depth }: CodePreviewerProps) => {
     return <Preview className={clsx("text-purple-500")}>{String(arg)}</Preview>;
   }
 
-  if (typeof arg === "symbol" || typeof arg === "undefined" || arg === null) {
+  if (typeof arg === "undefined" || arg === null) {
     return (
       <Preview className={clsx("text-secondary-2 opacity-50")}>
         {String(arg)}
