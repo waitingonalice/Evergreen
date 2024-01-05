@@ -94,10 +94,7 @@ export const useEditor = () => {
 
   const handleDelayedExecutionError = () => {
     if (currentWorker && status === "running") {
-      setTimeout(
-        () => handleExecutionError("Code execution timed out. "),
-        2000
-      );
+      setTimeout(() => handleExecutionError("Code execution timed out."), 2000);
     }
   };
 
