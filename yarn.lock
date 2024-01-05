@@ -1188,6 +1188,20 @@
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-compose-refs" "1.0.1"
 
+"@radix-ui/react-switch@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-switch/-/react-switch-1.0.3.tgz#6119f16656a9eafb4424c600fdb36efa5ec5837e"
+  integrity sha512-mxm87F88HyHztsI7N+ZUmEoARGkC22YVW5CaC+Byc+HRpuvCrOBPTAnXgf+tZ/7i0Sg/eOePGdMhUKhPaQEqow==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/primitive" "1.0.1"
+    "@radix-ui/react-compose-refs" "1.0.1"
+    "@radix-ui/react-context" "1.0.1"
+    "@radix-ui/react-primitive" "1.0.3"
+    "@radix-ui/react-use-controllable-state" "1.0.1"
+    "@radix-ui/react-use-previous" "1.0.1"
+    "@radix-ui/react-use-size" "1.0.1"
+
 "@radix-ui/react-toast@^1.1.5":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-toast/-/react-toast-1.1.5.tgz#f5788761c0142a5ae9eb97f0051fd3c48106d9e6"
@@ -1236,6 +1250,21 @@
   integrity sha512-v/5RegiJWYdoCvMnITBkNNx6bCj20fiaJnWtRkU18yITptraXjffz5Qbn05uOiQnOvi+dbkznkoaMltz1GnszQ==
   dependencies:
     "@babel/runtime" "^7.13.10"
+
+"@radix-ui/react-use-previous@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-use-previous/-/react-use-previous-1.0.1.tgz#b595c087b07317a4f143696c6a01de43b0d0ec66"
+  integrity sha512-cV5La9DPwiQ7S0gf/0qiD6YgNqM5Fk97Kdrlc5yBcrF3jyEZQwm7vYFqMo4IfeHgJXsRaMvLABFtd0OVEmZhDw==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+
+"@radix-ui/react-use-size@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-use-size/-/react-use-size-1.0.1.tgz#1c5f5fea940a7d7ade77694bb98116fb49f870b2"
+  integrity sha512-ibay+VqrgcaI6veAojjofPATwledXiSmX+C0KrBk/xgpX9rBzPV3OsfwlhQdUOFbh+LKQorLYT+xTXW9V8yd0g==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/react-use-layout-effect" "1.0.1"
 
 "@radix-ui/react-visually-hidden@1.0.3":
   version "1.0.3"
@@ -1800,11 +1829,12 @@
     magic-string "^0.27.0"
     react-refresh "^0.14.0"
 
-"@waitingonalice/design-system@1.1.24":
-  version "1.1.24"
-  resolved "https://registry.yarnpkg.com/@waitingonalice/design-system/-/design-system-1.1.24.tgz#3aa0996266fa38b6cf041042835e153149e0812e"
-  integrity sha512-X+mLTSzebCxN2uaoIc4LyPYlWYTn88FW32ZbMkzV23x7Fem3eyarfpaAlieZcgmVkJVwMvZAZzG2JVg1Dwnaxg==
+"@waitingonalice/design-system@1.1.25":
+  version "1.1.25"
+  resolved "https://registry.yarnpkg.com/@waitingonalice/design-system/-/design-system-1.1.25.tgz#7ebbea5755b35615cbe55d1cc76e96cc78fd0b41"
+  integrity sha512-/gvrnPCyjvqahASI7SJvhB3YgjVMDsCLvGPMxz42u2lBO2wZpQRYnYd8YBbSE8rI+JOTDcTKOY6Ixya4VXblRQ==
   dependencies:
+    "@radix-ui/react-switch" "^1.0.3"
     "@radix-ui/react-toast" "^1.1.5"
     class-variance-authority "^0.7.0"
     clsx "^2.0.0"

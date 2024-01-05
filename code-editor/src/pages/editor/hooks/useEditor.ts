@@ -9,13 +9,10 @@ import {
   useKeybind,
 } from "~/utils";
 import { transpile } from "~/utils/transpile";
-import { ConsoleMethod, interceptConsole } from "../utils/interceptor";
 import { defaultEditorThemes, defineTheme, monacoThemes } from "../utils/theme";
 
-export type Status = "error" | "success";
-export type Result = {
-  args: unknown[];
-};
+export type Status = "error" | "success" | "running";
+export type Result = unknown[][];
 
 const initialOptions: EditorProps = {
   height: "49vh",
@@ -33,31 +30,30 @@ const initialOptions: EditorProps = {
 };
 
 let initMount = true;
-// temporary storage to capture console statements
-let consoleResults: Result[] = [];
-let status: Status = "success";
 let babelParser: typeof import("prettier/parser-babel") | null = null;
 let prettier: typeof import("prettier/standalone") | null = null;
-
+let status: Status = "success";
+let currentWorker: Worker | null = null;
 /** Flow of execution
  * 1. user types code
  * 2. transpile
- * 3. run eval
+ * 3. run eval in worker
  * 4. while executing eval, capture console statements
  * 5. after end of eval, set display
  * 6. reset captured results to not duplicate them on the next eval.
+ * 7. handle errors if necessary
  * */
+
 export const useEditor = () => {
   const editorRef = useRef<any>(null);
   const [editorOptions, setEditorOptions] =
     useState<EditorProps>(initialOptions);
-  const [executedCode, setExecutedCode] = useState<Result[]>([]);
+  const [executedCode, setExecutedCode] = useState<Result>([]);
   const [preserveLogs, setPreserveLogs] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
 
   const handleClearConsole = () => {
-    consoleResults = [];
-    setExecutedCode(consoleResults);
+    setExecutedCode([]);
   };
 
   const handleClearInput = () => {
@@ -89,48 +85,55 @@ export const useEditor = () => {
     }
   };
 
+  const handleExecutionError = (message: string) => {
+    status = "error";
+    setExecutedCode([[`Error: ${message}`]]);
+    currentWorker?.terminate();
+    currentWorker = null;
+  };
+
+  const handleDelayedExecutionError = () => {
+    if (currentWorker && status === "running") {
+      setTimeout(
+        () => handleExecutionError("Code execution timed out. "),
+        2000
+      );
+    }
+  };
+
+  handleDelayedExecutionError();
+
   const debounceExecute = useDebouncedCallback(
     async (value: string) => {
-      try {
-        const code = await transpile(value);
-        new Function(code)();
-        setExecutedCode(consoleResults);
-        status = "success";
-        consoleResults = [];
-        if (preserveLogs) setLocalStorage("preserveLogs", value);
-      } catch (err) {
-        console.error(err);
-        if (err instanceof Error) {
-          status = "error";
-          consoleResults = [];
-          setExecutedCode([
-            {
-              args: [err.message],
-            },
-          ]);
-        }
+      if (!value) {
+        setExecutedCode([]);
+        return;
       }
+      currentWorker = new Worker("worker.js", { type: "module" });
+      const code = await transpile(value);
+      status = "running";
+      currentWorker.postMessage(code);
+      currentWorker.onmessage = (e) => {
+        const result: Result = e.data;
+        if ("error" in result) {
+          handleExecutionError(result.error as string);
+          return;
+        }
+        status = "success";
+        setExecutedCode(result);
+        currentWorker?.terminate();
+        currentWorker = null;
+        if (preserveLogs) setLocalStorage("preserveLogs", value);
+      };
     },
-    300,
+    500,
     [preserveLogs]
   );
 
   const handleOnChange = (newValue?: string) => {
-    setInput(newValue || "");
-    debounceExecute(newValue || "");
-  };
-
-  const handleIntercept = (consoleArgs: unknown[], type: ConsoleMethod) => {
-    if (type === "clear") {
-      handleClearConsole();
-      return;
-    }
-    if (!consoleArgs || consoleArgs.length === 0) return;
-
-    // TODO: Upgrade this to support showing prototypes of objects.
-    consoleResults.push({
-      args: consoleArgs,
-    });
+    const value = newValue || "";
+    setInput(value);
+    debounceExecute(value);
   };
 
   const handleOnMountEditor = (editor: any) => {
@@ -153,10 +156,11 @@ export const useEditor = () => {
   useEffect(() => {
     if (initMount) {
       handleMountLocalStorage();
-      interceptConsole(handleIntercept);
     }
     return () => {
       initMount = false;
+      if (currentWorker) currentWorker.terminate();
+      currentWorker = null;
     };
   }, []);
 

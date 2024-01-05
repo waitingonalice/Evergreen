@@ -12,6 +12,7 @@ import { clientRoutes } from "~/constants";
 import { useKeybind } from "~/utils";
 import { AddCollection } from "./component/AddToCollection";
 import { ConsolePanel, ConsoleType } from "./component/ConsolePanel";
+import { JudgePanel } from "./component/JudgePanel";
 import { Language } from "./component/Language";
 import { ThemeDropdown } from "./component/ThemeDropdown";
 import { useEditor } from "./hooks/useEditor";
@@ -82,7 +83,7 @@ function CodeEditor() {
             <ThemeDropdown
               options={themeOptions}
               onSelect={handleSelectTheme}
-              selectedValue={editorOptions.theme || ""}
+              selectedValue={editorOptions.theme}
             />
             <Language />
           </>
@@ -123,12 +124,7 @@ function CodeEditor() {
               <ResizableHandle />
               <ResizablePanel defaultSize={50}>
                 {/* Judge panel */}
-                <ConsolePanel
-                  result={messages}
-                  status={status}
-                  onSelectOption={handleSelectedConsoleOption}
-                  preserveLogs={preserveLogs}
-                />
+                <JudgePanel code={input} />
               </ResizablePanel>
             </ResizablePanelGroup>
           </ResizablePanel>

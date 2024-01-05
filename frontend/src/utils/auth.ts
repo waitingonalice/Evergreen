@@ -1,6 +1,6 @@
 import cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
-import { apiRoutes, clientRoutes } from "~/constants";
+import { apiRoutes } from "~/constants";
 
 interface RefreshAuthTokenResponse {
   result: {
@@ -48,8 +48,9 @@ export const refreshAuthToken = async (tokens: RefreshAuthTokenArgType) => {
     if (authToken && refreshToken) {
       const authExpired = decodedAuth && decodedAuth.exp * 1000 < Date.now();
       if (!authExpired) return;
+      console.log("Refreshing token");
       const res = await fetch(apiRoutes.auth.refreshToken, {
-        method: "GET",
+        method: "POST",
         body: JSON.stringify({ refreshToken }),
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +61,6 @@ export const refreshAuthToken = async (tokens: RefreshAuthTokenArgType) => {
       setCookie("authToken", data.result.auth);
     }
   } catch (err) {
-    window.location.assign(`${clientRoutes.auth.login}?expired`);
     console.error(err);
   }
 };

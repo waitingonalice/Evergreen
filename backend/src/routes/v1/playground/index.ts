@@ -23,3 +23,9 @@ PlaygroundRouter.post(
   PlaygroundValidator.verifyCreateCollection,
   PlaygroundController.handleCreateCollection
 );
+
+PlaygroundRouter.post(
+  "/execute",
+  verifyUser,
+  PlaygroundController.handleExecuteCode
+);

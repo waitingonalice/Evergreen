@@ -4,10 +4,11 @@ import {
   ChevronRightIcon,
   EllipsisHorizontalIcon,
 } from "@heroicons/react/20/solid";
+import { Switch } from "@waitingonalice/design-system/components/switch";
 import { Text } from "@waitingonalice/design-system/components/text";
+import { cn } from "@waitingonalice/design-system/utils/cn";
 import { forwardRef, useState } from "react";
 import clsx from "clsx";
-import { Switch } from "~/components";
 import { Dropdown } from "~/components/dropdown";
 import { Result, Status } from "../hooks/useEditor";
 
@@ -135,13 +136,14 @@ const CodePreviewer = ({ arg, depth }: CodePreviewerProps) => {
 export type ConsoleType = "clear" | "preserve";
 
 interface ConsolePanelProps {
-  result: Result[];
+  result: Result;
   status: Status;
   onSelectOption: (val: ConsoleType) => void;
   preserveLogs: boolean;
 }
 
 const statusColorMap: Record<Status, string> = {
+  running: "hidden",
   error: "text-error-main",
   success: "text-secondary-2",
 };
@@ -160,9 +162,6 @@ export const ConsolePanel = ({
   const handleSelectOption = (val: ConsoleType) => {
     onSelectOption(val);
   };
-  const handleToggleSwitch = () => {
-    handleSelectOption("preserve");
-  };
 
   const options = Object.entries(consoleOptions).map(([key, value]) => ({
     label: value,
@@ -171,11 +170,7 @@ export const ConsolePanel = ({
       renderLabel: (label: string) => (
         <div className="flex justify-between w-full items-center">
           <Text type="body-bold">{label}</Text>
-          <Switch
-            size="sm"
-            toggled={preserveLogs}
-            onToggle={handleToggleSwitch}
-          />
+          <Switch size="small" checked={preserveLogs} />
         </div>
       ),
     }),
@@ -199,16 +194,16 @@ export const ConsolePanel = ({
           onSelect={handleSelectOption}
         />
       </div>
-      {result.map(({ args }, index, arr) => (
+      {result.map((args, index, arr) => (
         <div
           key={index}
-          className={clsx(
-            "flex p-2 gap-x-2",
+          className={cn(
+            "flex p-2 gap-x-4",
             arr.length > 1 && "border-b border-secondary-4",
             statusColorMap[status]
           )}
         >
-          {args.map((arg, i) => (
+          {args.map((arg: unknown, i) => (
             <CodePreviewer depth={0} key={i} arg={arg} />
           ))}
         </div>
