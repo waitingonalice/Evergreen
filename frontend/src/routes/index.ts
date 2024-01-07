@@ -6,3 +6,4 @@ export { default as Verify } from "./verify";
 export { default as ForgotPassword } from "./forgot-password";
 export { default as ResetPassword } from "./set-password";
 export { default as UnknownRoute } from "./404";
+export { default as Logout } from "./logout";

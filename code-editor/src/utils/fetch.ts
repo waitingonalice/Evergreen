@@ -31,7 +31,7 @@ export const request = async <R = unknown, I = unknown>({
 
   if ("code" in res) {
     if (res.code === "401000") {
-      window.location.assign(`${clientRoutes.auth.login}?expired`);
+      window.location.assign(`${clientRoutes.auth.logout}?expired`);
     }
     throw new Error(res.code as string);
   } else if (!response.ok) {

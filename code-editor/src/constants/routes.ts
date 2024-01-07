@@ -4,6 +4,7 @@ const endpoint = process.env.NEXT_PUBLIC_ENDPOINT_URL;
 export const clientRoutes = {
   auth: {
     login: `${process.env.NEXT_PUBLIC_URL}/login`,
+    logout: `${process.env.NEXT_PUBLIC_URL}/logout`,
   },
   profile: { index: appRoute("/profile") },
   dashboard: {
