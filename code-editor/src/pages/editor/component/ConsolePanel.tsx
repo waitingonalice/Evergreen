@@ -3,13 +3,16 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   EllipsisHorizontalIcon,
+  PlayIcon,
 } from "@heroicons/react/20/solid";
+import { Switch } from "@waitingonalice/design-system/components/switch";
 import { Text } from "@waitingonalice/design-system/components/text";
+import { cn } from "@waitingonalice/design-system/utils/cn";
 import { forwardRef, useState } from "react";
 import clsx from "clsx";
-import { Switch } from "~/components";
-import { Dropdown } from "~/components/dropdown";
+import { Dropdown, Tooltip } from "~/components";
 import { Result, Status } from "../hooks/useEditor";
+import { useHover } from "../hooks/useHover";
 
 interface PreviewProps {
   children: React.ReactNode;
@@ -121,7 +124,7 @@ const CodePreviewer = ({ arg, depth }: CodePreviewerProps) => {
     return <Preview className={clsx("text-purple-500")}>{String(arg)}</Preview>;
   }
 
-  if (typeof arg === "symbol" || typeof arg === "undefined" || arg === null) {
+  if (typeof arg === "undefined" || arg === null) {
     return (
       <Preview className={clsx("text-secondary-2 opacity-50")}>
         {String(arg)}
@@ -132,16 +135,19 @@ const CodePreviewer = ({ arg, depth }: CodePreviewerProps) => {
   return <Preview>{String(arg)}</Preview>;
 };
 
-export type ConsoleType = "clear" | "preserve";
+export type ConsoleType = "clear" | "preserve" | "automaticCompilation";
 
 interface ConsolePanelProps {
-  result: Result[];
+  result: Result;
   status: Status;
-  onSelectOption: (val: ConsoleType) => void;
   preserveLogs: boolean;
+  allowAutomaticCompilation: boolean;
+  onSelectOption: (val: ConsoleType) => void;
+  onExecuteCode: () => void;
 }
 
 const statusColorMap: Record<Status, string> = {
+  running: "hidden",
   error: "text-error-main",
   success: "text-secondary-2",
 };
@@ -149,33 +155,38 @@ const statusColorMap: Record<Status, string> = {
 export const consoleOptions: Record<ConsoleType, string> = {
   clear: "Clear console",
   preserve: "Preserve logs",
+  automaticCompilation: "Automatic compilation",
 };
 
 export const ConsolePanel = ({
   result,
   status,
-  onSelectOption,
   preserveLogs,
+  allowAutomaticCompilation,
+  onSelectOption,
+  onExecuteCode: handleExecuteCode,
 }: ConsolePanelProps) => {
+  const { ref, onHover, show } = useHover();
   const handleSelectOption = (val: ConsoleType) => {
     onSelectOption(val);
   };
-  const handleToggleSwitch = () => {
-    handleSelectOption("preserve");
-  };
-
+  console.log(show);
   const options = Object.entries(consoleOptions).map(([key, value]) => ({
     label: value,
     value: key,
     ...(key === "preserve" && {
       renderLabel: (label: string) => (
-        <div className="flex justify-between w-full items-center">
+        <div className="flex justify-between gap-x-4">
           <Text type="body-bold">{label}</Text>
-          <Switch
-            size="sm"
-            toggled={preserveLogs}
-            onToggle={handleToggleSwitch}
-          />
+          <Switch size="small" checked={preserveLogs} />
+        </div>
+      ),
+    }),
+    ...(key === "automaticCompilation" && {
+      renderLabel: (label: string) => (
+        <div className="flex justify-between gap-x-4">
+          <Text type="body-bold">{label}</Text>
+          <Switch size="small" checked={allowAutomaticCompilation} />
         </div>
       ),
     }),
@@ -187,6 +198,23 @@ export const ConsolePanel = ({
       )}
     >
       <div className="relative p-2 gap-x-2 flex justify-end items-center border-b border-secondar-4">
+        <PlayIcon
+          className="outline-none text-secondary-4 w-5 h-auto transition duration-300 hover:text-secondary-1"
+          role="button"
+          tabIndex={0}
+          onClick={handleExecuteCode}
+          onMouseEnter={() => onHover("in")}
+          onMouseLeave={() => onHover("out")}
+          ref={ref}
+        />
+        <Tooltip
+          position="bottom"
+          show={show}
+          title="Run code"
+          description="Press &#8984; + S to run code"
+          targetElement={ref.current}
+          className="left-[calc(100%-120px)] w-44"
+        />
         <Dropdown
           button={
             <EllipsisHorizontalIcon
@@ -199,16 +227,16 @@ export const ConsolePanel = ({
           onSelect={handleSelectOption}
         />
       </div>
-      {result.map(({ args }, index, arr) => (
+      {result.map((args, index, arr) => (
         <div
           key={index}
-          className={clsx(
-            "flex p-2 gap-x-2",
+          className={cn(
+            "flex p-2 gap-x-4",
             arr.length > 1 && "border-b border-secondary-4",
             statusColorMap[status]
           )}
         >
-          {args.map((arg, i) => (
+          {args.map((arg: unknown, i) => (
             <CodePreviewer depth={0} key={i} arg={arg} />
           ))}
         </div>

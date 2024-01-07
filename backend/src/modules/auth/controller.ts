@@ -125,10 +125,13 @@ export const handleRefreshToken = async (req: Request, res: Response) => {
     if (!user) throw new Error(ErrorEnum.INVALID_REFRESH_TOKEN);
 
     const auth = generateAuthToken(user, process.env.SESSION_SECRET);
-    res.status(200).json({ result: { auth } });
+    return res.status(200).json({ result: { auth } });
   } catch (err) {
-    if (err instanceof Error) res.status(500).json({ code: err.message });
+    if (err instanceof Error) {
+      return res.status(401).json({ code: err.message });
+    }
   }
+  return res.status(500).json({ code: ErrorEnum.INTERNAL_SERVER_ERROR });
 };
 
 export const handleRegister = async (req: Request, res: Response) => {

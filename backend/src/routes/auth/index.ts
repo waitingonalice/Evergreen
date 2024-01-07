@@ -12,7 +12,7 @@ AuthRouter.post("/forgot-password", AuthController.handleForgotPassword);
 
 AuthRouter.post("/login", loginLimiter, AuthController.handleLogin);
 
-AuthRouter.get("/refresh-token", AuthController.handleRefreshToken);
+AuthRouter.post("/refresh-token", AuthController.handleRefreshToken);
 
 AuthRouter.post(
   "/register",

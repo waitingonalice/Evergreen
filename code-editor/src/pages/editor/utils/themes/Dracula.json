@@ -1,7 +1,7 @@
 {
   "base": "vs-dark",
   "colors": {
-    "editor.background": "#1f2937",
+    "editor.background": "#282a36",
     "editor.foreground": "#f8f8f2",
     "editor.lineHighlightBackground": "#44475a",
     "editor.selectionBackground": "#44475a",

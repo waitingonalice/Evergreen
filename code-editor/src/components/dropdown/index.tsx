@@ -50,7 +50,7 @@ export const Dropdown = <T extends string>({
       >
         <Menu.Items
           className={clsx(
-            "absolute z-10 mt-2 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-80 overflow-y-auto p-1",
+            "absolute z-10 mt-2 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-80 overflow-y-auto p-1 min-w-max flex flex-col",
             menuClassName,
             theme === "light" ? "bg-secondary-1" : "bg-secondary-5"
           )}
@@ -59,7 +59,11 @@ export const Dropdown = <T extends string>({
             <Menu.Item key={value}>
               <button
                 type="button"
-                className="rounded-md min-w-[200px] flex justify-between p-2 truncate items-center gap-x-2 hover:text-secondary-1 hover:bg-primary-main text-primary-main"
+                className={clsx(
+                  "rounded-md p-2 hover:text-secondary-1 hover:bg-primary-main text-primary-main",
+                  !renderLabel &&
+                    "min-w-[200px] flex justify-between items-center gap-x-4"
+                )}
                 onClick={(e) => handleSelect(e, value as T)}
               >
                 {renderLabel ? (
