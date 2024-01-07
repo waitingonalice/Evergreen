@@ -36,7 +36,7 @@ const Topbar = ({
 
   const fullName = `${user?.firstName} ${user?.lastName}`;
   const handleSignout = () => {
-    router.push(`${clientRoutes.auth.login}?logout`);
+    router.push(clientRoutes.auth.logout);
   };
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);

@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Alert } from "~/components";
-import { errorMap, logout } from "~/utils";
+import { errorMap } from "~/utils";
 
 interface MessageBoxProps {
   error: unknown;
@@ -8,7 +8,7 @@ interface MessageBoxProps {
 
 export const MessageBox = ({ error }: MessageBoxProps) => {
   const location = useLocation();
-  const className = "mb-12";
+  const className = "mb-4";
   if (error) {
     return (
       <Alert
@@ -21,7 +21,6 @@ export const MessageBox = ({ error }: MessageBoxProps) => {
   }
   switch (location.search) {
     case "?expired": {
-      logout();
       return (
         <Alert
           className={className}
@@ -32,7 +31,6 @@ export const MessageBox = ({ error }: MessageBoxProps) => {
       );
     }
     case "?logout":
-      logout();
       return (
         <Alert
           className={className}

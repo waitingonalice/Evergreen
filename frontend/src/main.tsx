@@ -9,6 +9,7 @@ import {
   Dashboard,
   ForgotPassword,
   Login,
+  Logout,
   Register,
   ResetPassword,
   Root,
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
           { path: clientRoutes.root, element: <Root /> },
           // Authentication routes
           { path: clientRoutes.auth.login, element: <Login /> },
+          { path: clientRoutes.auth.logout, element: <Logout /> },
           { path: clientRoutes.auth.register, element: <Register /> },
           { path: clientRoutes.auth.verify, element: <Verify /> },
           {

@@ -5,6 +5,7 @@ export const clientRoutes = {
   root: "/",
   auth: {
     login: "/login",
+    logout: "/logout",
     register: "/register",
     verify: "/verify",
     forgotPassword: "/forgot-password",
