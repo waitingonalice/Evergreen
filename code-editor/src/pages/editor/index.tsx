@@ -1,16 +1,14 @@
 import Editor from "@monaco-editor/react";
 import {
+  Button,
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-  Toaster,
-  useToast,
 } from "@waitingonalice/design-system";
 import { useRouter } from "next/router";
-import { Main } from "~/components";
+import { Main, Spinner } from "~/components";
+import { useAppContext } from "~/components/app-context";
 import { clientRoutes } from "~/constants";
-import { useKeybind } from "~/utils";
-import { AddCollection } from "./component/AddToCollection";
 import { ConsolePanel, ConsoleType } from "./component/ConsolePanel";
 import { JudgePanel } from "./component/JudgePanel";
 import { Language } from "./component/Language";
@@ -26,15 +24,18 @@ function CodeEditor() {
     input,
     status,
     preserveLogs,
+    allowAutomaticCodeExecution,
     handleOnChange,
     handleClearInput,
     handleOnMount,
     handleSelectTheme,
     handleClearConsole,
     handlePreserveLog,
+    handleExecute,
+    handleAutomaticCodeExecution,
   } = useEditor();
   const { push } = useRouter();
-  const { renderToast } = useToast();
+  const { renderToast } = useAppContext();
 
   const [addToCollection, options] = useAddToCollection({
     onSuccess: () => {
@@ -70,9 +71,18 @@ function CodeEditor() {
     if (val === "preserve") {
       handlePreserveLog();
     }
+    if (val === "automaticCompilation") {
+      handleAutomaticCodeExecution();
+      if (!allowAutomaticCodeExecution)
+        renderToast({
+          title: "Automatic compilation enabled",
+          description:
+            "Warning: Enabling this feature may negatively impact browser performance. Preserving of logs will be disabled.",
+          variant: "warning",
+        });
+    }
   };
 
-  useKeybind(["ControlLeft", "KeyS"], handleAddToCollection);
   return (
     <Main>
       <Main.Header
@@ -89,21 +99,23 @@ function CodeEditor() {
           </>
         }
         rightChildren={
-          <AddCollection
-            onAdd={handleAddToCollection}
+          <Button
+            className="relative"
+            size="small"
+            onClick={handleAddToCollection}
             disabled={input.length === 0 || options.isLoading}
-            loading={options.isLoading}
-          />
+          >
+            {options.isLoading ? <Spinner /> : "Add to collection"}
+          </Button>
         }
       />
 
       <Main.Content>
-        <Toaster />
         <ResizablePanelGroup
           direction="vertical"
           className="min-h-[calc(100vh-54px)]"
         >
-          <ResizablePanel defaultSize={50}>
+          <ResizablePanel defaultSize={75}>
             <Editor
               {...editorOptions}
               onChange={handleOnChange}
@@ -111,14 +123,16 @@ function CodeEditor() {
             />
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel defaultSize={50}>
+          <ResizablePanel defaultSize={25}>
             <ResizablePanelGroup direction="horizontal">
               <ResizablePanel defaultSize={50}>
                 <ConsolePanel
                   result={messages}
                   status={status}
-                  onSelectOption={handleSelectedConsoleOption}
                   preserveLogs={preserveLogs}
+                  allowAutomaticCompilation={allowAutomaticCodeExecution}
+                  onExecuteCode={handleExecute}
+                  onSelectOption={handleSelectedConsoleOption}
                 />
               </ResizablePanel>
               <ResizableHandle />

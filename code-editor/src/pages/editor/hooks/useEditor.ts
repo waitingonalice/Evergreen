@@ -15,7 +15,7 @@ export type Status = "error" | "success" | "running";
 export type Result = unknown[][];
 
 const initialOptions: EditorProps = {
-  height: "49vh",
+  height: "100vh",
   defaultLanguage: "typescript",
   defaultValue: `// Welcome to Code Editor!`,
   options: {
@@ -50,6 +50,8 @@ export const useEditor = () => {
     useState<EditorProps>(initialOptions);
   const [executedCode, setExecutedCode] = useState<Result>([]);
   const [preserveLogs, setPreserveLogs] = useState<boolean>(false);
+  const [allowAutomaticCodeExecution, setAllowAutomaticCodeExecution] =
+    useState<boolean>(false);
   const [input, setInput] = useState<string>("");
 
   const handleClearConsole = () => {
@@ -60,15 +62,25 @@ export const useEditor = () => {
     setInput("");
   };
 
-  const handlePreserveLog = () => {
+  const handlePreserveLog = (forceSet?: boolean) => {
     setPreserveLogs((prev) => {
       setLocalStorage("logStatus", String(!prev));
-      if (!prev === false) {
+      if (forceSet === false || !prev === false) {
         removeLocalStorage("preserveLogs");
         removeLocalStorage("logStatus");
+      } else if (!prev === true) {
+        // eslint-disable-next-line no-use-before-define
+        handleAutomaticCodeExecution(false);
       }
-      return !prev;
+      return forceSet ?? !prev;
     });
+  };
+
+  const handleAutomaticCodeExecution = (forceSet?: boolean) => {
+    setAllowAutomaticCodeExecution((prev) => forceSet ?? !prev);
+    if (!allowAutomaticCodeExecution === true) {
+      handlePreserveLog(false);
+    }
   };
 
   const handleSelectTheme = async (value: string) => {
@@ -130,7 +142,9 @@ export const useEditor = () => {
   const handleOnChange = (newValue?: string) => {
     const value = newValue || "";
     setInput(value);
-    debounceExecute(value);
+    if (allowAutomaticCodeExecution) {
+      debounceExecute(value);
+    }
   };
 
   const handleOnMountEditor = (editor: any) => {
@@ -146,6 +160,7 @@ export const useEditor = () => {
     if (code) {
       setEditorOptions((prev) => ({ ...prev, defaultValue: code }));
       handleOnChange(code);
+      debounceExecute(code);
     }
     if (theme) handleSelectTheme(theme ?? "light");
   };
@@ -177,6 +192,7 @@ export const useEditor = () => {
       editorRef.current?.setValue(formattedCode);
     };
     handleFormatCode();
+    debounceExecute(input);
   });
 
   return {
@@ -186,11 +202,14 @@ export const useEditor = () => {
     input,
     status,
     preserveLogs,
+    allowAutomaticCodeExecution,
     handleClearInput,
     handleOnChange,
     handleOnMount: handleOnMountEditor,
     handleSelectTheme,
     handleClearConsole,
     handlePreserveLog,
+    handleExecute: () => debounceExecute(input),
+    handleAutomaticCodeExecution,
   };
 };

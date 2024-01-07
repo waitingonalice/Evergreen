@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "dependencies": {
-    "@waitingonalice/design-system": "1.1.25",
+    "@waitingonalice/design-system": "1.2.1",
     "@expense-tracker/shared": "*",
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.13",
