@@ -7,14 +7,12 @@ import {
 } from "@waitingonalice/design-system";
 import { useRouter } from "next/router";
 import { Main, Spinner } from "~/components";
-import { useAppContext } from "~/components/app-context";
 import { clientRoutes } from "~/constants";
-import { ConsolePanel, ConsoleType } from "./component/ConsolePanel";
+import { ConsolePanel } from "./component/ConsolePanel";
 import { JudgePanel } from "./component/JudgePanel";
 import { Language } from "./component/Language";
 import { ThemeDropdown } from "./component/ThemeDropdown";
 import { useEditor } from "./hooks/useEditor";
-import { useAddToCollection } from "./loaders/collection";
 import { themeOptions } from "./utils/theme";
 
 function CodeEditor() {
@@ -25,62 +23,22 @@ function CodeEditor() {
     status,
     preserveLogs,
     allowAutomaticCodeExecution,
+    addToCollectionLoading,
+    debounceExecute,
     handleOnChange,
-    handleClearInput,
+    handleSelectedConsoleOption,
     handleOnMount,
     handleSelectTheme,
-    handleClearConsole,
-    handlePreserveLog,
-    handleExecute,
-    handleAutomaticCodeExecution,
+    handleAddToCollection,
   } = useEditor();
   const { push } = useRouter();
-  const { renderToast } = useAppContext();
-
-  const [addToCollection, options] = useAddToCollection({
-    onSuccess: () => {
-      handleClearInput();
-      renderToast({
-        title: "Successfully saved!",
-        description: "Code snippet was added to collection.",
-        variant: "success",
-      });
-    },
-    onError: () => {
-      renderToast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const handleAddToCollection = async () => {
-    if (input.length === 0 || options.isLoading) return;
-    await addToCollection(input);
-  };
 
   const handleBackClick = () => {
     push(clientRoutes.dashboard.index);
   };
 
-  const handleSelectedConsoleOption = (val: ConsoleType) => {
-    if (val === "clear" && messages.length > 0) {
-      handleClearConsole();
-    }
-    if (val === "preserve") {
-      handlePreserveLog();
-    }
-    if (val === "automaticCompilation") {
-      handleAutomaticCodeExecution();
-      if (!allowAutomaticCodeExecution)
-        renderToast({
-          title: "Automatic compilation enabled",
-          description:
-            "Warning: Enabling this feature may negatively impact browser performance. Preserving of logs will be disabled.",
-          variant: "warning",
-        });
-    }
+  const handleRun = () => {
+    debounceExecute(input);
   };
 
   return (
@@ -103,9 +61,9 @@ function CodeEditor() {
             className="relative"
             size="small"
             onClick={handleAddToCollection}
-            disabled={input.length === 0 || options.isLoading}
+            disabled={input.length === 0 || addToCollectionLoading}
           >
-            {options.isLoading ? <Spinner /> : "Add to collection"}
+            {addToCollectionLoading ? <Spinner /> : "Add to collection"}
           </Button>
         }
       />
@@ -131,7 +89,7 @@ function CodeEditor() {
                   status={status}
                   preserveLogs={preserveLogs}
                   allowAutomaticCompilation={allowAutomaticCodeExecution}
-                  onExecuteCode={handleExecute}
+                  onExecuteCode={handleRun}
                   onSelectOption={handleSelectedConsoleOption}
                 />
               </ResizablePanel>

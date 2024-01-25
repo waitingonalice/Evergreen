@@ -35,7 +35,3 @@ export const useAddToCollection = (
 
   return [mutation, rest] as const;
 };
-
-interface ExecuteCodeResponseType {}
-
-export const useExecuteCode = () => {};

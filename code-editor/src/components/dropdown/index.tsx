@@ -1,7 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { Text } from "@waitingonalice/design-system/components/text";
-import { Fragment } from "react";
+import React, { Fragment } from "react";
 import clsx from "clsx";
 import { Option } from "~/utils/types";
 
@@ -22,7 +22,9 @@ export const Dropdown = <T extends string>({
   theme = "light",
 }: DropdownProps<T>) => {
   const handleSelect = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e:
+      | React.MouseEvent<HTMLDivElement, MouseEvent>
+      | React.KeyboardEvent<HTMLDivElement>,
     value: T
   ) => {
     e.stopPropagation();
@@ -57,14 +59,16 @@ export const Dropdown = <T extends string>({
         >
           {options?.map(({ label, value, renderLabel }) => (
             <Menu.Item key={value}>
-              <button
-                type="button"
+              <div
+                role="button"
+                tabIndex={0}
                 className={clsx(
                   "rounded-md p-2 hover:text-secondary-1 hover:bg-primary-main text-primary-main",
                   !renderLabel &&
                     "min-w-[200px] flex justify-between items-center gap-x-4"
                 )}
                 onClick={(e) => handleSelect(e, value as T)}
+                onKeyDown={(e) => handleSelect(e, value as T)}
               >
                 {renderLabel ? (
                   renderLabel(label)
@@ -74,7 +78,7 @@ export const Dropdown = <T extends string>({
                 {selectedValue && value === selectedValue && (
                   <CheckIcon className="h-4 w-4" />
                 )}
-              </button>
+              </div>
             </Menu.Item>
           ))}
         </Menu.Items>

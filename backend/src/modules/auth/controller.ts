@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
+import { ErrorEnum } from "@expense-tracker/shared";
 import { Prisma } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { ErrorEnum } from "~/constants/enum";
 import { prisma } from "~/db";
 import { forgotPasswordTemplate } from "~/template/forgot-password";
 import { setPasswordTemplate } from "~/template/set-password";

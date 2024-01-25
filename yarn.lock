@@ -1180,6 +1180,15 @@
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-slot" "1.0.2"
 
+"@radix-ui/react-progress@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-progress/-/react-progress-1.0.3.tgz#8380272fdc64f15cbf263a294dea70a7d5d9b4fa"
+  integrity sha512-5G6Om/tYSxjSeEdrb1VfKkfZfn/1IlPWd731h2RfPuSbIfNUgfqAwbKfJCg/PP6nuUCTrYzalwHSpSinoWoCag==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/react-context" "1.0.1"
+    "@radix-ui/react-primitive" "1.0.3"
+
 "@radix-ui/react-slot@1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-slot/-/react-slot-1.0.2.tgz#a9ff4423eade67f501ffb32ec22064bc9d3099ab"
@@ -1829,11 +1838,12 @@
     magic-string "^0.27.0"
     react-refresh "^0.14.0"
 
-"@waitingonalice/design-system@1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@waitingonalice/design-system/-/design-system-1.2.1.tgz#d9cfd33446f0f1f43d023713daa1bbbd68990966"
-  integrity sha512-HmRVwjtT11JAq98rnMTqMMQRr3atbUXol4tknvNswHaxrnWHDgxGgavk9264aXbKLdKZUEtUgyuOwQ0mqQ6wRA==
+"@waitingonalice/design-system@1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@waitingonalice/design-system/-/design-system-1.2.4.tgz#67334dfeb88806a458181bb28688bed04124eaae"
+  integrity sha512-C/rSUlwar+jnUcUTowxVqOU1GTyVJUhrR3XR+ucbs10fQToxUy+RqIGWvcmpUu/uAsXaXgLLFWSSEEBACSHH0Q==
   dependencies:
+    "@radix-ui/react-progress" "^1.0.3"
     "@radix-ui/react-switch" "^1.0.3"
     "@radix-ui/react-toast" "^1.1.5"
     class-variance-authority "^0.7.0"

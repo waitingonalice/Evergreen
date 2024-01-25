@@ -27,5 +27,12 @@ PlaygroundRouter.post(
 PlaygroundRouter.post(
   "/execute",
   verifyUser,
+  PlaygroundValidator.verifyExecuteCode,
   PlaygroundController.handleExecuteCode
+);
+
+PlaygroundRouter.get(
+  "/execute/:token",
+  verifyUser,
+  PlaygroundController.handleGetExecutionResult
 );

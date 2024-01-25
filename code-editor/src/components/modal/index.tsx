@@ -71,7 +71,7 @@ export function Modal({
                   inter.className
                 )}
               >
-                <Text className="text-secondary-5 p-6" type="subhead-2-bold">
+                <Text className="text-secondary-5 p-4" type="subhead-2-bold">
                   {title}
                 </Text>
                 {children && (
@@ -80,7 +80,7 @@ export function Modal({
                   </div>
                 )}
                 {buttons && (
-                  <div className="flex gap-x-4 justify-end items-center p-6">
+                  <div className="flex gap-x-4 justify-end items-center p-4">
                     {buttons.map((button, index) => (
                       <Button key={index} {...button}>
                         {button.children}

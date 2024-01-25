@@ -1,5 +1,5 @@
+import { ErrorEnum } from "@expense-tracker/shared";
 import { rateLimit } from "express-rate-limit";
-import { ErrorEnum } from "~/constants/enum";
 
 export const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 mins

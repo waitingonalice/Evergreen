@@ -1,6 +1,7 @@
 /* eslint-disable no-new-func */
 import { EditorProps } from "@monaco-editor/react";
 import { useEffect, useRef, useState } from "react";
+import { useAppContext } from "~/components/app-context";
 import {
   getLocalStorage,
   removeLocalStorage,
@@ -9,31 +10,44 @@ import {
   useKeybind,
 } from "~/utils";
 import { transpile } from "~/utils/transpile";
+import { ConsoleType } from "../component/ConsolePanel";
+import { useAddToCollection } from "../loaders/collection";
 import { defaultEditorThemes, defineTheme, monacoThemes } from "../utils/theme";
 
 export type Status = "error" | "success" | "running";
 export type Result = unknown[][];
-
-const initialOptions: EditorProps = {
-  height: "100vh",
-  defaultLanguage: "typescript",
-  defaultValue: `// Welcome to Code Editor!`,
-  options: {
-    fontSize: 16,
-    tabSize: 2,
-    minimap: {
-      enabled: false,
-    },
-    formatOnPaste: true,
-    formatOnType: true,
-  },
-};
 
 let initMount = true;
 let babelParser: typeof import("prettier/parser-babel") | null = null;
 let prettier: typeof import("prettier/standalone") | null = null;
 let status: Status = "success";
 let currentWorker: Worker | null = null;
+
+const defaultValue = `// Welcome to Code Editor!
+// Sample code to get you started.
+const arraySort = (arr:Array<number>) => arr.sort((a, b) => a - b); 
+
+const arr = [2,1,4,5,6,7,0,4];
+console.log(arraySort(arr));
+`;
+const initialOptions: EditorProps = {
+  height: "100vh",
+  defaultLanguage: "typescript",
+  defaultValue,
+  options: {
+    fontSize: 14,
+    tabSize: 2,
+    minimap: {
+      enabled: true,
+      scale: 1,
+      showSlider: "always",
+      size: "proportional",
+    },
+    formatOnPaste: true,
+    formatOnType: true,
+  },
+};
+
 /** Flow of execution
  * 1. user types code
  * 2. transpile
@@ -43,8 +57,8 @@ let currentWorker: Worker | null = null;
  * 6. reset captured results to not duplicate them on the next eval.
  * 7. handle errors if necessary
  * */
-
 export const useEditor = () => {
+  const { renderToast } = useAppContext();
   const editorRef = useRef<any>(null);
   const [editorOptions, setEditorOptions] =
     useState<EditorProps>(initialOptions);
@@ -54,13 +68,23 @@ export const useEditor = () => {
     useState<boolean>(false);
   const [input, setInput] = useState<string>("");
 
-  const handleClearConsole = () => {
-    setExecutedCode([]);
-  };
-
-  const handleClearInput = () => {
-    setInput("");
-  };
+  const [addToCollection, options] = useAddToCollection({
+    onSuccess: () => {
+      setInput("");
+      renderToast({
+        title: "Successfully saved!",
+        description: "Code snippet was added to collection.",
+        variant: "success",
+      });
+    },
+    onError: () => {
+      renderToast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const handlePreserveLog = (forceSet?: boolean) => {
     setPreserveLogs((prev) => {
@@ -100,13 +124,18 @@ export const useEditor = () => {
   const handleExecutionError = (message: string) => {
     status = "error";
     setExecutedCode([[`Error: ${message}`]]);
-    currentWorker?.terminate();
-    currentWorker = null;
+    if (currentWorker) {
+      currentWorker.postMessage("terminate");
+      currentWorker?.terminate();
+      currentWorker = null;
+    }
   };
 
   const handleDelayedExecutionError = () => {
     if (currentWorker && status === "running") {
-      setTimeout(() => handleExecutionError("Code execution timed out."), 2000);
+      setTimeout(() => {
+        handleExecutionError("Code execution timed out.");
+      }, 2000);
     }
   };
 
@@ -119,8 +148,8 @@ export const useEditor = () => {
         return;
       }
       currentWorker = new Worker("worker.js", { type: "module" });
-      const code = await transpile(value);
       status = "running";
+      const code = await transpile(value);
       currentWorker.postMessage(code);
       currentWorker.onmessage = (e) => {
         const result: Result = e.data;
@@ -128,10 +157,10 @@ export const useEditor = () => {
           handleExecutionError(result.error as string);
           return;
         }
-        status = "success";
         setExecutedCode(result);
         currentWorker?.terminate();
         currentWorker = null;
+        status = "success";
         if (preserveLogs) setLocalStorage("preserveLogs", value);
       };
     },
@@ -147,11 +176,6 @@ export const useEditor = () => {
     }
   };
 
-  const handleOnMountEditor = (editor: any) => {
-    editorRef.current = editor;
-    editorRef.current.focus();
-  };
-
   const handleMountLocalStorage = () => {
     const code = getLocalStorage<string>("preserveLogs");
     const logStatus = getLocalStorage<string>("logStatus");
@@ -161,6 +185,9 @@ export const useEditor = () => {
       setEditorOptions((prev) => ({ ...prev, defaultValue: code }));
       handleOnChange(code);
       debounceExecute(code);
+    } else {
+      handleOnChange(defaultValue);
+      debounceExecute(defaultValue);
     }
     if (theme) handleSelectTheme(theme ?? "light");
   };
@@ -171,8 +198,10 @@ export const useEditor = () => {
     }
     return () => {
       initMount = false;
-      if (currentWorker) currentWorker.terminate();
-      currentWorker = null;
+      if (currentWorker) {
+        currentWorker.terminate();
+        currentWorker = null;
+      }
     };
   }, []);
 
@@ -180,17 +209,26 @@ export const useEditor = () => {
     const handleFormatCode = async () => {
       e.preventDefault();
       const unformattedCode = editorRef.current?.getValue();
-      if (!babelParser || !prettier) {
-        babelParser = await import("prettier/parser-babel");
-        prettier = await import("prettier/standalone");
+      try {
+        if (!babelParser || !prettier) {
+          babelParser = await import("prettier/parser-babel");
+          prettier = await import("prettier/standalone");
+        }
+        const formattedCode = prettier?.format(unformattedCode, {
+          parser: "babel",
+          ...(babelParser && { plugins: [babelParser] }),
+          printWidth: 80,
+        });
+        editorRef.current?.setValue(formattedCode);
+      } catch (e) {
+        if (e instanceof Error) {
+          status = "error";
+          setExecutedCode([[`Error: ${e.message}`]]);
+          console.error(e);
+        }
       }
-      const formattedCode = prettier?.format(unformattedCode, {
-        parser: "babel",
-        ...(babelParser && { plugins: [babelParser] }),
-        printWidth: 80,
-      });
-      editorRef.current?.setValue(formattedCode);
     };
+
     handleFormatCode();
     debounceExecute(input);
   });
@@ -203,13 +241,37 @@ export const useEditor = () => {
     status,
     preserveLogs,
     allowAutomaticCodeExecution,
-    handleClearInput,
+    addToCollectionLoading: options.isLoading,
+    debounceExecute,
     handleOnChange,
-    handleOnMount: handleOnMountEditor,
     handleSelectTheme,
-    handleClearConsole,
-    handlePreserveLog,
-    handleExecute: () => debounceExecute(input),
-    handleAutomaticCodeExecution,
+    handleOnMount: (editor: any) => {
+      editorRef.current = editor;
+      editorRef.current.focus();
+    },
+
+    handleAddToCollection: async () => {
+      if (input.length === 0 || options.isLoading) return;
+      await addToCollection(input);
+    },
+
+    handleSelectedConsoleOption: (val: ConsoleType) => {
+      if (val === "clear" && executedCode.length > 0) {
+        setExecutedCode([]);
+      }
+      if (val === "preserve") {
+        handlePreserveLog();
+      }
+      if (val === "automaticCompilation") {
+        handleAutomaticCodeExecution();
+        if (!allowAutomaticCodeExecution)
+          renderToast({
+            title: "Automatic compilation enabled",
+            description:
+              "Warning: Enabling this feature may negatively impact browser performance. Preserving of logs will be disabled.",
+            variant: "warning",
+          });
+      }
+    },
   };
 };

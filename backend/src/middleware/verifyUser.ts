@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
+import { ErrorEnum } from "@expense-tracker/shared";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { ErrorEnum } from "~/constants/enum";
 import { DecodedAuthTokenType } from "~/types/account";
 import { jwtDecode } from "~/utils";
 
