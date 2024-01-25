@@ -1,5 +1,5 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
-import { Button, Text } from "@waitingonalice/design-system";
+import { Link, Text } from "@waitingonalice/design-system";
 import { clientRoutes } from "~/constants";
 
 export const RegistrationSuccess = () => (
@@ -9,8 +9,7 @@ export const RegistrationSuccess = () => (
       Thank you for registering with Expense Tracker. A confirmation email has
       been sent to your email address.
     </Text>
-    <Button variant="primaryLink">
-      <a href={clientRoutes.auth.login}>Back to login page</a>
-    </Button>
+
+    <Link to={clientRoutes.auth.login}>Back to login page</Link>
   </section>
 );

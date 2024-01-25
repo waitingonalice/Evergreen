@@ -1,5 +1,5 @@
 import { CountryEnum } from "@expense-tracker/shared";
-import { Button, Text } from "@waitingonalice/design-system";
+import { Button, Form, Link, Text } from "@waitingonalice/design-system";
 import { useState } from "react";
 import { z } from "zod";
 import { Alert, FormSelect, Input, Spinner } from "~/components";
@@ -63,7 +63,7 @@ const Register = () => {
       {data?.result ? (
         <RegistrationSuccess />
       ) : (
-        <div className="flex flex-col gap-y-4">
+        <Form className="flex flex-col gap-y-4" onSubmit={handleSubmit}>
           <Text
             type="subhead-1"
             className="text-primary-main box mb-4 font-bold"
@@ -129,19 +129,12 @@ const Register = () => {
             onChange={(e) => handleInputOnChange(e.target.id, e.target.value)}
           />
           <div className="mt-2 w-full items-center gap-x-2 flex justify-between">
-            <Button id="cancel" variant="primaryLink" className="w-fit">
-              <a href={clientRoutes.auth.login}>Cancel</a>
-            </Button>
-            <Button
-              id="regsiter"
-              variant="primary"
-              className="w-fit"
-              onClick={handleSubmit}
-            >
+            <Link to={clientRoutes.auth.login}>Cancel</Link>
+            <Button type="submit" variant="primary" className="w-fit">
               {isLoading ? <Spinner /> : "Register"}
             </Button>
           </div>
-        </div>
+        </Form>
       )}
     </div>
   );

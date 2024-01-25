@@ -1,4 +1,4 @@
-import { Button, Text } from "@waitingonalice/design-system";
+import { Button, Form, Text } from "@waitingonalice/design-system";
 import { useState } from "react";
 import { z } from "zod";
 import { Alert, Input, Spinner } from "~/components";
@@ -67,12 +67,12 @@ const ResetPassword = () => {
       {data?.result ? (
         <UpdateSuccess />
       ) : (
-        <section className="flex flex-col gap-y-4">
+        <Form className="flex flex-col gap-y-4" onSubmit={handleOnSubmit}>
           <Text
             type="subhead-1"
             className="text-primary-main box mb-4 font-bold"
           >
-            Sign Up
+            Reest Password
           </Text>
           <Input
             id="password"
@@ -101,14 +101,10 @@ const ResetPassword = () => {
             value={fields.confirmPassword}
             validate={validate}
           />
-          <Button
-            disabled={isLoading}
-            onClick={handleOnSubmit}
-            className="mt-4"
-          >
+          <Button type="submit" disabled={isLoading} className="mt-4">
             {isLoading ? <Spinner /> : "Submit"}
           </Button>
-        </section>
+        </Form>
       )}
     </div>
   );

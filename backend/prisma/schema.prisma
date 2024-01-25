@@ -29,9 +29,11 @@ model Profile {
 }
 
 model Playground {
-  id         Int       @id @default(autoincrement())
-  account_id String
-  updatedAt  DateTime? @updatedAt
-  code       String?
-  Account    Account?  @relation(fields: [account_id], references: [id])
+  id          Int       @id @default(autoincrement())
+  account_id  String
+  updatedAt   DateTime? @updatedAt
+  code        String?
+  title       String?
+  description String?
+  Account     Account?  @relation(fields: [account_id], references: [id])
 }

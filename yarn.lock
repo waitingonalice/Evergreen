@@ -1838,10 +1838,10 @@
     magic-string "^0.27.0"
     react-refresh "^0.14.0"
 
-"@waitingonalice/design-system@1.2.4":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@waitingonalice/design-system/-/design-system-1.2.4.tgz#67334dfeb88806a458181bb28688bed04124eaae"
-  integrity sha512-C/rSUlwar+jnUcUTowxVqOU1GTyVJUhrR3XR+ucbs10fQToxUy+RqIGWvcmpUu/uAsXaXgLLFWSSEEBACSHH0Q==
+"@waitingonalice/design-system@1.2.7":
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/@waitingonalice/design-system/-/design-system-1.2.7.tgz#597bb42ac40e4023a9d490a100d33bd8fecd22ed"
+  integrity sha512-GVb/KbxdjTToCdR9trGf9CFTd/iZI7b7wTIG3tSHr33VMXNcC/II9MDhe82HZntpvDDinI1P3Sr7axCud207/Q==
   dependencies:
     "@radix-ui/react-progress" "^1.0.3"
     "@radix-ui/react-switch" "^1.0.3"
