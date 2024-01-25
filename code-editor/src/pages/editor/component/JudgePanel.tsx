@@ -1,4 +1,4 @@
-import { PlayIcon } from "@heroicons/react/20/solid";
+import { ChartBarIcon } from "@heroicons/react/20/solid";
 import { ProgressBar } from "@waitingonalice/design-system/components/progress";
 import { cn } from "@waitingonalice/design-system/utils/cn";
 import { Spinner, Tooltip } from "~/components";
@@ -77,13 +77,13 @@ export const JudgePanel = ({ code }: JudgePanelProps) => {
 
   return (
     <div className="flex overflow-y-auto h-full flex-col border border-secondary-4 relative">
-      <div className="relative p-2 gap-x-2 flex justify-end items-center border-b border-secondar-4">
-        <PlayIcon
+      <div className="relative p-2 gap-x-2 flex justify-end items-center border-b border-secondary-4">
+        <ChartBarIcon
           className={cn(
-            "w-5 h-5 text-secondary-4 hover:text-secondary-1 transition duration-300",
-            { "opacity-50 cursor-not-allowed": loading }
+            "outline-none text-secondary-4 w-5 h-auto transition duration-300 hover:text-primary-light"
           )}
           role="button"
+          tabIndex={0}
           onClick={handleExecute}
           onMouseEnter={() => onHover("in")}
           onMouseLeave={() => onHover("out")}
@@ -92,8 +92,7 @@ export const JudgePanel = ({ code }: JudgePanelProps) => {
         <Tooltip
           position="bottom"
           show={show}
-          title="Run benchmark"
-          description="Run benchmark for your code to see how it performs."
+          description="Run benchmarks for your code to see how it performs."
           targetElement={ref.current}
           className="-right-40"
         />

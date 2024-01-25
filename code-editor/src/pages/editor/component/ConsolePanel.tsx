@@ -198,10 +198,10 @@ export const ConsolePanel = ({
         "flex overflow-y-auto h-full flex-col border border-secondary-4"
       )}
     >
-      <div className="relative p-2 gap-x-2 flex justify-end items-center border-b border-secondar-4">
+      <div className="relative p-2 gap-x-2 flex justify-end items-center border-b border-secondary-4">
         <PlayIcon
           className={cn(
-            "outline-none text-secondary-4 w-5 h-auto transition duration-300 hover:text-secondary-1"
+            "outline-none text-secondary-4 w-5 h-auto transition duration-300 hover:text-primary-light"
           )}
           role="button"
           tabIndex={0}
@@ -213,8 +213,8 @@ export const ConsolePanel = ({
         <Tooltip
           position="bottom"
           show={show}
-          title="Run code"
-          description="Press &#8984; + S to run code"
+          title="Execute code"
+          description="Press &#8984; + S to execute code"
           targetElement={ref.current}
           className="left-[calc(100%-120px)] w-44"
         />
