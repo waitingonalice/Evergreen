@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Editor from "@monaco-editor/react";
 import {
   Button,
@@ -7,15 +8,19 @@ import {
 } from "@waitingonalice/design-system";
 import { useRouter } from "next/router";
 import { Main, Spinner } from "~/components";
+import { useAppContext } from "~/components/app-context";
 import { clientRoutes } from "~/constants";
 import { ConsolePanel } from "./component/ConsolePanel";
 import { JudgePanel } from "./component/JudgePanel";
 import { Language } from "./component/Language";
 import { ThemeDropdown } from "./component/ThemeDropdown";
 import { useEditor } from "./hooks/useEditor";
+import { useAddToCollection } from "./loaders/collection";
 import { themeOptions } from "./utils/theme";
 
 function CodeEditor() {
+  const { renderToast } = useAppContext();
+
   const {
     editorOptions,
     messages,
@@ -23,15 +28,30 @@ function CodeEditor() {
     status,
     preserveLogs,
     allowAutomaticCodeExecution,
-    addToCollectionLoading,
     debounceExecute,
     handleOnChange,
     handleSelectedConsoleOption,
     handleOnMount,
     handleSelectTheme,
-    handleAddToCollection,
   } = useEditor();
   const { push } = useRouter();
+
+  const [addToCollection, options] = useAddToCollection({
+    onSuccess: () => {
+      renderToast({
+        title: "Successfully saved!",
+        description: "Code snippet was added to collection.",
+        variant: "success",
+      });
+    },
+    onError: () => {
+      renderToast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const handleBackClick = () => {
     push(clientRoutes.dashboard.index);
@@ -60,10 +80,10 @@ function CodeEditor() {
           <Button
             className="relative"
             size="small"
-            onClick={handleAddToCollection}
-            disabled={input.length === 0 || addToCollectionLoading}
+            // onClick={handleAddToCollection}
+            // disabled={input.length === 0 || addToCollectionLoading}
           >
-            {addToCollectionLoading ? <Spinner /> : "Add to collection"}
+            {false ? <Spinner /> : "Add to collection"}
           </Button>
         }
       />

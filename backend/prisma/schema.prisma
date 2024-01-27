@@ -18,7 +18,7 @@ model Account {
   createdAt  DateTime     @default(now())
   id         String       @id @default(uuid())
   profile    Profile?
-  playground Playground[]
+  playground Collection[]
 }
 
 model Profile {
@@ -28,7 +28,7 @@ model Profile {
   Account    Account   @relation(fields: [account_id], references: [id])
 }
 
-model Playground {
+model Collection {
   id          Int       @id @default(autoincrement())
   account_id  String
   updatedAt   DateTime? @updatedAt

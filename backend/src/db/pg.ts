@@ -77,7 +77,7 @@ class PgClient {
       });
       const duration = Date.now() - start;
       this.setStats(text);
-      console.log("executed query", { text, duration, rows: res.rowCount });
+      console.log("executed query: ", { text, duration, rows: res.rowCount });
       return res;
     } catch (err) {
       console.error(err);

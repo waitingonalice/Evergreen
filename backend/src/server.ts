@@ -1,4 +1,3 @@
-import { ErrorMessage } from "@expense-tracker/shared";
 import cors from "cors";
 import dotenv from "dotenv";
 import type { Request, Response } from "express";
@@ -30,18 +29,8 @@ const initServer = () => {
     app.use(routes.api.v1, V1Router);
   };
 
-  const handleErrors = () => {
-    app.use((err: Error, _: Request, res: Response) => {
-      console.error(err.stack);
-      return res
-        .status(500)
-        .json({ message: ErrorMessage.INTERNAL_SERVER_ERROR });
-    });
-  };
-
   mountMiddleware();
   mountRoutes();
-  handleErrors();
 
   app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);

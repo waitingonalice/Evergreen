@@ -1,6 +1,6 @@
 import { ErrorMessage } from "@expense-tracker/shared";
 import { Request, Response } from "express";
-import { prisma } from "~/db";
+import CollectionModel from "~/models/collection";
 import { Env } from "~/utils";
 import { toBase64 } from "~/utils/formatting";
 import {
@@ -16,28 +16,41 @@ export const handleCreateCollection = async (req: Request, res: Response) => {
   const { accountId } = res.locals;
   const { input }: CreateCollectionBody = req.body;
   try {
-    const collection = await prisma.playground.create({
-      data: {
-        code: input,
-        account_id: accountId,
-      },
-      select: {
-        code: true,
-      },
+    const collection = await CollectionModel.createCollection({
+      input,
+      id: accountId,
     });
     return res.status(200).json({ result: collection.code });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ code: "500000", errors: err });
+  } catch (error) {
+    return res.status(400).json({ code: error });
   }
 };
 
 export const handleGetCollections = async (req: Request, res: Response) => {
-  res.json({ result: "hello" });
+  const { limit = 10, offset = 0, keyword = "" } = req.query;
+  const { accountId } = res.locals;
+  try {
+    const data = await CollectionModel.getCollections({
+      id: accountId,
+      keyword: keyword as string,
+      limit: Number(limit),
+      offset: Number(offset),
+    });
+    return res.status(200).json(data);
+  } catch (err) {
+    return res.status(400).json({ code: err });
+  }
 };
 
 export const handleDeleteCollection = async (req: Request, res: Response) => {
-  res.json({ result: "hello" });
+  const { id } = req.params;
+  try {
+    const deletedCollection = await CollectionModel.deleteCollection(id);
+    return res.status(200).json({ result: deletedCollection });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ code: error });
+  }
 };
 
 export const handleExecuteCode = async (req: Request, res: Response) => {
@@ -63,13 +76,9 @@ export const handleExecuteCode = async (req: Request, res: Response) => {
     ).then((res) => res.json())) as ExecuteCodeResponse;
 
     console.log("User", res.locals.accountId, "Result", response);
-
     return res.status(200).json({ result: response.token });
   } catch (err) {
-    if (err instanceof Error) {
-      console.error(err.message);
-      return res.status(400).json({ code: err.message });
-    }
+    console.error(err);
     return res.status(500).json({ code: ErrorMessage.INTERNAL_SERVER_ERROR });
   }
 };
@@ -123,10 +132,7 @@ export const handleGetExecutionResult = async (req: Request, res: Response) => {
     }
     return res.status(200).json({ result: response });
   } catch (err) {
-    if (err instanceof Error) {
-      console.error(err.message);
-      return res.status(400).json({ code: err.message });
-    }
+    console.error(err);
     return res.status(500).json({ code: ErrorMessage.INTERNAL_SERVER_ERROR });
   }
 };

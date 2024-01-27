@@ -11,7 +11,6 @@ import {
 } from "~/utils";
 import { transpile } from "~/utils/transpile";
 import { ConsoleType } from "../component/ConsolePanel";
-import { useAddToCollection } from "../loaders/collection";
 import { defaultEditorThemes, defineTheme, monacoThemes } from "../utils/theme";
 
 export type Status = "error" | "success" | "running";
@@ -67,24 +66,6 @@ export const useEditor = () => {
   const [allowAutomaticCodeExecution, setAllowAutomaticCodeExecution] =
     useState<boolean>(false);
   const [input, setInput] = useState<string>("");
-
-  const [addToCollection, options] = useAddToCollection({
-    onSuccess: () => {
-      setInput("");
-      renderToast({
-        title: "Successfully saved!",
-        description: "Code snippet was added to collection.",
-        variant: "success",
-      });
-    },
-    onError: () => {
-      renderToast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
 
   const handlePreserveLog = (forceSet?: boolean) => {
     setPreserveLogs((prev) => {
@@ -241,18 +222,13 @@ export const useEditor = () => {
     status,
     preserveLogs,
     allowAutomaticCodeExecution,
-    addToCollectionLoading: options.isLoading,
+
     debounceExecute,
     handleOnChange,
     handleSelectTheme,
     handleOnMount: (editor: any) => {
       editorRef.current = editor;
       editorRef.current.focus();
-    },
-
-    handleAddToCollection: async () => {
-      if (input.length === 0 || options.isLoading) return;
-      await addToCollection(input);
     },
 
     handleSelectedConsoleOption: (val: ConsoleType) => {

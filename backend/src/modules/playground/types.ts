@@ -1,19 +1,26 @@
 import {
-  verifyCreateCollectionSchema,
-  verifyExecuteCodeSchema,
+  validateCreateCollectionSchema,
+  validateExecuteCodeSchema,
 } from "@expense-tracker/shared";
 import { z } from "zod";
 
 export interface CreateCollectionBody {
-  input: z.infer<typeof verifyCreateCollectionSchema>;
+  input: z.infer<typeof validateCreateCollectionSchema>;
 }
 
 export interface ExecuteCodeBody {
-  input: z.infer<typeof verifyExecuteCodeSchema>;
+  input: z.infer<typeof validateExecuteCodeSchema>;
 }
 
 export interface ExecuteCodeResponse {
   token: string;
+}
+
+export interface CollectionInputType {
+  limit?: number;
+  offset?: number;
+  keyword?: string;
+  id: string;
 }
 
 export interface GetExecutedResultType {
