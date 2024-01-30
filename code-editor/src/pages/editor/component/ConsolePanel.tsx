@@ -9,7 +9,6 @@ import { Switch } from "@waitingonalice/design-system/components/switch";
 import { Text } from "@waitingonalice/design-system/components/text";
 import { cn } from "@waitingonalice/design-system/utils/cn";
 import { forwardRef, useState } from "react";
-import clsx from "clsx";
 import { Dropdown, Tooltip } from "~/components";
 import { Result, Status } from "../hooks/useEditor";
 import { useHover } from "../hooks/useHover";
@@ -18,9 +17,9 @@ interface PreviewProps {
   children: React.ReactNode;
   className?: string;
 }
-const Preview = forwardRef(
+export const Preview = forwardRef(
   ({ children, className }: PreviewProps, ref: React.Ref<HTMLPreElement>) => (
-    <pre ref={ref} className={clsx("text-sm", className)}>
+    <pre ref={ref} className={cn("text-sm", className)}>
       <code>{children}</code>
     </pre>
   )
@@ -45,7 +44,7 @@ const ReferenceTypeWrapper = ({
     tabIndex={0}
     onClick={onClickExpand}
     onKeyDown={onClickExpand}
-    className={clsx(
+    className={cn(
       "flex gap-x-2 outline-none",
       !expand ? "flex-row items-center" : `flex-col`
     )}
@@ -62,7 +61,7 @@ interface CodePreviewerProps {
 const CodePreviewer = ({ arg, depth }: CodePreviewerProps) => {
   const [toggle, setToggle] = useState(false);
   const Icon = toggle ? ChevronDownIcon : ChevronRightIcon;
-  const renderIcon = <Icon className="h-5 w-5 outline-none" />;
+  const renderIcon = <Icon className="h-5 w-5 outline-none " />;
   let appendDepth = depth;
 
   const handleExpand = (
@@ -84,7 +83,7 @@ const CodePreviewer = ({ arg, depth }: CodePreviewerProps) => {
         </div>
 
         {toArray.map((item, i) => (
-          <span key={i} className={clsx(toggle ? "flex" : "hidden")}>
+          <span key={i} className={cn(toggle ? "flex" : "hidden")}>
             {toggle && <Preview className="ml-5 font-semibold">{i}: </Preview>}
             <CodePreviewer arg={item} depth={appendDepth} />
           </span>
@@ -105,7 +104,7 @@ const CodePreviewer = ({ arg, depth }: CodePreviewerProps) => {
         </div>
 
         {Object.entries(toObject).map(([key, value]) => (
-          <span key={key} className={clsx(toggle ? "flex" : "hidden")}>
+          <span key={key} className={cn(toggle ? "flex" : "hidden")}>
             {toggle && (
               <Preview className="ml-5 font-semibold">{`${key}: `}</Preview>
             )}
@@ -116,23 +115,24 @@ const CodePreviewer = ({ arg, depth }: CodePreviewerProps) => {
     );
   }
 
-  if (
-    typeof arg === "number" ||
-    typeof arg === "bigint" ||
-    typeof arg === "boolean"
-  ) {
-    return <Preview className={clsx("text-purple-500")}>{String(arg)}</Preview>;
-  }
-
-  if (typeof arg === "undefined" || arg === null) {
-    return (
-      <Preview className={clsx("text-secondary-2 opacity-50")}>
-        {String(arg)}
-      </Preview>
-    );
-  }
-
-  return <Preview>{String(arg)}</Preview>;
+  return (
+    <Preview
+      className={cn(
+        {
+          "text-purple-500":
+            typeof arg === "number" ||
+            typeof arg === "bigint" ||
+            typeof arg === "boolean",
+        },
+        {
+          "text-secondary-2 opacity-50":
+            typeof arg === "undefined" || arg === null,
+        }
+      )}
+    >
+      {String(arg)}
+    </Preview>
+  );
 };
 
 export type ConsoleType = "clear" | "preserve" | "automaticCompilation";
@@ -149,7 +149,7 @@ interface ConsolePanelProps {
 const statusColorMap: Record<Status, string> = {
   running: "hidden",
   error: "text-error-main",
-  success: "text-secondary-2",
+  success: "text-secondary-3",
 };
 
 export const consoleOptions: Record<ConsoleType, string> = {
@@ -166,11 +166,11 @@ export const ConsolePanel = ({
   onSelectOption,
   onExecuteCode: handleExecuteCode,
 }: ConsolePanelProps) => {
-  const { ref, onHover, show } = useHover();
+  const { ref, onHover, show } = useHover({ delay: 200 });
   const handleSelectOption = (val: ConsoleType) => {
     onSelectOption(val);
   };
-  console.log(show);
+
   const options = Object.entries(consoleOptions).map(([key, value]) => ({
     label: value,
     value: key,
@@ -191,15 +191,18 @@ export const ConsolePanel = ({
       ),
     }),
   }));
+
   return (
     <div
-      className={clsx(
+      className={cn(
         "flex overflow-y-auto h-full flex-col border border-secondary-4"
       )}
     >
-      <div className="relative p-2 gap-x-2 flex justify-end items-center border-b border-secondar-4">
+      <div className="relative p-2 gap-x-2 flex justify-end items-center border-b border-secondary-4">
         <PlayIcon
-          className="outline-none text-secondary-4 w-5 h-auto transition duration-300 hover:text-secondary-1"
+          className={cn(
+            "outline-none text-secondary-4 w-5 h-auto transition duration-300 hover:text-primary-light"
+          )}
           role="button"
           tabIndex={0}
           onClick={handleExecuteCode}
@@ -210,8 +213,8 @@ export const ConsolePanel = ({
         <Tooltip
           position="bottom"
           show={show}
-          title="Run code"
-          description="Press &#8984; + S to run code"
+          title="Execute code"
+          description="Press &#8984; + S to execute code"
           targetElement={ref.current}
           className="left-[calc(100%-120px)] w-44"
         />

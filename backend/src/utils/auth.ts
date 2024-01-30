@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { Env } from "./env";
 
 export const jwtDecode = <T>(token: string) =>
-  jwt.verify(token, process.env.SESSION_SECRET || "") as T;
+  jwt.verify(token, Env.SESSION_SECRET) as T;

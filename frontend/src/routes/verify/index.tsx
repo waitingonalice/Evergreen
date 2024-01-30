@@ -1,5 +1,5 @@
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/20/solid";
-import { Button, Text } from "@waitingonalice/design-system";
+import { Button, Link, Text } from "@waitingonalice/design-system";
 import { useSearchParams } from "react-router-dom";
 import { Spinner } from "~/components";
 import { clientRoutes } from "~/constants";
@@ -20,9 +20,7 @@ const Verify = () => {
             <>
               <XCircleIcon className="text-error-main h-20 w-20" />
               <Text type="subhead-2">{errorMap(error)}</Text>
-              <Button variant="primaryLink">
-                <a href={clientRoutes.auth.login}>Back to login page</a>
-              </Button>
+              <Link to={clientRoutes.auth.login}>Back to login page</Link>
             </>
           ) : (
             <>

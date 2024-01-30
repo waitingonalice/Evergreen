@@ -18,6 +18,8 @@ export const apiRoutes = {
   },
   collections: {
     addCollection: `${endpoint}/api/v1/collections`,
-    executeCode: `${endpoint}/api/v1/execute`,
+  },
+  execute: {
+    code: `${endpoint}/api/v1/execute`,
   },
 };

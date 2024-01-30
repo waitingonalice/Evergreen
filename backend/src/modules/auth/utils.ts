@@ -1,8 +1,8 @@
+import { ErrorEnum } from "@expense-tracker/shared";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import nodeMailer from "nodemailer";
 import { z } from "zod";
-import { ErrorEnum } from "~/constants/enum";
 import { UserType } from "~/types/account";
 
 export const emailSchema = z

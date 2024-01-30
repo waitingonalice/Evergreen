@@ -1,23 +1,37 @@
+import { validateCreateCollectionSchema } from "@expense-tracker/shared";
 import Editor from "@monaco-editor/react";
 import {
-  Button,
+  ButtonProps,
+  Drawer,
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
+  useForm,
 } from "@waitingonalice/design-system";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { Main, Spinner } from "~/components";
 import { useAppContext } from "~/components/app-context";
 import { clientRoutes } from "~/constants";
-import { ConsolePanel, ConsoleType } from "./component/ConsolePanel";
-import { JudgePanel } from "./component/JudgePanel";
-import { Language } from "./component/Language";
-import { ThemeDropdown } from "./component/ThemeDropdown";
 import { useEditor } from "./hooks/useEditor";
 import { useAddToCollection } from "./loaders/collection";
 import { themeOptions } from "./utils/theme";
+import {
+  AddtoCollection,
+  ConsolePanel,
+  FieldChangeEvent,
+  FieldInterface,
+  JudgePanel,
+  Language,
+  ThemeDropdown,
+} from "./component";
 
+const initFieldsState = { title: "", description: "" };
 function CodeEditor() {
+  const { renderToast } = useAppContext();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [fields, setFields] = useState<FieldInterface>(initFieldsState);
+
   const {
     editorOptions,
     messages,
@@ -25,64 +39,87 @@ function CodeEditor() {
     status,
     preserveLogs,
     allowAutomaticCodeExecution,
+    debounceExecute,
     handleOnChange,
-    handleClearInput,
+    handleSelectedConsoleOption,
     handleOnMount,
     handleSelectTheme,
-    handleClearConsole,
-    handlePreserveLog,
-    handleExecute,
-    handleAutomaticCodeExecution,
   } = useEditor();
   const { push } = useRouter();
-  const { renderToast } = useAppContext();
 
-  const [addToCollection, options] = useAddToCollection({
-    onSuccess: () => {
-      handleClearInput();
-      renderToast({
-        title: "Successfully saved!",
-        description: "Code snippet was added to collection.",
-        variant: "success",
-      });
-    },
-    onError: () => {
-      renderToast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
-    },
+  const { validate, errors, onSubmitValidate, clearErrors } = useForm({
+    data: { ...fields, code: input },
+    zod: validateCreateCollectionSchema,
   });
 
-  const handleAddToCollection = async () => {
-    if (input.length === 0 || options.isLoading) return;
-    await addToCollection(input);
-  };
+  const [addToCollection, options] = useAddToCollection();
 
   const handleBackClick = () => {
     push(clientRoutes.dashboard.index);
   };
 
-  const handleSelectedConsoleOption = (val: ConsoleType) => {
-    if (val === "clear" && messages.length > 0) {
-      handleClearConsole();
-    }
-    if (val === "preserve") {
-      handlePreserveLog();
-    }
-    if (val === "automaticCompilation") {
-      handleAutomaticCodeExecution();
-      if (!allowAutomaticCodeExecution)
-        renderToast({
-          title: "Automatic compilation enabled",
-          description:
-            "Warning: Enabling this feature may negatively impact browser performance. Preserving of logs will be disabled.",
-          variant: "warning",
-        });
+  const handleRun = () => {
+    debounceExecute(input);
+  };
+
+  const handleCloseDrawer = () => {
+    clearErrors();
+    setIsDrawerOpen(false);
+  };
+
+  const handleOpenDrawer = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const handleChangeFields = (arg: FieldChangeEvent) => {
+    setFields((prev) => ({ ...prev, [arg.key]: arg.val }));
+  };
+
+  const handleAddToCollection = async () => {
+    const { title, description } = fields;
+    const success = onSubmitValidate();
+    if (!success) return;
+    try {
+      await addToCollection({
+        input: {
+          title,
+          description,
+          code: input,
+        },
+      });
+      renderToast({
+        title: "Snippet added to collection.",
+        variant: "success",
+      });
+      setFields(initFieldsState);
+      handleCloseDrawer();
+    } catch (err) {
+      renderToast({
+        title: "Failed to add snippet to collection",
+        variant: "destructive",
+      });
     }
   };
 
+  const triggerButton: ButtonProps = {
+    children: "Add to collection",
+    size: "small",
+    onClick: handleOpenDrawer,
+  };
+
+  const actionButtons: ButtonProps[] = [
+    {
+      variant: "secondary",
+      children: "Cancel",
+      onClick: handleCloseDrawer,
+      disabled: options.isLoading,
+    },
+    {
+      children: options.isLoading ? <Spinner /> : "Save",
+      onClick: handleAddToCollection,
+      disabled: options.isLoading,
+    },
+  ];
   return (
     <Main>
       <Main.Header
@@ -99,14 +136,23 @@ function CodeEditor() {
           </>
         }
         rightChildren={
-          <Button
-            className="relative"
-            size="small"
-            onClick={handleAddToCollection}
-            disabled={input.length === 0 || options.isLoading}
-          >
-            {options.isLoading ? <Spinner /> : "Add to collection"}
-          </Button>
+          <Drawer
+            className="bg-secondary-2"
+            open={isDrawerOpen}
+            title="Add to collection"
+            description="Enter more details about this snippet."
+            triggerButton={triggerButton}
+            actionButtons={actionButtons}
+            onClose={handleCloseDrawer}
+            content={
+              <AddtoCollection
+                fields={fields}
+                onChange={handleChangeFields}
+                validate={validate}
+                errors={errors}
+              />
+            }
+          />
         }
       />
 
@@ -131,7 +177,7 @@ function CodeEditor() {
                   status={status}
                   preserveLogs={preserveLogs}
                   allowAutomaticCompilation={allowAutomaticCodeExecution}
-                  onExecuteCode={handleExecute}
+                  onExecuteCode={handleRun}
                   onSelectOption={handleSelectedConsoleOption}
                 />
               </ResizablePanel>

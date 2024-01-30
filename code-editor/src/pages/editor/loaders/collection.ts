@@ -1,41 +1,29 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-/* eslint-disable @typescript-eslint/no-empty-interface */
 import { useMutation } from "react-query";
 import { apiRoutes } from "~/constants";
 import { request } from "~/utils";
 
+export interface CollectionType {
+  code: string;
+  title: string;
+  description: string;
+}
 interface AddCollectionResponseType {
-  result: string;
+  result: CollectionType;
 }
 interface AddCollectionInputType {
-  input: string;
+  input: CollectionType;
 }
-type AddCollectionSideEffectsType = {
-  onSuccess?: (data: AddCollectionResponseType) => void;
-  onError?: (error: Error) => void;
-};
-export const useAddToCollection = (
-  sideEffects: AddCollectionSideEffectsType
-) => {
-  const { mutate, ...rest } = useMutation(
+
+export const useAddToCollection = () => {
+  const { mutateAsync, ...rest } = useMutation(
     (input: AddCollectionInputType) =>
       request<AddCollectionResponseType>({
         url: apiRoutes.collections.addCollection,
         method: "POST",
         input,
-      }),
-    {
-      ...sideEffects,
-    }
+      })
   );
-  const mutation = async (input: string) => mutate({ input });
+  const mutation = (input: AddCollectionInputType) => mutateAsync(input);
 
   return [mutation, rest] as const;
 };
-
-interface ExecuteCodeResponseType {}
-
-export const useExecuteCode = () => {};

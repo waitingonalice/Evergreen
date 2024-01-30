@@ -7,7 +7,6 @@ import {
 import { Text } from "@waitingonalice/design-system/components/text";
 import { Fragment } from "react";
 import clsx from "clsx";
-import { inter } from "~/utils";
 
 interface ModalProps {
   open: boolean;
@@ -67,8 +66,7 @@ export function Modal({
               <Dialog.Panel
                 className={clsx(
                   "transform overflow-hidden rounded-md bg-white text-left align-middle shadow-xl transition-all",
-                  sizeMapper[size],
-                  inter.className
+                  sizeMapper[size]
                 )}
               >
                 <Text className="text-secondary-5 p-6" type="subhead-2-bold">
@@ -80,7 +78,7 @@ export function Modal({
                   </div>
                 )}
                 {buttons && (
-                  <div className="flex gap-x-4 justify-end items-center p-6">
+                  <div className="flex gap-x-4 justify-end items-center p-4">
                     {buttons.map((button, index) => (
                       <Button key={index} {...button}>
                         {button.children}

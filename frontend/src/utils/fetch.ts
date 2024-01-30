@@ -1,3 +1,4 @@
+import { ErrorEnum } from "@expense-tracker/shared";
 import { clientRoutes } from "~/constants";
 import { getCookie, refreshAuthToken } from "./auth";
 
@@ -30,7 +31,7 @@ export const request = async <R = unknown, I = unknown>({
   const res = await response.json();
 
   if ("code" in res) {
-    if (res.code === "401000") {
+    if (res.code === ErrorEnum.UNAUTHORIZED) {
       window.location.assign(`${clientRoutes.auth.logout}?expired`);
     }
     throw new Error(res.code as string);

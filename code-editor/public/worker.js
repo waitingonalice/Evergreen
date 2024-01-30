@@ -30,12 +30,16 @@ const interceptConsole = () => {
   };
 };
 
-onmessage = (e) => {
+self.onmessage = (e) => {
   const message = e.data;
+  if (message === "terminate") {
+    self.close();
+    return;
+  }
   try {
     interceptConsole();
     new Function(message)();
-    postMessage(consoleResults);
+    self.postMessage(consoleResults);
     consoleResults.length = 0;
   } catch (err) {
     console.error(err);

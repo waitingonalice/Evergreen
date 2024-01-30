@@ -1,10 +1,16 @@
-import { Button, Checkbox, Text } from "@waitingonalice/design-system";
+import {
+  Button,
+  Checkbox,
+  Form,
+  Link,
+  Text,
+} from "@waitingonalice/design-system";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Input, Spinner } from "~/components";
 import { clientRoutes } from "~/constants";
-import { setCookie, useForm, useKeypress } from "~/utils";
+import { setCookie, useForm } from "~/utils";
 import { MessageBox } from "./components/MessageBox";
 import { useRememberMe } from "./hooks/useRememberMe";
 import { InputValuesType, useLogin } from "./loaders/login";
@@ -43,7 +49,6 @@ const Login = () => {
     }
   };
 
-  useKeypress("Enter", handleSubmit);
   useRememberMe();
   useEffect(() => {
     if (result) {
@@ -63,46 +68,45 @@ const Login = () => {
       <Text type="subhead-1" className="text-primary-main mb-4">
         Login
       </Text>
-      <Input
-        className="w-full"
-        id="email"
-        onChange={(e) => handleOnChange("email", e.currentTarget.value)}
-        label={{ text: "Email Address", required: true }}
-        value={values.email as string}
-        validate={validate}
-        ref={ref}
-      />
-      <Input
-        className="w-full"
-        id="password"
-        onChange={(e) => handleOnChange("password", e.currentTarget.value)}
-        label={{ text: "Password", required: true }}
-        value={values.password as string}
-        isPassword
-        validate={validate}
-        ref={ref}
-      />
-      <div className="flex justify-between w-full gap-x-2">
-        <Checkbox
-          id="rememberMe"
-          label="Remember me"
-          onChange={(value) => handleOnChange("rememberMe", value)}
-          checked={values.rememberMe as boolean}
+      <Form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
+        <Input
+          className="w-full"
+          id="email"
+          onChange={(e) => handleOnChange("email", e.currentTarget.value)}
+          label={{ text: "Email Address", required: true }}
+          value={values.email as string}
+          validate={validate}
+          ref={ref}
         />
-        <Button className="w-fit" variant="primaryLink">
-          <a href={clientRoutes.auth.forgotPassword}>Forgot password?</a>
+        <Input
+          className="w-full"
+          id="password"
+          onChange={(e) => handleOnChange("password", e.currentTarget.value)}
+          label={{ text: "Password", required: true }}
+          value={values.password as string}
+          isPassword
+          validate={validate}
+          ref={ref}
+        />
+        <div className="flex justify-between w-full gap-x-2">
+          <Checkbox
+            id="rememberMe"
+            label="Remember me"
+            onChange={(value) => handleOnChange("rememberMe", value)}
+            checked={values.rememberMe as boolean}
+          />
+          <Link to={clientRoutes.auth.forgotPassword}>Forgot password?</Link>
+        </div>
+        <Button type="submit" className="w-full mt-2">
+          {isLoading ? <Spinner /> : "Sign in"}
         </Button>
-      </div>
-      <Button className="w-full mt-2" onClick={handleSubmit}>
-        {isLoading ? <Spinner /> : "Sign in"}
-      </Button>
+      </Form>
+
       <div className="flex gap-x-1 justify-center">
         <Text className="whitespace-nowrap" type="button">
           Don&apos;t have an account?
         </Text>
-        <Button className="text-center" variant="primaryLink">
-          <a href={clientRoutes.auth.register}>Sign up</a>
-        </Button>
+        <Link to={clientRoutes.auth.register}>Sign up</Link>
       </div>
     </div>
   );

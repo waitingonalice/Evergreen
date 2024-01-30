@@ -3,14 +3,17 @@ import { findKey } from "@expense-tracker/shared";
 import { useRef } from "react";
 import isNumber from "lodash/isNumber";
 import union from "lodash/union";
-import type { ZodEffects, ZodObject } from "zod";
+import type { ZodEffects, ZodObject, ZodSchema } from "zod";
 
-interface UseFormType {
+interface UseFormType<T> {
   zod: ZodObject<any> | ZodEffects<ZodObject<any>>;
-  data: Record<string, any>;
+  data: T;
 }
 
-export const useForm = ({ zod, data }: UseFormType) => {
+export const useForm = <T extends Record<string, any>>({
+  zod,
+  data,
+}: UseFormType<T>) => {
   const refs = useRef<Array<HTMLElement | null>>([]);
 
   const schemaKeys: string[] =
@@ -64,14 +67,12 @@ export const useForm = ({ zod, data }: UseFormType) => {
     ref: <T>(node: T extends HTMLElement ? T : null) => {
       refs.current = union(refs.current, [node]);
     },
+
     /**
-     *
      * @param customSchema - optional custom schema to be used for validation instead of the default schema provided.
-     *
      * E.g. To evaluate data in the form of an array of objects
-     * @returns
      */
-    onSubmitValidate: (customSchema?: any) => {
+    onSubmitValidate: <P extends ZodSchema>(customSchema?: P) => {
       if (refs.current.length > 0) {
         refs.current.forEach((element) => {
           if (!element) return;

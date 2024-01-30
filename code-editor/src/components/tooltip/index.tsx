@@ -47,15 +47,15 @@ export const Tooltip = ({
       <div
         role="tooltip"
         className={clsx(
-          "bg-gray-200 opacity-100 rounded-lg shadow-md py-2 px-4 text-start gap-x-2"
+          "bg-primary-main opacity-100 rounded-lg shadow-md py-2 px-3 text-start gap-x-2"
         )}
       >
         {title && (
-          <Text type="body-bold" className="text-secondary-5">
+          <Text type="body-bold" className="text-secondary-2">
             {title}
           </Text>
         )}
-        <Text type="caption" className="text-secondary-5">
+        <Text type="caption" className="text-secondary-2">
           {description}
         </Text>
       </div>

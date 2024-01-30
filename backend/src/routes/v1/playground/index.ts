@@ -8,11 +8,12 @@ export const PlaygroundRouter = Router();
 PlaygroundRouter.get(
   "/collections",
   verifyUser,
+  PlaygroundValidator.validateGetCollection,
   PlaygroundController.handleGetCollections
 );
 
 PlaygroundRouter.delete(
-  "/collections",
+  "/collections/:id",
   verifyUser,
   PlaygroundController.handleDeleteCollection
 );
@@ -20,12 +21,19 @@ PlaygroundRouter.delete(
 PlaygroundRouter.post(
   "/collections",
   verifyUser,
-  PlaygroundValidator.verifyCreateCollection,
+  PlaygroundValidator.validateCreateCollection,
   PlaygroundController.handleCreateCollection
 );
 
 PlaygroundRouter.post(
   "/execute",
   verifyUser,
+  PlaygroundValidator.validateExecuteCode,
   PlaygroundController.handleExecuteCode
+);
+
+PlaygroundRouter.get(
+  "/execute/:token",
+  verifyUser,
+  PlaygroundController.handleGetExecutionResult
 );

@@ -10,16 +10,12 @@ export const currencyHandler = ({ value, encode }: currencyHandlerType) => {
   return toNumber / multiplier;
 };
 
-interface formatCurrencyType {
-  value: number;
-  country: string;
-}
+export const toBase64 = (input: string) => {
+  const buff = Buffer.from(input);
+  return buff.toString("base64");
+};
 
-// TODO: Add support for more countries and map to their respective currency code
-export const formatCurrency = ({ value, country }: formatCurrencyType) =>
-  // Alpha3 country code
-  value.toLocaleString(country, {
-    style: "currency",
-    currency: "placeholder",
-    currencyDisplay: "code",
-  });
+export const fromBase64 = (input: string) => {
+  const buff = Buffer.from(input, "base64");
+  return buff.toString("utf8");
+};
