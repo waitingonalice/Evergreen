@@ -272,27 +272,3 @@ export enum ErrorEnum {
   "EMAIL_NOT_FOUND" = "404001",
   "INTERNAL_SERVER_ERROR" = "500000",
 }
-
-export enum ErrorMessage {
-  BAD_REQUEST = "Bad request.",
-  DUPLICATE_EMAIL = "This email already exists.",
-  EMPTY_BODY = "Empty request body.",
-  INVALID_EMAIL = "An invalid email was provided.",
-  CREATION_ACCOUNT_FAILED = "Failed to create account.",
-  DUPLICATE_TOKEN = "This email has already been verified.",
-  INVALID_TOKEN = "Invalid token",
-  EXPIRED_TOKEN = "The current session has expired.",
-  PASSWORD_MISMATCH = "Password mismatch",
-  EMAIL_NOT_VERIFIED = "Email not verified",
-  INVALID_LOGIN_CRED = "The email or password you entered is incorrect.",
-  ACCOUNT_CREATION_ATTEMPTS_EXCEEDED = "There were too many account creation attempts. Please try again later.",
-  LOGIN_ATTEMPTS_EXCEEDED = "There were too many login attempts. Please try again later.",
-  RESET_PASSWORD_ATTEMPTS_EXCEEDED = "There were too many password reset attempts. Please try again later.",
-  INVALID_REFRESH_TOKEN = "401001",
-  UNAUTHORIZED = "Unauthorized access.",
-  FORBIDDEN = "Forbidden access",
-  NOT_FOUND = "Resource Not Found",
-  EMAIL_NOT_FOUND = "Invalid email provided.",
-  INTERNAL_SERVER_ERROR = "Something went wrong. Please try again later.",
-  JUDGE_EXECUTE_ERROR = "There was an error executing your code. Please try again later.",
-}

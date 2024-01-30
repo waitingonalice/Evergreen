@@ -4,6 +4,7 @@ import type { Request, Response } from "express";
 import express from "express";
 import helmet from "helmet";
 import { routes } from "./constants/routes";
+import { errorHandler } from "./middleware/errorHandler";
 import AuthRouter from "./routes/auth";
 import { V1Router } from "./routes/v1/v1.router";
 import welcomeTemplate from "./template/welcome";
@@ -31,6 +32,7 @@ const initServer = () => {
 
   mountMiddleware();
   mountRoutes();
+  app.use(errorHandler);
 
   app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
