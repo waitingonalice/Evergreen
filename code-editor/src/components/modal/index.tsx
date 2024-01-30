@@ -7,7 +7,6 @@ import {
 import { Text } from "@waitingonalice/design-system/components/text";
 import { Fragment } from "react";
 import clsx from "clsx";
-import { inter } from "~/utils";
 
 interface ModalProps {
   open: boolean;
@@ -67,11 +66,10 @@ export function Modal({
               <Dialog.Panel
                 className={clsx(
                   "transform overflow-hidden rounded-md bg-white text-left align-middle shadow-xl transition-all",
-                  sizeMapper[size],
-                  inter.className
+                  sizeMapper[size]
                 )}
               >
-                <Text className="text-secondary-5 p-4" type="subhead-2-bold">
+                <Text className="text-secondary-5 p-6" type="subhead-2-bold">
                   {title}
                 </Text>
                 {children && (

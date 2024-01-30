@@ -75,7 +75,6 @@ export const handleExecuteCode = async (req: Request, res: Response) => {
       }
     ).then((res) => res.json())) as ExecuteCodeResponse;
 
-    console.log("User", res.locals.accountId, "Result", response);
     return res.status(200).json({ result: response.token });
   } catch (err) {
     console.error(err);
@@ -103,8 +102,6 @@ export const handleGetExecutionResult = async (req: Request, res: Response) => {
       }
     ).then((res) => res.json())) as GetJudgeResultType;
     const { status } = getExecutionResult;
-
-    console.log("User", res.locals.accountId, "Result", getExecutionResult);
 
     switch (status.id) {
       case 1:

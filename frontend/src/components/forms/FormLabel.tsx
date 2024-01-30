@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import clsx from "clsx";
 import { Text, Tooltip, TooltipProps } from "~/components";
 
-interface InputProps {
+interface LabelProps {
   children: string;
   name: string;
   required?: boolean;
@@ -19,7 +19,7 @@ const FormLabel = ({
   className,
   tooltip,
   withTooltip,
-}: InputProps) => {
+}: LabelProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [hover, setHover] = useState(false);
   return (

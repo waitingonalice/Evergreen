@@ -1,14 +1,10 @@
 /* eslint-disable no-new-func */
 import { EditorProps } from "@monaco-editor/react";
+import { useDebouncedCallback } from "@waitingonalice/design-system/hooks/debounced-callback";
+import { useKeybind } from "@waitingonalice/design-system/hooks/keybind";
 import { useEffect, useRef, useState } from "react";
 import { useAppContext } from "~/components/app-context";
-import {
-  getLocalStorage,
-  removeLocalStorage,
-  setLocalStorage,
-  useDebouncedCallback,
-  useKeybind,
-} from "~/utils";
+import { getLocalStorage, removeLocalStorage, setLocalStorage } from "~/utils";
 import { transpile } from "~/utils/transpile";
 import { ConsoleType } from "../component/ConsolePanel";
 import { defaultEditorThemes, defineTheme, monacoThemes } from "../utils/theme";

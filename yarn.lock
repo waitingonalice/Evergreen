@@ -1884,25 +1884,10 @@
     magic-string "^0.27.0"
     react-refresh "^0.14.0"
 
-"@waitingonalice/design-system@1.2.7":
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/@waitingonalice/design-system/-/design-system-1.2.7.tgz#597bb42ac40e4023a9d490a100d33bd8fecd22ed"
-  integrity sha512-GVb/KbxdjTToCdR9trGf9CFTd/iZI7b7wTIG3tSHr33VMXNcC/II9MDhe82HZntpvDDinI1P3Sr7axCud207/Q==
-  dependencies:
-    "@radix-ui/react-progress" "^1.0.3"
-    "@radix-ui/react-switch" "^1.0.3"
-    "@radix-ui/react-toast" "^1.1.5"
-    class-variance-authority "^0.7.0"
-    clsx "^2.0.0"
-    lucide-react "^0.303.0"
-    react-resizable-panels "^1.0.5"
-    tailwind-merge "^2.2.0"
-    tailwindcss-animate "^1.0.7"
-
-"@waitingonalice/design-system@1.2.8":
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/@waitingonalice/design-system/-/design-system-1.2.8.tgz#0f47a3932ac796a024e5070b2f1a9de5c6a5ecc8"
-  integrity sha512-6fcR3TFFl0elbYwgejhVzoP/rECuflByQ05D7mTtgEPxL/4CkIX3T/KXZKqMzXhWk7Zuo1sP+AD2d1A5v3o34w==
+"@waitingonalice/design-system@1.2.21":
+  version "1.2.21"
+  resolved "https://registry.yarnpkg.com/@waitingonalice/design-system/-/design-system-1.2.21.tgz#be53563a8adeef5d954de5d84104514a44689b09"
+  integrity sha512-ICWulTO4TTjyozwX+bAttNc5/NC33JFzlLf070Hjjxn1QUareXg9Jn7hdW+OdDjskV7sC/v7DUZ4jsHIR3IxAA==
   dependencies:
     "@radix-ui/react-dialog" "^1.0.5"
     "@radix-ui/react-progress" "^1.0.3"
@@ -1914,6 +1899,7 @@
     react-resizable-panels "^1.0.5"
     tailwind-merge "^2.2.0"
     tailwindcss-animate "^1.0.7"
+    zod "^3.22.4"
 
 "@yarnpkg/lockfile@^1.1.0":
   version "1.1.0"
@@ -9606,7 +9592,7 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zod@^3.20.2, zod@^3.21.4, zod@^3.22.2:
+zod@^3.20.2, zod@^3.21.4, zod@^3.22.2, zod@^3.22.4:
   version "3.22.4"
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.22.4.tgz#f31c3a9386f61b1f228af56faa9255e845cf3fff"
   integrity sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==

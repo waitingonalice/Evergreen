@@ -1,5 +1,5 @@
+import { useDebouncedCallback } from "@waitingonalice/design-system/hooks/debounced-callback";
 import { useRef, useState } from "react";
-import { useDebouncedCallback } from "~/utils";
 
 export const useHover = (arg?: { delay?: number }) => {
   const { delay = 500 } = arg || {};

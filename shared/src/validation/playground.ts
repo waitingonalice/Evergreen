@@ -2,8 +2,8 @@ import z from "zod";
 
 export const validateCreateCollectionSchema = z.object({
   code: z.string().min(1),
-  title: z.string().min(1).optional().nullable(),
-  description: z.string().min(1).optional().nullable(),
+  title: z.string().min(1),
+  description: z.string().min(0).nullable(),
 });
 
 export const validateExecuteCodeSchema = z.object({

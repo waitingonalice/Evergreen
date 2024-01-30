@@ -1,12 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  CalendarIcon,
-  ChartPieIcon,
-  ClipboardIcon,
-  ComputerDesktopIcon,
-  CreditCardIcon,
-  HomeIcon,
-} from "@heroicons/react/24/outline";
+import { ComputerDesktopIcon, HomeIcon } from "@heroicons/react/24/outline";
 import { clientRoutes } from "~/constants";
 
 const routes = [

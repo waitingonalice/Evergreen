@@ -1,7 +1,5 @@
 import { QueryClient, QueryClientProvider } from "react-query";
-import clsx from "clsx";
 import type { AppContext, AppProps } from "next/app";
-import { Inter } from "next/font/google";
 import Head from "next/head";
 import { App as Providers } from "~/components/app-context";
 import "../styles/app.css";
@@ -16,7 +14,6 @@ const queryClient = new QueryClient({
   },
 });
 
-const inter = Inter({ subsets: ["latin"] });
 const App = ({ Component, pageProps }: AppContext & AppProps) => (
   <>
     <Head>
@@ -26,7 +23,7 @@ const App = ({ Component, pageProps }: AppContext & AppProps) => (
     </Head>
     <QueryClientProvider client={queryClient}>
       <Providers>
-        <main className={clsx(inter.className)}>
+        <main>
           <Component {...pageProps} />
         </main>
       </Providers>

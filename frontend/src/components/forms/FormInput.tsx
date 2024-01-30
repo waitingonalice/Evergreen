@@ -119,7 +119,7 @@ const FormInput = forwardRef(
           {isPassword && (
             <div className="absolute inset-y-0 right-0 flex items-center pr-3">
               <Icon
-                className="text-gray-500 h-5 w-5"
+                className="text-secondary-4 h-5 w-5"
                 role="button"
                 tabIndex={0}
                 onClick={() => setIsPasswordVisible((prev) => !prev)}
@@ -131,7 +131,7 @@ const FormInput = forwardRef(
           {error}
         </ErrorMessage>
         {subText && (
-          <Text type="caption" className="text-gray-400 mt-1">
+          <Text type="caption" className="text-secondary-4 mt-1">
             {subText}
           </Text>
         )}
