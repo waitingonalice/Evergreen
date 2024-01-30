@@ -27,8 +27,8 @@ interface InfoPanelProps {
 
 const InfoPanel = ({ data, type }: InfoPanelProps) => {
   const statusHeaderMap = {
-    Memory: `${data?.result.output?.memory} KB` || 0,
-    Time: `${data?.result.output?.time} seconds` || 0,
+    Memory: `${data?.result.output?.memory || 0} KB`,
+    Time: `${data?.result.output?.time || 0} seconds`,
     Status:
       data?.result.status === "ERROR"
         ? `${data?.result.status}: ${data?.result.output?.stderr}`
