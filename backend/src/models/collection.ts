@@ -58,7 +58,7 @@ class CollectionModel {
         description: true,
       },
     });
-    if (!collection) throw new Error("Collection not found");
+
     return collection;
   }
 }
