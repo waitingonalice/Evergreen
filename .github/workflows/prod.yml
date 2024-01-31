@@ -47,7 +47,7 @@ jobs:
     - name: Run migrations
       run: yarn prisma migrate deploy
       env:
-        MIGRATE_URL: ${{ secrets.MIGRATE_URL }}
+        DIRECT_URL: ${{ secrets.DIRECT_URL }}
    
 
   deploy-container:
