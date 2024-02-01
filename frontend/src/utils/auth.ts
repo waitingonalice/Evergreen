@@ -31,7 +31,7 @@ export const setCookie = (
   cookies.set(key, value, {
     path: "/",
     secure: true,
-    sameSite: "strict",
+    sameSite: "none",
     httpOnly: false,
     ...options,
   });
