@@ -1,23 +1,19 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { clientRoutes } from "~/constants";
 import { logout } from "~/utils";
 
 const Logout = () => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
+    logout();
     switch (location.search) {
       case "?expired":
-        logout();
-        return navigate(`${clientRoutes.auth.login}?expired`, {
-          replace: true,
-        });
+        return window.location.replace(`${clientRoutes.auth.login}?expired`);
 
       default:
-        logout();
-        return navigate(`${clientRoutes.auth.login}?logout`, { replace: true });
+        return window.location.replace(`${clientRoutes.auth.login}?logout`);
     }
   }, []);
   return <></>;

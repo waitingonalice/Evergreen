@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { apiRoutes } from "~/constants";
-import { request } from "~/utils";
+import { getCookie, request } from "~/utils";
 
 export interface GetUserType {
   result: {
@@ -12,11 +12,15 @@ export interface GetUserType {
     active: boolean;
   };
 }
-export const useGetUser = () =>
-  useQuery({
+export const useGetUser = () => {
+  const token = getCookie("authToken");
+
+  return useQuery({
     queryKey: "user",
     queryFn: () =>
       request<GetUserType>({
         url: apiRoutes.user.get,
       }),
+    enabled: !!token,
   });
+};

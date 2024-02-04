@@ -45,7 +45,6 @@ const Login = () => {
     const success = onSubmitValidate();
     if (success) {
       login(values);
-      navigate(clientRoutes.auth.login, { replace: true });
     }
   };
 
