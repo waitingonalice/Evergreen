@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { clientRoutes } from "~/constants";
 import { logout } from "~/utils";
@@ -16,7 +17,9 @@ const Logout = () => {
     }
   }
 
-  handleLogout();
+  useEffect(() => {
+    handleLogout();
+  }, []);
 
   return <></>;
 };
