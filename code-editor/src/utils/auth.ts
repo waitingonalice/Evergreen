@@ -7,7 +7,12 @@ export const setCookie = (
   value: string,
   options?: Parameters<(typeof cookies)["set"]>[2]
 ) => {
-  const apexDomain = window.location.hostname;
+  const apexDomain = window.location.hostname
+    .split(".")
+    .reverse()
+    .splice(0, 2)
+    .reverse()
+    .join(".");
   cookies.set(key, value, {
     domain: `.${apexDomain}`,
     path: "/",
