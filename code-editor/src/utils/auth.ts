@@ -14,10 +14,10 @@ export const setCookie = (
     .reverse()
     .join(".");
   cookies.set(key, value, {
-    domain: `.${apexDomain}`,
+    domain: apexDomain,
     path: "/",
     secure: true,
-    sameSite: "strict",
+    sameSite: "None",
     httpOnly: false,
     ...options,
   });
