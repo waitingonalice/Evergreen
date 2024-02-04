@@ -116,3 +116,6 @@ export const generateOptions = <T extends Record<string, string>>(arg: T) => {
   }));
   return options;
 };
+
+export const getDomain = (hostname: string) =>
+  hostname.split(".").reverse().slice(0, 2).reverse().join(".");

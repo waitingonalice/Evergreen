@@ -1,3 +1,4 @@
+import { getDomain } from "@expense-tracker/shared";
 import cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 import { apiRoutes } from "~/constants";
@@ -7,12 +8,11 @@ export const setCookie = (
   value: string,
   options?: Parameters<(typeof cookies)["set"]>[2]
 ) => {
-  const apexDomain = window.location.hostname;
   cookies.set(key, value, {
-    domain: apexDomain,
+    domain: getDomain(window.location.hostname),
     path: "/",
     secure: true,
-    sameSite: "None",
+    sameSite: "strict",
     httpOnly: false,
     ...options,
   });
@@ -20,7 +20,8 @@ export const setCookie = (
 
 export const getCookie = (key: string) => cookies.get(key);
 
-export const removeCookie = (key: string) => cookies.remove(key);
+export const removeCookie = (key: string) =>
+  cookies.remove(key, { domain: getDomain(window.location.hostname) });
 interface RefreshAuthTokenResponse {
   result: {
     auth: string;
