@@ -1,10 +1,13 @@
+/* eslint-disable arrow-body-style */
 import { Main } from "~/components";
 
-const Dashboard = () => (
-  <Main>
-    <Main.Header />
-    <Main.Content>Dashboard</Main.Content>
-  </Main>
-);
+const Dashboard = () => {
+  return (
+    <Main>
+      <Main.Header />
+      <Main.Content>Dashboard</Main.Content>
+    </Main>
+  );
+};
 
 export default Dashboard;

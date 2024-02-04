@@ -18,7 +18,7 @@ export const jwt = <T>(...args: Parameters<typeof jwtDecode>) => {
     const result = jwtDecode<T>(...args);
     return result;
   } catch (err) {
-    console.log(err);
+    console.error(err);
     return null;
   }
 };
@@ -28,13 +28,7 @@ export const setCookie = (
   value: string,
   options?: Parameters<(typeof cookies)["set"]>[2]
 ) => {
-  const apexDomain = window.location.hostname
-    .split(".")
-    .reverse()
-    .splice(0, 2)
-    .reverse()
-    .join(".");
-
+  const apexDomain = window.location.hostname;
   cookies.set(key, value, {
     domain: apexDomain,
     path: `/`,
