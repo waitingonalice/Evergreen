@@ -41,8 +41,7 @@ const router = createBrowserRouter([
         ],
       },
       // Main app starts here
-      { path: clientRoutes.dashboard.index, element: <Dashboard /> },
-      // { path: clientRoutes.transactions.index, element: <Transaction /> },
+      { path: clientRoutes.dashboard, element: <Dashboard /> },
 
       // 404
       { element: <UnknownRoute />, path: "*" },

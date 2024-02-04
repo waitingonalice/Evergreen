@@ -15,12 +15,15 @@ interface LoginResponseType {
   };
 }
 
-export const useLogin = () =>
-  useMutation({
+export const useLogin = () => {
+  const options = useMutation({
     mutationFn: (input: InputValuesType) =>
-      request<LoginResponseType, InputValuesType>({
+      request<LoginResponseType>({
         url: apiRoutes.auth.login,
         method: "POST",
         input,
       }),
   });
+
+  return [options.mutateAsync, options] as const;
+};

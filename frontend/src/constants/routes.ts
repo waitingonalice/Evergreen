@@ -1,6 +1,5 @@
 export const endpoint = import.meta.env.VITE_ENDPOINT_URL;
 const endpointV1 = `${import.meta.env.VITE_ENDPOINT_URL}/api/v1`;
-const appRoute = (toPath: string) => `/app${toPath}`;
 
 export const clientRoutes = {
   root: "/",
@@ -13,10 +12,8 @@ export const clientRoutes = {
     resetPassword: "/set-password",
   },
 
-  profile: { index: appRoute("/profile") },
-  dashboard: {
-    index: appRoute("/dashboard"),
-  },
+  profile: { index: "/profile" },
+  dashboard: "/dashboard",
   codeEditor: {
     index: import.meta.env.VITE_PLAYGROUND_URL,
   },
