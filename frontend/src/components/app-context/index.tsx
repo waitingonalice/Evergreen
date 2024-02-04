@@ -1,36 +1,15 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { Outlet } from "react-router-dom";
-import { getCookie, jwt } from "~/utils";
+import { GetUserType, useGetUser } from "./loaders/user";
 
 interface AppContextProps {
-  user?: {
-    verified: string;
-    firstName: string;
-    lastName: string;
-    country: string;
-    userId: string;
-    email: string;
-  };
-}
-
-interface AuthToken {
-  data: AppContextProps["user"];
-  exp: number;
+  user?: GetUserType["result"];
 }
 
 export const AppContext = createContext<AppContextProps>({} as AppContextProps);
 export const App = () => {
-  const [user, setUser] = useState<AppContextProps["user"]>();
-  const authToken = getCookie("authToken");
-
-  const value = useMemo(() => ({ user }), [user]);
-
-  useEffect(() => {
-    if (authToken) {
-      const decodedAuthToken = jwt<AuthToken>(authToken);
-      setUser(decodedAuthToken?.data);
-    }
-  }, []);
+  const { data } = useGetUser();
+  const value = useMemo(() => ({ user: data?.result }), [data?.result]);
 
   return (
     <AppContext.Provider value={value}>

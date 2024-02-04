@@ -2,26 +2,14 @@ import {
   Toaster,
   useToast,
 } from "@waitingonalice/design-system/components/toast";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { getCookie, jwt } from "~/utils";
+import { createContext, useContext, useMemo } from "react";
+import { GetUserType, useGetUser } from "./loaders/user";
 
 interface AppContextProps {
-  user?: {
-    verified: string;
-    firstName: string;
-    lastName: string;
-    country: string;
-    userId: string;
-    email: string;
-  };
+  user?: GetUserType["result"];
   renderToast: ReturnType<typeof useToast>["renderToast"];
   dismissToast: ReturnType<typeof useToast>["dismiss"];
   updateToast: ReturnType<typeof useToast>["update"];
-}
-
-interface AuthToken {
-  data: AppContextProps["user"];
-  exp: number;
 }
 
 interface AppProps {
@@ -31,25 +19,17 @@ interface AppProps {
 export const AppContext = createContext<AppContextProps>({} as AppContextProps);
 
 export const App = ({ children }: AppProps) => {
-  const [user, setUser] = useState<AppContextProps["user"]>();
+  const { data } = useGetUser();
   const {
     renderToast,
     dismiss: dismissToast,
     update: updateToast,
   } = useToast();
-  const authToken = getCookie("authToken");
 
   const value = useMemo(
-    () => ({ user, renderToast, dismissToast, updateToast }),
-    [user]
+    () => ({ user: data?.result, renderToast, dismissToast, updateToast }),
+    [data?.result]
   );
-
-  useEffect(() => {
-    if (authToken) {
-      const decodedAuthToken = jwt<AuthToken>(authToken);
-      setUser(decodedAuthToken?.data);
-    }
-  }, []);
 
   return (
     <AppContext.Provider value={value}>

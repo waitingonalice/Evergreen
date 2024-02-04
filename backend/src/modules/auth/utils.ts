@@ -70,16 +70,12 @@ export const sendEmailVerification = async (
 };
 
 export const generateAuthToken = (user: UserType, secret: string) => {
-  const { id: userId, country, firstName, lastName, active, email } = user;
+  const { id: userId, active } = user;
   const auth = jwt.sign(
     {
       data: {
         userId,
-        country,
-        firstName,
-        lastName,
         verified: active,
-        email,
       },
     },
     secret,

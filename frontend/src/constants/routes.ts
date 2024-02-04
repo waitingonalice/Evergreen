@@ -1,4 +1,5 @@
-export const api = import.meta.env.VITE_ENDPOINT_URL;
+export const endpoint = import.meta.env.VITE_ENDPOINT_URL;
+const endpointV1 = `${import.meta.env.VITE_ENDPOINT_URL}/api/v1`;
 const appRoute = (toPath: string) => `/app${toPath}`;
 
 export const clientRoutes = {
@@ -23,11 +24,14 @@ export const clientRoutes = {
 
 export const apiRoutes = {
   auth: {
-    register: `${api}/auth/register`,
-    verify: (token: string) => `${api}/auth/verify/${token}`,
-    login: `${api}/auth/login`,
-    refreshToken: `${api}/auth/refresh-token`,
-    forgotPassword: `${api}/auth/forgot-password`,
-    resetPassword: (token: string) => `${api}/auth/set-password/${token}`,
+    register: `${endpoint}/auth/register`,
+    verify: (token: string) => `${endpoint}/auth/verify/${token}`,
+    login: `${endpoint}/auth/login`,
+    refreshToken: `${endpoint}/auth/refresh-token`,
+    forgotPassword: `${endpoint}/auth/forgot-password`,
+    resetPassword: (token: string) => `${endpoint}/auth/set-password/${token}`,
+  },
+  user: {
+    get: `${endpointV1}/user`,
   },
 };

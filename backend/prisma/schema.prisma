@@ -23,10 +23,9 @@ model Account {
 }
 
 model Profile {
-  id         Int       @id @default(autoincrement())
-  account_id String    @unique
-  updatedAt  DateTime? @updatedAt
-  Account    Account   @relation(fields: [account_id], references: [id])
+  id        String    @id @unique
+  updatedAt DateTime? @updatedAt
+  Account   Account   @relation(fields: [id], references: [id])
 }
 
 model Collection {
