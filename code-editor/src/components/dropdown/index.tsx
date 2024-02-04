@@ -52,7 +52,7 @@ export const Dropdown = <T extends string>({
       >
         <Menu.Items
           className={clsx(
-            "absolute z-10 mt-2 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none max-h-80 overflow-y-auto p-1 min-w-max flex flex-col",
+            "absolute z-10 mt-2 rounded-md border border-secondary-3 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none max-h-80 overflow-y-auto p-1 min-w-max flex flex-col",
             menuClassName,
             theme === "light" ? "bg-secondary-1" : "bg-secondary-5"
           )}
