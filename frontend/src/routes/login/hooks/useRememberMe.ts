@@ -21,7 +21,7 @@ export const useRememberMe = () => {
       const decodedRefreshToken = jwt<RefreshToken>(refreshToken);
       // if remember me was selected and the user is not on the authenticated path, redirect to dashboard where the request handler in that page will validate the token
       if (authToken && decodedRefreshToken?.data.rememberMe)
-        navigate(clientRoutes.dashboard.index);
+        navigate(clientRoutes.dashboard);
     };
 
     redirectOnRememberMe();

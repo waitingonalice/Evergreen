@@ -5,8 +5,7 @@ import {
   Link,
   Text,
 } from "@waitingonalice/design-system";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { z } from "zod";
 import { Input, Spinner } from "~/components";
 import { clientRoutes } from "~/constants";
@@ -33,37 +32,29 @@ const Login = () => {
     zod: loginSchema,
     data: values,
   });
-  const navigate = useNavigate();
-  const { mutate: login, isLoading, data: { result } = {}, error } = useLogin();
+  const [login, options] = useLogin();
 
   const handleOnChange = (
     key: keyof InputValuesType,
     value: string | boolean
   ) => setValues((prev) => ({ ...prev, [key]: value }));
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const success = onSubmitValidate();
-    if (success) {
-      login(values);
-    }
+    if (!success) return;
+    const res = await login(values);
+    if (!res.result) return;
+    const { auth, refresh } = res.result.tokens;
+    setCookie("authToken", auth);
+    setCookie("refreshToken", refresh);
+    window.location.replace(clientRoutes.dashboard);
   };
 
   useRememberMe();
-  useEffect(() => {
-    if (result) {
-      setCookie("authToken", result.tokens.auth);
-      setCookie(
-        "refreshToken",
-        result.tokens.refresh,
-        ...(values.rememberMe ? [{ expires: 30 }] : []) // if rememberMe is true, set cookie expiry to 30 days
-      );
-      navigate(clientRoutes.dashboard.index);
-    }
-  }, [result]);
 
   return (
     <div className="flex flex-col w-full gap-y-4 max-w-md">
-      <MessageBox error={error} />
+      <MessageBox error={options.error} />
       <Text type="subhead-1" className="text-primary-main mb-4">
         Login
       </Text>
@@ -97,7 +88,7 @@ const Login = () => {
           <Link to={clientRoutes.auth.forgotPassword}>Forgot password?</Link>
         </div>
         <Button type="submit" className="w-full mt-2">
-          {isLoading ? <Spinner /> : "Sign in"}
+          {options.isLoading ? <Spinner /> : "Sign in"}
         </Button>
       </Form>
 

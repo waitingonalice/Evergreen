@@ -1,5 +1,4 @@
-const appRoute = (toPath: string) =>
-  `${process.env.NEXT_PUBLIC_URL}/app${toPath}`;
+const appRoute = (toPath: string) => `${process.env.NEXT_PUBLIC_URL}/${toPath}`;
 const endpoint = process.env.NEXT_PUBLIC_ENDPOINT_URL;
 const endpointV1 = `${endpoint}/api/v1`;
 export const clientRoutes = {
@@ -8,9 +7,7 @@ export const clientRoutes = {
     logout: `${process.env.NEXT_PUBLIC_URL}/logout`,
   },
   profile: { index: appRoute("/profile") },
-  dashboard: {
-    index: appRoute("/dashboard"),
-  },
+  dashboard: appRoute("/dashboard"),
 };
 
 export const apiRoutes = {

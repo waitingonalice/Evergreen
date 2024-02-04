@@ -13,9 +13,7 @@ export const clientRoutes = {
   },
 
   profile: { index: "/profile" },
-  dashboard: {
-    index: "/dashboard",
-  },
+  dashboard: "/dashboard",
   codeEditor: {
     index: import.meta.env.VITE_PLAYGROUND_URL,
   },

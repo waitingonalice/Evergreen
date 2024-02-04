@@ -10,7 +10,6 @@ import { Button } from "@waitingonalice/design-system/components/button";
 import { Text } from "@waitingonalice/design-system/components/text";
 import { Fragment, useState } from "react";
 import clsx from "clsx";
-import { useRouter } from "next/router";
 import { Modal } from "~/components";
 import { useAppContext } from "~/components/app-context";
 import { clientRoutes } from "~/constants";
@@ -31,12 +30,11 @@ const Topbar = ({
   rightChildren,
 }: TopbarProps) => {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   const { user } = useAppContext();
 
   const fullName = `${user?.firstName} ${user?.lastName}`;
   const handleSignout = () => {
-    router.push(clientRoutes.auth.logout);
+    window.location.replace(clientRoutes.auth.logout);
   };
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);

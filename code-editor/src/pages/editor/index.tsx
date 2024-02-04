@@ -55,7 +55,7 @@ function CodeEditor() {
   const [addToCollection, options] = useAddToCollection();
 
   const handleBackClick = () => {
-    push(clientRoutes.dashboard.index);
+    push(clientRoutes.dashboard);
   };
 
   const handleRun = () => {

@@ -4,7 +4,7 @@ import { clientRoutes } from "~/constants";
 const routes = [
   {
     name: "Dashboard",
-    href: clientRoutes.dashboard.index,
+    href: clientRoutes.dashboard,
     icon: HomeIcon,
     current: false,
   },

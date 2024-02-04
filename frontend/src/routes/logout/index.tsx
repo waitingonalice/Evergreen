@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { clientRoutes } from "~/constants";
 import { logout } from "~/utils";
@@ -6,7 +5,7 @@ import { logout } from "~/utils";
 const Logout = () => {
   const location = useLocation();
 
-  useEffect(() => {
+  function handleLogout() {
     logout();
     switch (location.search) {
       case "?expired":
@@ -15,7 +14,10 @@ const Logout = () => {
       default:
         return window.location.replace(`${clientRoutes.auth.login}?logout`);
     }
-  }, []);
+  }
+
+  handleLogout();
+
   return <></>;
 };
 

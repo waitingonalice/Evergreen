@@ -21,6 +21,6 @@ export const useGetUser = () => {
       request<GetUserType>({
         url: apiRoutes.user.get,
       }),
-    enabled: !!token,
+    enabled: !!token ?? false,
   });
 };
