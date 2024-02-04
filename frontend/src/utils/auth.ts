@@ -47,7 +47,8 @@ export const setCookie = (
 
 export const getCookie = (key: string) => cookies.get(key);
 
-export const removeCookie = (key: string) => cookies.remove(key);
+export const removeCookie = (key: string) =>
+  (document.cookie = `${key}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`);
 
 export const refreshAuthToken = async (tokens: RefreshAuthTokenArgType) => {
   try {
