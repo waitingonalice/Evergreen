@@ -47,7 +47,6 @@ export const refreshAuthToken = async (tokens: RefreshAuthTokenArgType) => {
     if (authToken && refreshToken) {
       const authExpired = decodedAuth && decodedAuth.exp * 1000 < Date.now();
       if (!authExpired) return;
-      console.log("Refreshing token");
       const res = await fetch(apiRoutes.auth.refreshToken, {
         method: "POST",
         body: JSON.stringify({ refreshToken }),
@@ -55,7 +54,6 @@ export const refreshAuthToken = async (tokens: RefreshAuthTokenArgType) => {
           "Content-Type": "application/json",
         },
       });
-
       const data: RefreshAuthTokenResponse = await res.json();
       setCookie("authToken", data.result.auth);
     }

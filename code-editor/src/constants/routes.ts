@@ -1,6 +1,7 @@
 const appRoute = (toPath: string) =>
   `${process.env.NEXT_PUBLIC_URL}/app${toPath}`;
 const endpoint = process.env.NEXT_PUBLIC_ENDPOINT_URL;
+const endpointV1 = `${endpoint}/api/v1`;
 export const clientRoutes = {
   auth: {
     login: `${process.env.NEXT_PUBLIC_URL}/login`,
@@ -14,12 +15,15 @@ export const clientRoutes = {
 
 export const apiRoutes = {
   auth: {
-    refreshToken: `${endpoint}/auth/refresh-token`,
+    refreshToken: `${process.env.NEXT_PUBLIC_ENDPOINT_URL}/auth/refresh-token`,
+  },
+  user: {
+    get: `${endpointV1}/user`,
   },
   collections: {
-    addCollection: `${endpoint}/api/v1/collections`,
+    addCollection: `${endpointV1}/collections`,
   },
   execute: {
-    code: `${endpoint}/api/v1/execute`,
+    code: `${endpointV1}/execute`,
   },
 };

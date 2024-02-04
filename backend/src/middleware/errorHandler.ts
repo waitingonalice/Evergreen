@@ -11,7 +11,7 @@ export const errorHandler = (
 ) => {
   if (process.env.NODE === "development") console.error(error);
   if (error instanceof AppError) {
-    return res.status(error.statusCode).json({ code: error.message });
+    return res.status(error.code).json({ code: error.message });
   }
   return res.status(500).json({ code: error.message });
 };
