@@ -36,10 +36,10 @@ export const setCookie = (
     .join(".");
 
   cookies.set(key, value, {
-    domain: `.${apexDomain}`,
+    domain: apexDomain,
     path: `/`,
     secure: true,
-    sameSite: "none",
+    sameSite: "None",
     httpOnly: false,
     ...options,
   });
@@ -47,8 +47,7 @@ export const setCookie = (
 
 export const getCookie = (key: string) => cookies.get(key);
 
-export const removeCookie = (key: string) =>
-  (document.cookie = `${key}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`);
+export const removeCookie = (key: string) => cookies.remove(key);
 
 export const refreshAuthToken = async (tokens: RefreshAuthTokenArgType) => {
   try {
